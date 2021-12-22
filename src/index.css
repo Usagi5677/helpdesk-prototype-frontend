@@ -54,3 +54,9 @@ textarea {
     overflow-wrap: break-word;
     -webkit-line-break: after-white-space;
 }
+
+
+:root {
+    --primary: #1c6493;
+    --secondary: #1d767f;
+}
