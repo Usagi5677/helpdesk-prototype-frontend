@@ -59,4 +59,6 @@ textarea {
 :root {
     --primary: #1c6493;
     --secondary: #1d767f;
+    --sidebar-text-color: #fff;
+    --speed: 500ms; 
 }

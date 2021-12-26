@@ -1,0 +1,215 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  background: var(--primary);
+  z-index: 100;
+  transition: left var(--speed) ease;
+}
+
+.sidebar.close {
+  left: -300px;
+  
+}
+.sidebar__logo-wrapper {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.sidebar__logo {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+ 
+}
+.sidebar .sidebar-wrapper {
+  height: 100%;
+  padding: 0 0 150px 0;
+  overflow: auto;
+}
+
+.sidebar .sidebar__sidebar-items-wrapper {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color var(--speed) ease;
+}
+
+.sidebar .sidebar__sidebar-items-wrapper .sidebar__sidebar-items-wrapper__icon-left{
+  margin: 0 20px;
+  font-size: 26px;
+  color: var(--sidebar-text-color);
+  line-height: 0;
+}
+
+.sidebar .sidebar__sidebar-items-wrapper .sidebar__sidebar-items-wrapper__text {
+  color: var(--sidebar-text-color);
+  margin-right: 10px;
+}
+
+.sidebar .sidebar__sidebar-items-wrapper .sidebar__sidebar-items-wrapper__icon-right {
+  color: var(--sidebar-text-color);
+  line-height: 0;
+  margin-left: 40px;
+}
+
+.sidebar .sidebar__dropdown {
+  background-color: var(--secondary);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--speed) ease;
+}
+
+.sidebar .sidebar__dropdown.active {
+  background-color: var(--secondary);
+  max-height: 200px;
+}
+
+.sidebar .sidebar__dropdown .sidebar__dropdown__dropdown-items {
+  padding: 0 40px;
+  line-height: 46px;
+  font-size: 16px;
+  color: var(--sidebar-text-color);
+  cursor: pointer;
+  transition: background-color var(--speed) ease;
+}
+
+.sidebar .sidebar__submenu-items-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color var(--speed) ease;
+}
+
+.sidebar .sidebar__submenu_dropdown {
+  background-color: var(--secondary);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--speed) ease;
+  
+}
+.sidebar .sidebar__submenu_dropdown.active {
+  background-color: var(--secondary);
+  max-height: 200px;
+}
+
+
+.sidebar .sidebar__submenu-items-wrapper__text {
+  margin-left: 10px;
+  color: var(--sidebar-text-color);
+  font-size: 14px;
+}
+
+.sidebar .sidebar__submenu-items-wrapper__icon-right {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  color: var(--sidebar-text-color);
+  
+}
+
+.sidebar .sidebar__submenu_dropdown-items-wrapper {
+  padding: 5px 0 5px 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--sidebar-text-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color var(--speed) ease;
+}
+.sidebar .sidebar__tag {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  padding: 0.25em 0.6em;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 10rem;
+  color: var(--sidebar-text-color);
+  background-color: #28a745;
+}
+.sidebar .sidebar__tag.--mado {
+  background-color: #d4455d;
+}
+
+.sidebar .sidebar__profile-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  position: fixed;
+  bottom: 0;
+  width: 260px;
+}
+.sidebar .sidebar__profile-wrapper{
+  display: flex;
+  align-items: center;
+  
+}
+.sidebar .sidebar__profile-avatar-wrapper{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 12px;
+}
+
+.sidebar .sidebar__profile-avatar {
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  background-color: white;
+  border: 4px solid #009688;
+  box-shadow: 0 0 0 5px white;
+}
+
+.sidebar .sidebar__profile-avatar-status {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #37BC9B;
+  border: 2px solid white;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.sidebar .sidebar__profile-details {
+  color: var(--sidebar-text-color);
+  cursor: pointer;
+}
+
+.sidebar .sidebar__sign-out {
+  font-size: 26px;
+  line-height: 0;
+  color: var(--sidebar-text-color);
+  cursor: pointer;
+}
+
+
+.sidebar .sidebar__submenu_dropdown-items-wrapper:hover {
+  background-color: #18575c;
+}
+.sidebar .sidebar__submenu-items-wrapper:hover{
+  background-color:#18575c;
+}
+.sidebar .sidebar__dropdown__dropdown-items:hover{
+  background-color: #18575c;
+}
+
+.sidebar .sidebar__sidebar-items-wrapper:hover{
+  background-color: #154d70;
+}
