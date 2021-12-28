@@ -1,23 +1,17 @@
-import ReactDOM from "react-dom";
-import Navbar from "./components/navbar/Navbar";
-import Sidebar from "./components/sidebar/Sidebar"
-import { useState } from "react";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
-
-const App = () => {
-    const [toggleMenu, setToggleMenu]= useState(true);
-    
-    return(
-        <div>
-            <Navbar setToggleMenu={setToggleMenu} toggleMenu={toggleMenu}></Navbar>
-            <Sidebar toggleMenu={toggleMenu}></Sidebar>
-            <h1>Help Desk - Hello world</h1>
-        </div>
-    )
-};
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    <App></App>,
-    document.querySelector('#root')
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
