@@ -1,13 +1,14 @@
 
 import Layout from "./hoc/Layout/Layout"
 import "./index.css";
-import MyTickets from "./containers/MyTickets/MyTickets"
+import MyTickets from "./containers/MyTickets/MyTickets";
+import CreateTicket from "./containers/CreateTicket/CreateTicket";
 const App = () => {
   
   return (
     <div>
       <Layout>
-        <MyTickets></MyTickets>
+        <CreateTicket/>
       </Layout>
     </div>
   );

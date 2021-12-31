@@ -97,7 +97,6 @@ const MyTickets = () => {
           <FaEllipsisV />
         </div>
       </div>
-      
     </div>
   );
 };
