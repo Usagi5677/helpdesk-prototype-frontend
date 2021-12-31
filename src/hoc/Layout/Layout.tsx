@@ -38,7 +38,9 @@ const Layout = (props: any) => {
         submenuClicked={openSubmenuHandler}
         submenuOpened={submenuOpen}
       />
-      <main className="content">{props.children}</main>
+      <main className="content">
+        {props.children}
+      </main>
     </>
   );
 };

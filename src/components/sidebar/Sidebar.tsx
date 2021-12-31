@@ -39,7 +39,7 @@ const Sidebar = (props: any) => {
                 <div className="sidebar__profile-avatar-status"></div>
               </div>
               <div className="sidebar__profile-details">
-                <div className="sidebar__profile-name">Ibrahim Naishu</div>
+                <div className="sidebar__profile-name">Ibrahimu Naishu</div>
                 <div className="sidebar__profile-link">Profile</div>
               </div>
             </div>
