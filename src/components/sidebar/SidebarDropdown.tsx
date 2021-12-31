@@ -1,24 +1,26 @@
 import { FaChevronDown } from "react-icons/fa";
-import { useState } from "react";
 
 const SidebarDropdown = (props: any) => {
   const { name, dropdowns, subMenuName, subMenus, icon } = props;
-
+  
   return (
     <li>
       <div
         className="sidebar__sidebar-items-wrapper"
         onClick={props.dropdownClick}
       >
-        <i className="sidebar__sidebar-items-wrapper__icon-left">{icon}</i>
-        <span className="sidebar__sidebar-items-wrapper__text">{name}</span>
-        {dropdowns && dropdowns.length > 0 ? (
-          <>
+        <div className="sidebar__sidebar-item-details-wrapper">
+          <i className="sidebar__sidebar-items-wrapper__icon-left">{icon}</i>
+          <span className="sidebar__sidebar-items-wrapper__text">{name}</span>
+          {dropdowns && dropdowns.length > 0 ? (
             <div className="sidebar__tag --mado">10+</div>
+          ) : null}
+        </div>
+        
+        {dropdowns && dropdowns.length > 0 ? (
             <i className="sidebar__sidebar-items-wrapper__icon-right">
               <FaChevronDown />
             </i>
-          </>
         ) : null}
       </div>
 
@@ -28,7 +30,6 @@ const SidebarDropdown = (props: any) => {
         >
           {dropdowns.map(
             (dropdown: any, index: number) => (
-              console.log("open"),
               (
                 <li key={index} className="sidebar__dropdown__dropdown-items">
                   <span>{dropdown.name}</span>

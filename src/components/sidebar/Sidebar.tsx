@@ -1,11 +1,11 @@
-import "./sidebar.css";
 import SidebarDropdown from "./SidebarDropdown";
 import { FaSignOutAlt } from "react-icons/fa";
 import { SidebarData } from "./SidebarData";
+import "./Sidebar.css";
 
 const Sidebar = (props: any) => {
   return (
-    <div className={`sidebar ${props.toggle ? "close" : ""}`}>
+    <div className={`sidebar ${props.open ? "close" : ""}`}>
       <ul className="sidebar-wrapper">
         <li>
           <div className="sidebar__logo-wrapper">

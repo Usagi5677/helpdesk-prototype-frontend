@@ -55,10 +55,19 @@ textarea {
     -webkit-line-break: after-white-space;
 }
 
+html {
+    background-color: var(--html-bg-color);
+}
 
 :root {
+    --html-bg-color: #f0f1f1;
     --primary: #1c6493;
     --secondary: #1d767f;
-    --sidebar-text-color: #fff;
+    --sidebar-bg-color: #fff;
+    --sidebar-dropdown-bg-color: #d1d1d1;
+    --sidebar-text-color:   black;
+    --sidebar-item-hover-color: #d1d1d1;
+    --sidebar-dropdownItem-hover-color: #bbbaba;
+    --sidebar-submenuItem-hover-color: #9e9d9d;
     --speed: 500ms; 
 }
