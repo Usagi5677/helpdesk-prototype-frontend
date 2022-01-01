@@ -1,4 +1,3 @@
-import { FaGlobe, FaRegEnvelope, FaEllipsisV } from "react-icons/fa";
 
 interface Ticket {
   icon: any;
