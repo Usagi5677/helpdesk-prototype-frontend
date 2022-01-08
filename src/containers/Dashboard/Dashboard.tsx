@@ -7,11 +7,12 @@ import {
 } from "react-icons/fa";
 import StatusCard from "../../components/UI/StatusCard/StatusCard";
 import classes from "./Dashboard.module.css";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import Timeline from "../../components/Timeline/Timeline";
 Chart.register(...registerables);
 
-var data = {
+const data = {
   labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   datasets: [
     {
@@ -52,7 +53,29 @@ var data = {
   ],
 };
 
-var options = {
+const pieData = {
+  labels: ["Urgent", "High", "Medium", "Low"],
+  datasets: [
+    {
+      backgroundColor: [
+        "rgba(71, 102, 255, 0.2)",
+        "rgba(0, 255, 239, 0.2)",
+        "rgba(0, 102, 164, 0.2)",
+        "rgba(0, 183, 235, 0.2)",
+      ],
+      borderColor: [
+        "rgba(71, 102, 255, 1)",
+        "rgba(0, 255, 239, 1)",
+        "rgba(0, 102, 164, 1)",
+        "rgba(0, 183, 235, 1)",
+      ],
+      borderWidth: 1,
+      data: [1, 2, 3, 4],
+    },
+  ],
+};
+
+const options = {
   maintainAspectRatio: false,
   scales: {
     y: {
@@ -106,6 +129,15 @@ const Dashboard = () => {
       <div className={classes['ticket-dashboard-container__barchart_wrapper']}>
         <Bar data={data} height={400} width={600} options={options} />
       </div>
+      <div className={classes['ticket-dashboard-container__card-wrapper']}>
+        <div className={classes['ticket-dashboard-container__my-activities-wrapper']}>
+          <Timeline/>
+        </div>
+        <div className={classes['ticket-dashboard-container__piechart_wrapper']}>
+          <Pie data={pieData} />
+        </div>
+      </div>
+      
     </div>
   );
 };
