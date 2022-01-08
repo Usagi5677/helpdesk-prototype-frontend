@@ -1,13 +1,14 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import "./Layout.css";
+import classes from "./Layout.module.css";
 
 const Layout = (props: any) => {
   const [sidebarIsVisible, setSidebarIsVisible] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState(true);
 
+  const [login, setLogin] = useState(false);
   const openDropdownHandler = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -38,7 +39,7 @@ const Layout = (props: any) => {
         submenuClicked={openSubmenuHandler}
         submenuOpened={submenuOpen}
       />
-      <main className="content">
+      <main className={classes['content']}>
         {props.children}
       </main>
     </>

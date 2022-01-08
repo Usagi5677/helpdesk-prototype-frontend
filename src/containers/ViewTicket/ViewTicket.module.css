@@ -195,6 +195,17 @@
   font-size: 0.875rem;
 }
 
+.view-ticket-container .view-ticket-wrapper__tab-wrapper {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.view-ticket-container .view-ticket-wrapper__tab-wrapper_tab {
+  margin: 0 20px;
+  border-bottom: 2px solid #ccc;
+}
+
 @media only screen and (min-width: 600px) {
   .view-ticket-container .view-ticket-container__view-ticket-wrapper {
     padding: 20px 20px;
@@ -211,6 +222,9 @@
   .view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
     min-height: 400px;
     margin: 0;
+  }
+  .view-ticket-container .view-ticket-wrapper__tab-wrapper_tab {
+    font-size: 0.875rem;
   }
 }
 
@@ -232,5 +246,8 @@
   .view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
     margin-left: 20px;
     margin-top: 0;
+  }
+  .view-ticket-container .view-ticket-container__view-ticket-details-wrapper {
+    margin: 0;
   }
 }

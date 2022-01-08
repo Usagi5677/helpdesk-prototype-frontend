@@ -37,6 +37,7 @@
   background-color: var(--primary);
   color: white;
   transition: all var(--speed) ease;
+  cursor: pointer;
 }
 
 .login-container .login-wrapper__button:hover {
@@ -52,6 +53,13 @@
   margin-top: auto;
   color: rgb(126, 126, 126);
   font-size: 0.75rem;
+}
+
+.login-container .login-wrapper__divider {
+    border-top: 1px solid #ccc;
+    height: 1px;
+    width: calc(100% - 8px);
+    margin-top: auto;
 }
 
 @media only screen and (min-width: 600px) {

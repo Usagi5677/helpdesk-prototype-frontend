@@ -1,7 +1,7 @@
 import { FaChevronDown, FaArrowLeft } from "react-icons/fa";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import "./ViewTicket.css";
+import classes from "./ViewTicket.module.css";
 
 const options = [
   { value: "0", label: "Unassigned" },
@@ -21,68 +21,76 @@ const animatedComponents = makeAnimated();
 
 const ViewTicket = () => {
   return (
-    <div className="view-ticket-container">
-      <div className="view-ticket-container__view-ticket-wrapper">
-        <div className="view-ticket-wrapper__header">
-          <button className="view-ticket-wrapper__back-btn">
+    <div className={classes['view-ticket-container']}>
+      <div className={classes['view-ticket-container__view-ticket-wrapper']}>
+        <div className={classes['view-ticket-wrapper__header']}>
+          <button className={classes['view-ticket-wrapper__back-btn']}>
             <FaArrowLeft /> <span>Back</span>
           </button>
-          <div className="view-ticket-wrapper__title">
+          <div className={classes['view-ticket-wrapper__title']}>
             T01 - Change password
           </div>
-          <div className="view-ticket-wrapper__spacer"></div>
+          <div className={classes['view-ticket-wrapper__spacer']}></div>
+        </div>
+        <div className={classes['view-ticket-wrapper__tab-wrapper']}>
+          <div className={classes['view-ticket-wrapper__tab-wrapper_tab']}>
+            Conversation
+          </div>
+          <div className={classes['view-ticket-wrapper__tab-wrapper_tab']}>
+            Attachment
+          </div>
         </div>
       </div>
-      <div className="view-ticket-container__view-ticket-details-wrapper">
-        <div className="view-ticket-container__view-ticket-history-wrapper">
-          <div className="view-ticket-history-wrapper__title">
+      <div className={classes['view-ticket-container__view-ticket-details-wrapper']}>
+        <div className={classes['view-ticket-container__view-ticket-history-wrapper']}>
+          <div className={classes['view-ticket-history-wrapper__title']}>
             Ticket History
           </div>
-          <ul className="view-ticket-history-wrapper__time-line-wrapper">
+          <ul className={classes['view-ticket-history-wrapper__time-line-wrapper']}>
             <li>
-              <div className="view-ticket-history-wrapper__time">
+              <div className={classes['view-ticket-history-wrapper__time']}>
                 1st January 2021 <span>&#9679;</span> 22:00
               </div>
               <p>You replied to your ticket.</p>
             </li>
             <li>
-              <div className="view-ticket-history-wrapper__time">
+              <div className={classes['view-ticket-history-wrapper__time']}>
                 1st January 2021 <span>&#9679;</span> 22:00
               </div>
               <p>You replied to your ticket.</p>
             </li>
             <li>
-              <div className="view-ticket-history-wrapper__time">
+              <div className={classes['view-ticket-history-wrapper__time']}>
                 1st January 2021 <span>&#9679;</span> 22:00
               </div>
               <p>You replied to your ticket.</p>
             </li>
             <li>
-              <div className="view-ticket-history-wrapper__time">
+              <div className={classes['view-ticket-history-wrapper__time']}>
                 1st January 2021 <span>&#9679;</span> 22:00
               </div>
               <p>You replied to your ticket.</p>
             </li>
             <li>
-              <div className="view-ticket-history-wrapper__time">
+              <div className={classes['view-ticket-history-wrapper__time']}>
                 1st January 2021 <span>&#9679;</span> 22:00
               </div>
               <p>You replied to your ticket.</p>
             </li>
           </ul>
         </div>
-        <div className="view-ticket-container__view-ticket-information-wrapper">
-          <div className="view-ticket-information-wrapper__title">
+        <div className={classes['view-ticket-container__view-ticket-information-wrapper']}>
+          <div className={classes['view-ticket-information-wrapper__title']}>
             Ticket Information
           </div>
-          <div className="view-ticket-information-wrapper__ticket-id">
+          <div className={classes['view-ticket-information-wrapper__ticket-id']}>
             Ticket ID: <span>T01</span>
           </div>
-          <div className="view-ticket-information-wrapper__priority-wrapper">
-            <div className="view-ticket-information-wrapper__priority-wrapper__title">
+          <div className={classes['view-ticket-information-wrapper__priority-wrapper']}>
+            <div className={classes['view-ticket-information-wrapper__priority-wrapper__title']}>
               Priority:
             </div>
-            <div className="view-ticket-information-wrapper__priority-wrapper__select-wrapper">
+            <div className={classes['view-ticket-information-wrapper__priority-wrapper__select-wrapper']}>
               <select name="" id="">
                 <option value="0">Priority</option>
                 <option value="1">Low</option>
@@ -90,22 +98,22 @@ const ViewTicket = () => {
                 <option value="3">High</option>
                 <option value="4">Urgent</option>
               </select>
-              <div className="view-ticket-information-wrapper__select-wrapper__icon">
+              <div className={classes['view-ticket-information-wrapper__select-wrapper__icon']}>
                 <FaChevronDown />
               </div>
             </div>
           </div>
-          <div className="view-ticket-information-wrapper__rating">
+          <div className={classes['view-ticket-information-wrapper__rating']}>
             Rating: <span>Not Rated</span>
           </div>
-          <div className="view-ticket-information-wrapper__created-date">
+          <div className={classes['view-ticket-information-wrapper__created-date']}>
             Created date: <span>01/01/2022</span>
           </div>
-          <div className="view-ticket-information-wrapper__last-msg">
+          <div className={classes['view-ticket-information-wrapper__last-msg']}>
             Last message: <span>01/01/2022</span>
           </div>
-          <div className="view-ticket-information-wrapper__group-wrapper">
-            <div className="view-ticket-information-wrapper__group-wrapper__title">
+          <div className={classes['view-ticket-information-wrapper__group-wrapper']}>
+            <div className={classes['view-ticket-information-wrapper__group-wrapper__title']}>
               Group:
             </div>
             <Select
@@ -115,8 +123,8 @@ const ViewTicket = () => {
               options={options}
             />
           </div>
-          <div className="view-ticket-information-wrapper__assign-wrapper">
-            <div className="view-ticket-information-wrapper__assign-wrapper__title">
+          <div className={classes['view-ticket-information-wrapper__assign-wrapper']}>
+            <div className={classes['view-ticket-information-wrapper__assign-wrapper__title']}>
               Agent:
             </div>
             <Select

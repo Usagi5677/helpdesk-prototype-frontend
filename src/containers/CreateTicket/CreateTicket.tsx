@@ -1,22 +1,16 @@
 import { FaChevronDown } from "react-icons/fa";
-import "./CreateTicket.css";
+import classes from "./CreateTicket.module.css";
 
 const CreateTicket = () => {
   return (
-    <div className="create-ticket-container">
-      <div className="create-ticket-wrapper">
-        <div className="create-ticket-wrapper__title">Create Ticket</div>
-        <div className="create-ticket-wrapper__info">
-          <div className="create-ticket-wrapper__input-field --name">
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Name"
-              value={"Ibrahimu Naishu"}
-            />
+    <div className={classes['create-ticket-container']}>
+      <div className={classes['create-ticket-wrapper']}>
+        <div className={classes['create-ticket-wrapper__title']}>Create Ticket</div>
+        <div className={classes['create-ticket-wrapper__info']}>
+          <div className={classes['create-ticket-wrapper__input-field']}>
+            <input type="text" name="" id="" placeholder="Name" />
           </div>
-          <div className="create-ticket-wrapper__input-field --email">
+          <div className={classes['create-ticket-wrapper__input-field']}>
             <input
               type="text"
               name=""
@@ -25,7 +19,7 @@ const CreateTicket = () => {
               value={"Naishu@gmail.com"}
             />
           </div>
-          <div className="create-ticket-wrapper__input-field --mobile-number">
+          <div className={classes['create-ticket-wrapper__input-field']}>
             <input
               type="text"
               name=""
@@ -34,33 +28,37 @@ const CreateTicket = () => {
               value={"7654321"}
             />
           </div>
-          <div className="create-ticket-wrapper__select-field --category">
+          <div className={classes['create-ticket-wrapper__select-field']}>
             <select name="" id="" placeholder="Category">
               <option value="0">Category</option>
               <option value="1">Problem</option>
             </select>
-            <div className="create-ticket-wrapper__select-field__icon">
+            <div className={classes['create-ticket-wrapper__select-field__icon']}>
               <FaChevronDown />
             </div>
           </div>
         </div>
-        <div className="create-ticket-wrapper__ticket-info">
-          <div className="create-ticket-wrapper__input-field --ticket-title">
+        <div className={classes['create-ticket-wrapper__ticket-info']}>
+          <div className={`${classes['create-ticket-wrapper__input-field']} ${classes['--ticket-title']}`}>
             <input type="text" name="" id="" placeholder="Title" />
           </div>
-          <div className="create-ticket-wrapper__file-input">
+          <div className={classes['create-ticket-wrapper__file-input']}>
             <input type="file" id="myfile" name="myfile"></input>
           </div>
         </div>
 
-        <div className="create-ticket-wrapper__description-field">
-          <textarea name="" id="" placeholder="Description"></textarea>
-        </div>
-        <div className="create-ticket-wrapper__button_wrapper">
-          <button className="create-ticket-wrapper__secondary-button">
+        <textarea
+          className={classes['create-ticket-wrapper__description']}
+          name=""
+          id=""
+          placeholder="Description"
+        ></textarea>
+
+        <div className={classes['create-ticket-wrapper__button_wrapper']}>
+          <button className={classes['create-ticket-wrapper__secondary-button']}>
             Clear
           </button>
-          <button className="create-ticket-wrapper__primary-button">
+          <button className={classes['create-ticket-wrapper__primary-button']}>
             Create
           </button>
         </div>

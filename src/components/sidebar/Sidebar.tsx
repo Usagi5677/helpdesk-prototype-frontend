@@ -1,15 +1,15 @@
 import SidebarDropdown from "./SidebarDropdown";
 import { FaSignOutAlt } from "react-icons/fa";
 import { SidebarData } from "./SidebarData";
-import "./Sidebar.css";
+import classes from "./Sidebar.module.css";
 
 const Sidebar = (props: any) => {
   return (
-    <div className={`sidebar ${props.open ? "close" : ""}`}>
-      <ul className="sidebar-wrapper">
+    <div className={`${classes['sidebar']} ${props.open ? classes['close'] : ""}`}>
+      <ul className={classes['sidebar-wrapper']}>
         <li>
-          <div className="sidebar__logo-wrapper">
-            <img className="sidebar__logo" src="/logo.png" alt="MTCC logo" />
+          <div className={classes['sidebar__logo-wrapper']}>
+            <img className={classes['sidebar__logo']} src="/logo.png" alt="MTCC logo" />
           </div>
         </li>
         {SidebarData.map((sbData: any, index: number) => (
@@ -28,23 +28,23 @@ const Sidebar = (props: any) => {
           />
         ))}
         <li>
-          <div className="sidebar__profile-container">
-            <div className="sidebar__profile-wrapper">
-              <div className="sidebar__profile-avatar-wrapper">
+          <div className={classes['sidebar__profile-container']}>
+            <div className={classes['sidebar__profile-wrapper']}>
+              <div className={classes['sidebar__profile-avatar-wrapper']}>
                 <img
-                  className="sidebar__profile-avatar"
+                  className={classes['sidebar__profile-avatar']}
                   src="./avatar.jpg"
                   alt=""
                 />
-                <div className="sidebar__profile-avatar-status"></div>
+                <div className={classes['sidebar__profile-avatar-status']}></div>
               </div>
-              <div className="sidebar__profile-details">
-                <div className="sidebar__profile-name">Ibrahimu Naishu</div>
-                <div className="sidebar__profile-link">Profile</div>
+              <div className={classes['sidebar__profile-details']}>
+                <div className={classes['sidebar__profile-name']}>Ibrahimu Naishu</div>
+                <div className={classes['sidebar__profile-link']}>Profile</div>
               </div>
             </div>
 
-            <i className="sidebar__sign-out">
+            <i className={classes['sidebar__sign-out']}>
               <FaSignOutAlt />
             </i>
           </div>

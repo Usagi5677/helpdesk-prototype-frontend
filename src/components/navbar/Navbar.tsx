@@ -1,18 +1,18 @@
 import { FaBars, FaBell } from "react-icons/fa";
-import "./Navbar.css";
+import classes from "./Navbar.module.css";
 
 const Navbar = (props: any) => {
   return (
-    <nav className="navbar">
-      <div className="navbar-wrapper">
-        <div className="navbar__left-side-wrapper">
-          <div className={`navbar__title ${props.open ? "" : "active"}`}>
+    <nav className={classes['navbar']}>
+      <div className={classes['navbar-wrapper']}>
+        <div className={classes['navbar__left-side-wrapper']}>
+          <div className={`${classes['navbar__title']} ${props.open ? "" : classes['active']}`}>
             Help Desk Ticketing System
           </div>
         </div>
-        <div className="navbar__right-side-wrapper">
-          <FaBell className="navbar__icon"></FaBell>
-          <FaBars onClick={props.sideBarToggleClicked} className="navbar__icon" />
+        <div className={classes['navbar__right-side-wrapper']}>
+          <FaBell className={classes['navbar__icon']}></FaBell>
+          <FaBars onClick={props.sideBarToggleClicked} className={classes['navbar__icon']} />
         </div>
       </div>
     </nav>
