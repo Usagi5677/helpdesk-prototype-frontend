@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../components/sidebar/Sidebar";
 import classes from "./Layout.module.css";
 
 const Layout = (props: any) => {
@@ -22,7 +22,6 @@ const Layout = (props: any) => {
     setSidebarIsVisible(!sidebarIsVisible);
   };
 
-  
   const selectedLinkHandler = (index: any) => {
     setSelectedLink(index);
   };
@@ -42,11 +41,8 @@ const Layout = (props: any) => {
         submenuOpen={submenuOpen}
         selectedLink={selectedLink}
         selectLink={selectedLinkHandler}
- 
       />
-      <main className={classes['content']}>
-        {props.children}
-      </main>
+      <main className={classes["content"]}>{props.children}</main>
     </>
   );
 };
