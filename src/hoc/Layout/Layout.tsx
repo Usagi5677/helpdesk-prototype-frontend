@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
-import Sidebar from "../../components/sidebar/Sidebar";
+import Navbar from "../../components/Navbar/Navbar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import classes from "./Layout.module.css";
 
 const Layout = (props: any) => {
@@ -9,7 +9,6 @@ const Layout = (props: any) => {
   const [submenuOpen, setSubmenuOpen] = useState(true);
   const [selectedLink, setSelectedLink] = useState(-1);
 
-  const [login, setLogin] = useState(false);
   const openDropdownHandler = () => {
     setDropdownOpen(!dropdownOpen);
   };

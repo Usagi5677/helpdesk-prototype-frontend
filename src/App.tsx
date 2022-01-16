@@ -5,15 +5,19 @@ import CreateTicket from "./containers/CreateTicket/CreateTicket";
 import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
-import { BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
-    <BrowserRouter>
-        <Layout>
-          <Dashboard />
-        </Layout>
-    </BrowserRouter>
+    <Layout>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/my-tickets" element={<MyTickets />}/>
+        <Route path="/create-ticket" element={<CreateTicket />}/>
+        <Route path="/view-ticket/:id" element={<ViewTicket />}/>
+        
+      </Routes>
+    </Layout>
   );
 };
 
