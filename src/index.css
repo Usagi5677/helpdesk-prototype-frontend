@@ -64,10 +64,7 @@ html {
     --primary: #1c6493;
     --secondary: #1d767f;
     --sidebar-bg-color: #fff;
-    --sidebar-dropdown-bg-color: #d1d1d1;
     --sidebar-text-color:   black;
-    --sidebar-item-hover-color: #d1d1d1;
-    --sidebar-dropdownItem-hover-color: #bbbaba;
-    --sidebar-submenuItem-hover-color: #9e9d9d;
+    --sidebar-item-hover-color: rgba(49, 166, 245, 0.2);
     --speed: 500ms; 
 }

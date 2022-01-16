@@ -1,4 +1,4 @@
-import { FaHome, FaTicketAlt } from "react-icons/fa";
+import { FaHome, FaTicketAlt, FaBook } from "react-icons/fa";
 
 interface SidebarItem {
   name: string;
@@ -25,5 +25,10 @@ export const SidebarData: SidebarItem[] = [
     ],
     submenuName: "Status",
     submenus: [{ name: "Open" }, { name: "Closed" }],
+  },
+  {
+    name: "Information",
+    path: "#",
+    icon: <FaBook />,
   },
 ];

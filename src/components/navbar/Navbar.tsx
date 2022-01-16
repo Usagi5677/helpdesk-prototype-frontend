@@ -6,7 +6,7 @@ const Navbar = (props: any) => {
     <nav className={classes['navbar']}>
       <div className={classes['navbar-wrapper']}>
         <div className={classes['navbar__left-side-wrapper']}>
-          <div className={`${classes['navbar__title']} ${props.open ? "" : classes['active']}`}>
+          <div className={`${classes['navbar__title']} ${props.openSidebar ? classes['active'] : ""}`}>
             Help Desk Ticketing System
           </div>
         </div>

@@ -4,9 +4,10 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import classes from "./Layout.module.css";
 
 const Layout = (props: any) => {
-  const [sidebarIsVisible, setSidebarIsVisible] = useState(true);
+  const [sidebarIsVisible, setSidebarIsVisible] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState(true);
+  const [selectedLink, setSelectedLink] = useState(-1);
 
   const [login, setLogin] = useState(false);
   const openDropdownHandler = () => {
@@ -17,27 +18,31 @@ const Layout = (props: any) => {
     setSubmenuOpen(!submenuOpen);
   };
 
-  const sidebarClosedHandler = () => {
-    setSidebarIsVisible(false);
-  };
-
   const sidebarToggleHandler = () => {
     setSidebarIsVisible(!sidebarIsVisible);
+  };
+
+  
+  const selectedLinkHandler = (index: any) => {
+    setSelectedLink(index);
   };
 
   return (
     <>
       <Navbar
         sideBarToggleClicked={sidebarToggleHandler}
-        open={sidebarIsVisible}
+        openSidebar={sidebarIsVisible}
       />
       <Sidebar
-        open={sidebarIsVisible}
-        closed={sidebarClosedHandler}
-        dropdownClicked={openDropdownHandler}
-        dropdownOpened={dropdownOpen}
-        submenuClicked={openSubmenuHandler}
-        submenuOpened={submenuOpen}
+        openSidebar={sidebarIsVisible}
+        closeBackdrop={sidebarToggleHandler}
+        dropdownClick={openDropdownHandler}
+        dropdownOpen={dropdownOpen}
+        submenuClick={openSubmenuHandler}
+        submenuOpen={submenuOpen}
+        selectedLink={selectedLink}
+        selectLink={selectedLinkHandler}
+ 
       />
       <main className={classes['content']}>
         {props.children}
