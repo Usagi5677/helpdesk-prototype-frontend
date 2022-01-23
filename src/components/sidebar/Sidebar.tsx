@@ -2,7 +2,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { SidebarData } from "./SidebarData";
 import classes from "./Sidebar.module.css";
 import Backdrop from "../UI/Backdrop/Backdrop";
-
+import { NavLink } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
@@ -29,18 +29,11 @@ const Sidebar = (props: any) => {
           </li>
           <div className={classes["sidebar-wrapper__sidebar-items-container"]}>
             {SidebarData.map((sbData: any, index: number) => (
-              <li key={"lvOne" + index}>
+              <li key={index}>
                 {sbData.dropdowns && sbData.dropdowns.length > 0 ? (
                   <div
-                    className={`${classes["sidebar__sidebar-items-wrapper"]} ${
-                      props.selectedLink === "lvOne" + index
-                        ? classes["active"]
-                        : ""
-                    }`}
-                    onClick={() => {
-                      props.dropdownClick();
-                      props.selectLink("lvOne" + index);
-                    }}
+                    className={classes["sidebar__sidebar-items-wrapper"]}
+                    onClick={props.dropdownClick}
                   >
                     <div
                       className={
@@ -76,37 +69,35 @@ const Sidebar = (props: any) => {
                     </i>
                   </div>
                 ) : (
-                  <div
-                    className={`${classes["sidebar__sidebar-items-wrapper"]} ${
-                      props.selectedLink === "lvOne" + index
-                        ? classes["active"]
-                        : ""
-                    }`}
-                    onClick={() => {
-                      props.selectLink("lvOne" + index);
-                    }}
-                  >
+                  <NavLink to={sbData.path}>
                     <div
-                      className={
-                        classes["sidebar__sidebar-item-details-wrapper"]
-                      }
+                      className={classes["sidebar__sidebar-items-wrapper"]}
+                      onClick={() => {
+                        props.selectLink(index);
+                      }}
                     >
-                      <i
+                      <div
                         className={
-                          classes["sidebar__sidebar-items-wrapper__icon-left"]
+                          classes["sidebar__sidebar-item-details-wrapper"]
                         }
                       >
-                        {sbData.icon}
-                      </i>
-                      <span
-                        className={
-                          classes["sidebar__sidebar-items-wrapper__text"]
-                        }
-                      >
-                        {sbData.name}
-                      </span>
+                        <i
+                          className={
+                            classes["sidebar__sidebar-items-wrapper__icon-left"]
+                          }
+                        >
+                          {sbData.icon}
+                        </i>
+                        <span
+                          className={
+                            classes["sidebar__sidebar-items-wrapper__text"]
+                          }
+                        >
+                          {sbData.name}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </NavLink>
                 )}
 
                 {sbData.dropdowns && sbData.dropdowns.length > 0 ? (
@@ -115,22 +106,17 @@ const Sidebar = (props: any) => {
                       props.dropdownOpen ? classes["active"] : ""
                     }`}
                   >
-                    {sbData.dropdowns.map((dropdown: any, index: number) => (
-                      <li
-                        key={"lvTwo" + index}
-                        className={`${
-                          classes["sidebar__dropdown__dropdown-items"]
-                        } ${
-                          props.selectedLink === "lvTwo" + index
-                            ? classes["active"]
-                            : ""
-                        }`}
-                        onClick={() => {
-                          props.selectLink("lvTwo" + index);
-                        }}
-                      >
-                        <span>{dropdown.name}</span>
-                      </li>
+                    {sbData.dropdowns.map((dropdown: any, index2: number) => (
+                      <NavLink to={dropdown.path}>
+                        <li
+                          key={index2}
+                          className={
+                            classes["sidebar__dropdown__dropdown-items"]
+                          }
+                        >
+                          <span>{dropdown.name}</span>
+                        </li>
+                      </NavLink>
                     ))}
                     <li>
                       <div
@@ -161,9 +147,9 @@ const Sidebar = (props: any) => {
                           }`}
                         >
                           {sbData.submenus.map(
-                            (submenu: any, index2: number) => (
+                            (submenu: any, index3: number) => (
                               <li
-                                key={index2}
+                                key={index3}
                                 className={
                                   classes[
                                     "sidebar__submenu_dropdown-items-wrapper"

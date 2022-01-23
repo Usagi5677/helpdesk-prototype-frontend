@@ -12,23 +12,23 @@ interface SidebarItem {
 export const SidebarData: SidebarItem[] = [
   {
     name: "Dashboard",
-    path: "#",
+    path: "/dashboard",
     icon: <FaHome />,
   },
   {
     name: "Tickets",
-    path: "#",
+    path: "/",
     icon: <FaTicketAlt />,
     dropdowns: [
-      { name: "My tickets", path: "#" },
-      { name: "Create ticket", path: "#" },
+      { name: "My tickets", path: "/my-tickets" },
+      { name: "Create ticket", path: "/create-ticket" },
     ],
     submenuName: "Status",
-    submenus: [{ name: "Open" }, { name: "Closed" }],
+    submenus: [{ name: "Open" }, { name: "Closed" }, { name: "Pending" }, { name: "Solved" }, { name: "Unassigned" } ],
   },
   {
     name: "Information",
-    path: "#",
+    path: "/information",
     icon: <FaBook />,
   },
 ];

@@ -5,7 +5,7 @@ import CreateTicket from "./containers/CreateTicket/CreateTicket";
 import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
-import { BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ApolloProvider, gql, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { apolloClient } from "./api/client";
@@ -127,11 +127,14 @@ const App = ({ history }: { history: any }) => {
   return (
     <UserContext.Provider value={{ user, setUser, logout }}>
       <ApolloProvider client={apolloClient}>
-        <BrowserRouter>
-          <Layout>
-            <Dashboard />
-          </Layout>
-        </BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/my-tickets" element={<MyTickets />} />
+            <Route path="/create-ticket" element={<CreateTicket />} />
+            <Route path="/view-ticket/:id" element={<ViewTicket />} />
+          </Routes>
+        </Layout>
       </ApolloProvider>
     </UserContext.Provider>
   );

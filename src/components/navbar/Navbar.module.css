@@ -24,6 +24,7 @@
 .navbar__title {
   color: white;
   transition: margin-left 0.2s ease-in;
+  cursor: pointer;
 }
 
 .navbar__icon {
