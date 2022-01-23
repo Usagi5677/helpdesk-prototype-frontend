@@ -2,10 +2,19 @@
 
 Make a copy of the `.env.example` file and rename it to `.env`
 
-In the `.env` file edit these variables
+In the `.env` file edit these variables:
 ```
 REACT_APP_API_URL=https://dev-api-helpdesk.mtcc.com.mv/graphql
 REACT_APP_APP_ID=FA7EC980-CAC5-42F3-8E97-16DB3769D788
+```
+
+Make sure you're within the MTCC network or connected to the VPN as dev-api-helpdesk.mtcc.com.mv is only available inside the network.
+
+The default port is 3002 which is also defined in the SSO apps table in the return url for this app. Other ports will not work so keep the PORT variable in the `.env` file as is.
+
+Start the development server. 
+```
+npm start
 ```
 
 # Getting Started with Create React App
