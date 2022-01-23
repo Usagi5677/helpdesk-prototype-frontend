@@ -4,8 +4,11 @@ import classes from "./Sidebar.module.css";
 import Backdrop from "../UI/Backdrop/Backdrop";
 
 import { FaChevronDown } from "react-icons/fa";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const Sidebar = (props: any) => {
+  const { user, logout } = useContext(UserContext);
   return (
     <>
       <Backdrop show={props.openSidebar} clicked={props.closeBackdrop} />
@@ -26,15 +29,17 @@ const Sidebar = (props: any) => {
           </li>
           <div className={classes["sidebar-wrapper__sidebar-items-container"]}>
             {SidebarData.map((sbData: any, index: number) => (
-              <li key={'lvOne'+index}>
+              <li key={"lvOne" + index}>
                 {sbData.dropdowns && sbData.dropdowns.length > 0 ? (
                   <div
                     className={`${classes["sidebar__sidebar-items-wrapper"]} ${
-                      props.selectedLink === 'lvOne'+index ? classes["active"] : ""
+                      props.selectedLink === "lvOne" + index
+                        ? classes["active"]
+                        : ""
                     }`}
                     onClick={() => {
                       props.dropdownClick();
-                      props.selectLink('lvOne'+index);
+                      props.selectLink("lvOne" + index);
                     }}
                   >
                     <div
@@ -73,9 +78,13 @@ const Sidebar = (props: any) => {
                 ) : (
                   <div
                     className={`${classes["sidebar__sidebar-items-wrapper"]} ${
-                      props.selectedLink === 'lvOne'+index ? classes["active"] : ""
+                      props.selectedLink === "lvOne" + index
+                        ? classes["active"]
+                        : ""
                     }`}
-                    onClick={()=>{props.selectLink('lvOne'+index)}}
+                    onClick={() => {
+                      props.selectLink("lvOne" + index);
+                    }}
                   >
                     <div
                       className={
@@ -108,11 +117,17 @@ const Sidebar = (props: any) => {
                   >
                     {sbData.dropdowns.map((dropdown: any, index: number) => (
                       <li
-                        key={'lvTwo'+index}
-                        className={`${classes["sidebar__dropdown__dropdown-items"]} ${
-                          props.selectedLink === 'lvTwo'+index ? classes["active"] : ""
+                        key={"lvTwo" + index}
+                        className={`${
+                          classes["sidebar__dropdown__dropdown-items"]
+                        } ${
+                          props.selectedLink === "lvTwo" + index
+                            ? classes["active"]
+                            : ""
                         }`}
-                        onClick={()=>{props.selectLink('lvTwo'+index)}}
+                        onClick={() => {
+                          props.selectLink("lvTwo" + index);
+                        }}
                       >
                         <span>{dropdown.name}</span>
                       </li>
@@ -186,7 +201,7 @@ const Sidebar = (props: any) => {
                 </div>
                 <div className={classes["sidebar__profile-details"]}>
                   <div className={classes["sidebar__profile-name"]}>
-                    Ibrahimu Naishu
+                    {user.fullName}
                   </div>
                   <div className={classes["sidebar__profile-link"]}>
                     Profile
@@ -195,7 +210,7 @@ const Sidebar = (props: any) => {
               </div>
 
               <i className={classes["sidebar__sign-out"]}>
-                <FaSignOutAlt />
+                <FaSignOutAlt onClick={logout} />
               </i>
             </div>
           </li>
