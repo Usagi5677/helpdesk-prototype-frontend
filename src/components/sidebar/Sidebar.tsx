@@ -107,7 +107,7 @@ const Sidebar = (props: any) => {
                     }`}
                   >
                     {sbData.dropdowns.map((dropdown: any, index2: number) => (
-                      <NavLink to={dropdown.path}>
+                      <NavLink key={index2} to={dropdown.path}>
                         <li
                           key={index2}
                           className={
