@@ -1,3 +1,13 @@
+# Set up environment for development
+
+Make a copy of the `.env.example` file and rename it to `.env`
+
+In the `.env` file edit these variables
+```
+REACT_APP_API_URL=https://dev-api-helpdesk.mtcc.com.mv/graphql
+REACT_APP_APP_ID=FA7EC980-CAC5-42F3-8E97-16DB3769D788
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
