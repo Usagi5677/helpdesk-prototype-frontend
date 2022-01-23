@@ -7,7 +7,7 @@ const Navbar = (props: any) => {
     <nav className={classes["navbar"]}>
       <div className={classes["navbar-wrapper"]}>
         <div className={classes["navbar__left-side-wrapper"]}>
-          <NavLink to={"/dashboard"}>
+          <NavLink to={"/"}>
             <div
               className={`${classes["navbar__title"]} ${
                 props.openSidebar ? classes["active"] : ""

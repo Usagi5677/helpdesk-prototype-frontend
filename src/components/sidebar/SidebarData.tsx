@@ -12,7 +12,7 @@ interface SidebarItem {
 export const SidebarData: SidebarItem[] = [
   {
     name: "Dashboard",
-    path: "/dashboard",
+    path: "/",
     icon: <FaHome />,
   },
   {
@@ -24,7 +24,13 @@ export const SidebarData: SidebarItem[] = [
       { name: "Create ticket", path: "/create-ticket" },
     ],
     submenuName: "Status",
-    submenus: [{ name: "Open" }, { name: "Closed" }, { name: "Pending" }, { name: "Solved" }, { name: "Unassigned" } ],
+    submenus: [
+      { name: "Open" },
+      { name: "Closed" },
+      { name: "Pending" },
+      { name: "Solved" },
+      { name: "Unassigned" },
+    ],
   },
   {
     name: "Information",
