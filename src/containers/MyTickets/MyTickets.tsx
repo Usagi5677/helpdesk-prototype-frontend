@@ -1,124 +1,48 @@
-
-import {
-  FaGlobe,
-  FaRegEnvelope,
-  FaEllipsisV,
-  FaSearch,
-  FaPlus,
-} from "react-icons/fa";
+import { FaSearch, FaPlus } from "react-icons/fa";
 import classes from "./MyTickets.module.css";
+import Ticket from "../../components/Ticket/Ticket";
+import { MyTicketData } from "./MyTicketsData";
 
 const MyTickets = () => {
   return (
-    <div className={classes['my-tickets-container']}>
-      <div className={classes['my-tickets-options-wrapper']}>
-        <div className={classes['my-tickets-options-wrapper__ticket-amount']}>
+    <div className={classes["my-tickets-container"]}>
+      <div className={classes["my-tickets-options-wrapper"]}>
+        <div className={classes["my-tickets-options-wrapper__ticket-amount"]}>
           1 ticket
         </div>
-        <div className={classes['my-tickets-options-wrapper__search-wrapper']}>
-          <div className={classes['my-tickets-options-wrapper__search-wrapper_icon']}>
+        <div className={classes["my-tickets-options-wrapper__search-wrapper"]}>
+          <div
+            className={
+              classes["my-tickets-options-wrapper__search-wrapper_icon"]
+            }
+          >
             <FaSearch />
           </div>
           <input type="text" name="" id="" placeholder="Search" />
         </div>
 
-        <button className={classes['my-tickets-options-wrapper__filter']}>
+        <button className={classes["my-tickets-options-wrapper__filter"]}>
           <FaPlus />
           <span>Filter</span>
         </button>
       </div>
-      <div className={classes['my-tickets-wrapper']}>
-        <div className={classes['my-tickets-wrapper__user-details-container']}>
-          <div className={classes['my-tickets-wrapper__user-details-wrapper']}>
-            <img
-              className={classes['my-tickets-wrapper__user-details__icon']}
-              src="./avatar.jpg"
-              alt=""
-            />
-            <div className={classes['my-tickets-wrapper__user-details__user-info-wrapper']}>
-              <div className={classes['my-tickets-wrapper__user-details__fullname']}>
-                Ibrahimu Naishu
-              </div>
-              <div className={classes['my-tickets-wrapper__user-details__email-wrapper']}>
-                <div className={classes['my-tickets-wrapper__user-details__email__icon']}>
-                  <FaRegEnvelope />
-                </div>
-                <div className={classes['my-tickets-wrapper__user-details__email__text']}>
-                  Naishu@gmail.com
-                </div>
-              </div>
-              <div className={classes['my-tickets-wrapper__user-details__created-date-wrapper']}>
-                <div className={classes['my-tickets-wrapper__user-details__created-date__icon']}>
-                  <FaGlobe />
-                </div>
-                <div className={classes['my-tickets-wrapper__user-details__created-date__date']}>
-                  Created at 01/01/2022
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes['my-tickets-wrapper__divider']}></div>
-          <div className={classes['my-tickets-wrapper__ticket-details-wrapper']}>
-            <div className={classes['my-tickets-wrapper__ticket-details__title']}>
-              T01 - change password
-            </div>
-            <div className={classes['my-tickets-wrapper__ticket-details__info-container']}>
-              <div className={classes['my-tickets-wrapper__ticket-details__info-wrapper']}>
-                <div className={classes['my-tickets-wrapper__ticket-details__category-wrapper']}>
-                  <div className={classes['my-tickets-wrapper__ticket-details__category-title']}>
-                    Category
-                  </div>
-                  <div className={classes['my-tickets-wrapper__ticket-details__category-type']}>
-                    problem
-                  </div>
-                </div>
-                <div className={classes['my-tickets-wrapper__ticket-details__priority-wrapper']}>
-                  <div className={classes['my-tickets-wrapper__ticket-details__priority-title']}>
-                    Priority
-                  </div>
-                  <div className={classes['my-tickets-wrapper__ticket-details__priority-type']}>
-                    Medium
-                  </div>
-                </div>
-              </div>
-              <div className={classes['my-tickets-wrapper__ticket-details__info-wrapper']}>
-                <div className={classes['my-tickets-wrapper__ticket-details__group-wrapper']}>
-                  <div className={classes['my-tickets-wrapper__ticket-details__group-title']}>
-                    Group
-                  </div>
-                  <div className={classes['my-tickets-wrapper__ticket-details__group-name']}>
-                    Software
-                  </div>
-                </div>
-                <div className={classes['my-tickets-wrapper__ticket-details__agent-wrapper']}>
-                  <div className={classes['my-tickets-wrapper__ticket-details__agent-title']}>
-                    Agent
-                  </div>
-                  <div className={classes['my-tickets-wrapper__ticket-details__agent-name']}>
-                    Unassigned
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes['my-tickets-wrapper__ticket-activity-wrapper']}>
-            <div className={classes['my-tickets-wrapper__ticket-activity__started-wrapper']}>
-              <div className={classes['my-tickets-wrapper__ticket-activity__started']}>
-                Started:
-                <span className={classes['my-tickets-wrapper__ticket-activity__started-date']}>
-                  11/11/2021
-                </span>
-              </div>
-              <div className={classes['my-tickets-wrapper__ticket-activity__status']}>
-                open
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={classes['my-tickets-wrapper__icon-wrapper']}>
-          <FaEllipsisV />
-        </div>
-      </div>
+      {MyTicketData.map((ticketData: any, index: number) => (
+        <Ticket
+          key={index}
+          ticketID={ticketData.ticketID}
+          profileIcon={ticketData.icon}
+          name={ticketData.fullname}
+          email={ticketData.email}
+          createdDate={ticketData.createdDate}
+          ticketTitle={ticketData.ticketTitle}
+          category={ticketData.category}
+          priority={ticketData.priority}
+          group={ticketData.group}
+          agent={ticketData.agent}
+          started={ticketData.started}
+          status={ticketData.status}
+        />
+      ))}
     </div>
   );
 };

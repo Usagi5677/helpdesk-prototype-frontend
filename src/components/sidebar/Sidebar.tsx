@@ -72,9 +72,6 @@ const Sidebar = (props: any) => {
                   <NavLink to={sbData.path}>
                     <div
                       className={classes["sidebar__sidebar-items-wrapper"]}
-                      onClick={() => {
-                        props.selectLink(index);
-                      }}
                     >
                       <div
                         className={

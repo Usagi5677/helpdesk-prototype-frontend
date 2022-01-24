@@ -6,7 +6,7 @@ function getDate(): number {
   return new Date().getFullYear();
 }
 
-const Login = () => {
+const Login = ({ login }: { login: () => void }) => {
   /*
 
   
@@ -26,11 +26,7 @@ const Login = () => {
         </div>
 
         <button
-          onClick={() =>
-            window.open(
-              `https://id.mtcc.com.mv/?returnUrl=${process.env.returnUrl}&type=employee&appId=${process.env.appId}`
-            )
-          }
+          onClick={login}
           className={classes['login-wrapper__button']}
         >
           <FaUnlockAlt /> <span>Login</span>

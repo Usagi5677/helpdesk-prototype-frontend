@@ -1,6 +1,15 @@
 import { Button, Card, Row, Col, Divider } from "antd";
 import { UnlockOutlined } from "@ant-design/icons";
 
+/*
+import 'antd/lib/button/style/css';
+import 'antd/lib/card/style/css';
+import 'antd/lib/row/style/css';
+import 'antd/lib/col/style/css';
+import 'antd/lib/divider/style/css';
+
+Note: Not using this component, using Login component instead.
+*/
 function getDate() {
   return new Date().getFullYear();
 }

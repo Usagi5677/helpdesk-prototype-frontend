@@ -12,8 +12,7 @@ import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
 import qs from "qs";
 import UserContext from "./contexts/UserContext";
-import LoggedOut from "./components/common/LoggedOut";
-import "antd/dist/antd.css";
+//import LoggedOut from "./components/common/LoggedOut";
 
 const ME_QUERY = gql`
   query {
@@ -121,7 +120,7 @@ const App = ({ history }: { history: any }) => {
   }
 
   if (!appLoading && loggedOut) {
-    return <LoggedOut login={redirect} />;
+    return <Login login={redirect} />;
   }
 
   return (

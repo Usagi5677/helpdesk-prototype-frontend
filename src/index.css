@@ -60,6 +60,11 @@ html {
   background-color: var(--html-bg-color);
 }
 
+body {
+  background-color: var(--html-bg-color);
+  font-family: "Nunito"
+}
+
 :root {
   --html-bg-color: #f0f1f1;
   --primary: #1c6493;
