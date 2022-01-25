@@ -6,7 +6,15 @@
   padding: 5px;
   margin: 10px 0;
   border-radius: 6px;
-  background-color: rgb(224, 224, 224);
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: all 0.3s ease;
+}
+
+.my-tickets-wrapper:hover{
+  background-color: #dcdcdc;
+  transform: translateX(6px);
 }
 
 .my-tickets-wrapper__user-details-wrapper {
@@ -20,15 +28,20 @@
   background-color: white;
   border: 1px solid #ccc;
 }
-
+.my-tickets-wrapper__user-details__user-info-wrapper {
+  display: inline-block;
+  justify-content: space-between;
+}
 .my-tickets-wrapper__user-details__fullname {
-  margin-bottom: 2px;
+  
 }
 .my-tickets-wrapper__user-details__email-wrapper {
   display: flex;
   margin-left: 10px;
-  margin-bottom: 6px;
   align-items: center;
+  
+}
+.my-tickets-wrapper__user-details__email__icon {
   line-height: 0;
 }
 .my-tickets-wrapper__user-details__email__text {
@@ -42,12 +55,13 @@
   display: flex;
   align-items: center;
   margin-left: 10px;
-  line-height: 0;
 }
 .my-tickets-wrapper__user-details__created-date__date {
   margin-left: 5px;
 }
-
+.my-tickets-wrapper__user-details__created-date__icon {
+  line-height: 0;
+}
 .my-tickets-wrapper__ticket-details__title {
   font-weight: 800;
 }
@@ -155,18 +169,19 @@
   .my-tickets-wrapper__divider {
     display: none;
   }
+  
+  .my-tickets-wrapper__user-details-wrapper {
+    word-break: break-all;
+    word-break: break-word;
+  }
+  
   .my-tickets-wrapper__user-details-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     line-height: 2;
   }
-  .my-tickets-wrapper__ticket-details-wrapper {
-    margin-left: 20px;
-  }
-  .my-tickets-wrapper__user-details__fullname {
-    margin-bottom: 0;
-  }
+  
   .my-tickets-wrapper__ticket-activity__started-wrapper {
     flex-direction: column;
   }

@@ -2,10 +2,11 @@ interface Ticket {
   icon: any;
   fullname: string;
   email: string;
+  contactNumber: string;
   createdDate: string;
   ticketID: string;
   ticketTitle: string;
-  titleDescription?: string;
+  ticketDescription?: string;
   category: string;
   priority?: string;
   group?: string;
@@ -16,10 +17,11 @@ interface Ticket {
 
 export const MyTicketData: Ticket[] = [
   {
-    ticketID: "T01",
+    ticketID: "T1",
     icon: "./avatar.jpg",
     fullname: "Ibrahimu naishu",
-    email: "Naishu@gmail.com",
+    email: "ibrahim.naish@mtcc.com.mv",
+    contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change password",
     category: "Problem",
@@ -30,10 +32,11 @@ export const MyTicketData: Ticket[] = [
     status: "open",
   },
   {
-    ticketID: "T02",
+    ticketID: "T2",
     icon: "./avatar.jpg",
     fullname: "Ibrahimu naishu",
-    email: "Naishu@gmail.com",
+    email: "ibrahim.naish@mtcc.com.mv",
+    contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change account",
     category: "Problem",
@@ -44,10 +47,11 @@ export const MyTicketData: Ticket[] = [
     status: "closed",
   },
   {
-    ticketID: "T03",
+    ticketID: "T3",
     icon: "./avatar.jpg",
     fullname: "Ibrahimu naishu",
-    email: "Naishu@gmail.com",
+    email: "ibrahim.naish@mtcc.com.mv",
+    contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change mouse",
     category: "Problem",
@@ -58,10 +62,11 @@ export const MyTicketData: Ticket[] = [
     status: "solved",
   },
   {
-    ticketID: "T04",
+    ticketID: "T4",
     icon: "./avatar.jpg",
     fullname: "Ibrahimu naishu",
-    email: "Naishu@gmail.com",
+    email: "naish@mtcc.com.mv",
+    contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change keyboard",
     category: "Problem",

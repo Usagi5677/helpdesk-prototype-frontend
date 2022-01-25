@@ -20,8 +20,6 @@ const Layout = (props: any) => {
     setSidebarIsVisible(!sidebarIsVisible);
   };
 
-  
-
   return (
     <>
       <Navbar
