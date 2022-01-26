@@ -34,9 +34,7 @@
   display: inline-block;
   justify-content: space-between;
 }
-.my-tickets-wrapper__user-details__fullname {
-  
-}
+
 .my-tickets-wrapper__user-details__email-wrapper {
   display: flex;
   margin-left: 10px;

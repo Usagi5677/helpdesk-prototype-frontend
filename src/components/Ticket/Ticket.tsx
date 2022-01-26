@@ -65,16 +65,9 @@ const Tickets = (props: any) => {
       break;
   }
 
-  //(\w).*\W+(\w)
+
   let moreThanThreeAssign = props.agent.slice(2,props.agent.length - 1);
   
-  const reg = /\b[a-zA-Z]/g;
-  let arr = props.agent[0].match(reg);
-  let stringArr = arr.join();
-  let initials = stringArr.replace(",","")
-  
-
-
   return (
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
@@ -186,7 +179,7 @@ const Tickets = (props: any) => {
                             className={classes["ticket-details__agent-name-circle-wrapper__circle"]}
                             key={props.ticketID + index}
                           >
-                            {initials}
+                            {props.agent[index].match(/^\w|\b\w(?=\S+$)/g).join().replace(",","")}
                             <div
                               className={
                                 classes["ticket-details__agent-name-circle-wrapper__circle-list"]
