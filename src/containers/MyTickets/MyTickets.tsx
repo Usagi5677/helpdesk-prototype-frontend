@@ -28,7 +28,7 @@ const MyTickets = () => {
       </div>
       {MyTicketData.map((ticketData: any, index: number) => (
         <Ticket
-          key={index}
+          key={ticketData.ticketID}
           ticketID={ticketData.ticketID}
           profileIcon={ticketData.icon}
           name={ticketData.fullname}

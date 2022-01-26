@@ -1,6 +1,7 @@
-import { FaGlobe, FaRegEnvelope, FaEllipsisV } from "react-icons/fa";
+import { FaGlobe, FaRegEnvelope, FaEllipsisV, FaPlus } from "react-icons/fa";
 import classes from "./Ticket.module.css";
 import StatusTag from "../../components/UI/StatusTag/StatusTag";
+
 
 const Tickets = (props: any) => {
   let statusTag;
@@ -64,6 +65,16 @@ const Tickets = (props: any) => {
       break;
   }
 
+  //(\w).*\W+(\w)
+  let moreThanThreeAssign = props.agent.slice(2,props.agent.length - 1);
+  
+  const reg = /\b[a-zA-Z]/g;
+  let arr = props.agent[0].match(reg);
+  let stringArr = arr.join();
+  let initials = stringArr.replace(",","")
+  
+
+
   return (
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
@@ -73,59 +84,23 @@ const Tickets = (props: any) => {
             src={props.profileIcon}
             alt=""
           />
-          <div
-            className={
-              classes["my-tickets-wrapper__user-details__user-info-wrapper"]
-            }
-          >
-            <div
-              className={classes["my-tickets-wrapper__user-details__fullname"]}
-            >
+          <div className={classes["my-tickets-wrapper__user-details__user-info-wrapper"]}>
+            <div className={classes["my-tickets-wrapper__user-details__fullname"]}>
               {props.name}
             </div>
-            <div
-              className={
-                classes["my-tickets-wrapper__user-details__email-wrapper"]
-              }
-            >
-              <div
-                className={
-                  classes["my-tickets-wrapper__user-details__email__icon"]
-                }
-              >
+            <div className={classes["my-tickets-wrapper__user-details__email-wrapper"]}>
+              <div className={classes["my-tickets-wrapper__user-details__email__icon"]}>
                 <FaRegEnvelope />
               </div>
-              <div
-                className={
-                  classes["my-tickets-wrapper__user-details__email__text"]
-                }
-              >
+              <div className={classes["my-tickets-wrapper__user-details__email__text"]}>
                 {props.email}
               </div>
             </div>
-            <div
-              className={
-                classes[
-                  "my-tickets-wrapper__user-details__created-date-wrapper"
-                ]
-              }
-            >
-              <div
-                className={
-                  classes[
-                    "my-tickets-wrapper__user-details__created-date__icon"
-                  ]
-                }
-              >
+            <div className={classes["my-tickets-wrapper__user-details__created-date-wrapper"]}>
+              <div className={classes["my-tickets-wrapper__user-details__created-date__icon"]}>
                 <FaGlobe />
               </div>
-              <div
-                className={
-                  classes[
-                    "my-tickets-wrapper__user-details__created-date__date"
-                  ]
-                }
-              >
+              <div className={classes["my-tickets-wrapper__user-details__created-date__date"]}>
                 {props.createdDate}
               </div>
             </div>
@@ -136,130 +111,108 @@ const Tickets = (props: any) => {
           <div className={classes["my-tickets-wrapper__ticket-details__title"]}>
             {props.ticketID} - {props.ticketTitle}
           </div>
-          <div
-            className={
-              classes["my-tickets-wrapper__ticket-details__info-container"]
-            }
-          >
-            <div
-              className={
-                classes["my-tickets-wrapper__ticket-details__info-wrapper"]
-              }
-            >
-              <div
-                className={
-                  classes[
-                    "my-tickets-wrapper__ticket-details__category-wrapper"
-                  ]
-                }
-              >
-                <div
-                  className={
-                    classes[
-                      "my-tickets-wrapper__ticket-details__category-title"
-                    ]
-                  }
-                >
+          <div className={classes["my-tickets-wrapper__ticket-details__info-container"]}>
+            <div className={classes["my-tickets-wrapper__ticket-details__info-wrapper"]}>
+              <div className={classes["my-tickets-wrapper__ticket-details__category-wrapper"]}>
+                <div className={classes["my-tickets-wrapper__ticket-details__category-title"]}>
                   Category
                 </div>
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__category-type"]
-                  }
-                >
+                <div className={classes["my-tickets-wrapper__ticket-details__category-type"]}>
                   {props.category}
                 </div>
               </div>
-              <div
-                className={
-                  classes[
-                    "my-tickets-wrapper__ticket-details__priority-wrapper"
-                  ]
-                }
-              >
-                <div
-                  className={
-                    classes[
-                      "my-tickets-wrapper__ticket-details__priority-title"
-                    ]
-                  }
-                >
+              <div className={classes["my-tickets-wrapper__ticket-details__priority-wrapper"]}>
+                <div className={classes["my-tickets-wrapper__ticket-details__priority-title"]}>
                   Priority
                 </div>
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__priority-type"]
-                  }
-                >
+                <div className={classes["my-tickets-wrapper__ticket-details__priority-type"]}>
                   {props.priority}
                 </div>
               </div>
             </div>
-            <div
-              className={
-                classes["my-tickets-wrapper__ticket-details__info-wrapper"]
-              }
-            >
-              <div
-                className={
-                  classes["my-tickets-wrapper__ticket-details__group-wrapper"]
-                }
-              >
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__group-title"]
-                  }
-                >
+            <div className={classes["my-tickets-wrapper__ticket-details__info-wrapper"]}>
+              <div className={classes["my-tickets-wrapper__ticket-details__group-wrapper"]}>
+                <div className={classes["my-tickets-wrapper__ticket-details__group-title"]}>
                   Group
                 </div>
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__group-name"]
-                  }
-                >
+                <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
                   {props.group}
                 </div>
               </div>
-              <div
-                className={
-                  classes["my-tickets-wrapper__ticket-details__agent-wrapper"]
-                }
-              >
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__agent-title"]
-                  }
-                >
+              <div className={classes["my-tickets-wrapper__ticket-details__agent-wrapper"]}>
+                <div className={classes["my-tickets-wrapper__ticket-details__agent-title"]}>
                   Agent
                 </div>
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__agent-name"]
-                  }
-                >
-                  {props.agent}
-                </div>
+                {props.agent && props.agent.length > 1 ? (
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__agent-name-circle-wrapper"]
+                    }
+                  >
+                    {props.agent.map((agentValue: any, index: number) => {
+                      if (index === 3) {
+                        
+                        return (
+                          
+                          <div
+                            className={classes["ticket-details__agent-name-circle-wrapper__circle"]}
+                            key={props.ticketID + index}
+                          >
+                            
+                            <div
+                              className={
+                                classes["ticket-details__agent-name-circle-wrapper__circle"]
+                              }
+                            >
+                              {<FaPlus />}
+                            </div>
+
+                            <div
+                              className={
+                                classes["ticket-details__agent-name-circle-wrapper__circle-list"]
+                              }
+                            >
+                              {moreThanThreeAssign.map((agentValue: any, index: number) => {
+                                return <div key={props.ticketID + index}>{agentValue}</div>
+                              })}
+                              
+                            </div>
+                          </div>
+                        );
+                      } else if (index >= 0 && index < 3) {
+                     
+                        return (
+                          <div
+                            className={classes["ticket-details__agent-name-circle-wrapper__circle"]}
+                            key={props.ticketID + index}
+                          >
+                            {initials}
+                            <div
+                              className={
+                                classes["ticket-details__agent-name-circle-wrapper__circle-list"]
+                              }
+                            >
+                              {agentValue}
+                            </div>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                ) : (
+                  <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
+                    {props.agent}
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
         <div className={classes["my-tickets-wrapper__ticket-activity-wrapper"]}>
-          <div
-            className={
-              classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
-            }
-          >
-            <div
-              className={
-                classes["my-tickets-wrapper__ticket-activity__started"]
-              }
-            >
+          <div className={classes["my-tickets-wrapper__ticket-activity__started-wrapper"]}>
+            <div className={classes["my-tickets-wrapper__ticket-activity__started"]}>
               Started:
-              <span
-                className={
-                  classes["my-tickets-wrapper__ticket-activity__started-date"]
-                }
-              >
+              <span className={classes["my-tickets-wrapper__ticket-activity__started-date"]}>
                 {props.started}
               </span>
             </div>

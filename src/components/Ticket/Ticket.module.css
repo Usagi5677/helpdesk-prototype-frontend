@@ -10,11 +10,13 @@
   border: 1px solid #ccc;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .my-tickets-wrapper:hover{
   background-color: #dcdcdc;
   transform: translateX(6px);
+  z-index: 2;
 }
 
 .my-tickets-wrapper__user-details-wrapper {
@@ -154,6 +156,42 @@
 
 .my-tickets-wrapper__user-details-container {
   width: 100%;
+}
+
+.my-tickets-wrapper__ticket-details__agent-name-circle-wrapper {
+  display: flex;
+  
+}
+.ticket-details__agent-name-circle-wrapper__circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  margin-right: 2px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticket-details__agent-name-circle-wrapper__circle-list {
+  background-color: white;
+  position: absolute;
+  min-width: 100px;
+  
+  border: 1px solid #ccc;
+  z-index: 3;
+  top: 40px;
+  left: -70px;
+  padding: 0 10px;
+  margin-right: 209px;
+  visibility: hidden;
+  
+}
+
+.ticket-details__agent-name-circle-wrapper__circle:hover .ticket-details__agent-name-circle-wrapper__circle-list{
+
+  visibility: visible;
 }
 
 @media only screen and (min-width: 600px) {

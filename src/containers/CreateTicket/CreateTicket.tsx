@@ -1,12 +1,13 @@
-import { FaChevronDown } from "react-icons/fa";
 import classes from "./CreateTicket.module.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import UserContext from "../../contexts/UserContext";
 import { MyTicketData } from ".././MyTickets/MyTicketsData";
+import { useNavigate } from "react-router-dom";
 
 const CreateTicket = () => {
   const { user } = useContext(UserContext);
-
+  const navigate = useNavigate();
+  const formRef = useRef<any>();
   const [createTicketForm, setCreateTicketForm] = useState({
     name: user.fullName,
     email: user.email,
@@ -17,22 +18,24 @@ const CreateTicket = () => {
   });
 
   //const [myTicketDataState, setMyTicketDataState] = useState(MyTicketData);
-
-  function onChangeHandler(event: any) {
+  const onClickClearHandler = () => {
+    formRef.current.reset();
+  };
+  const onChangeHandler = (event: any) => {
     const value = event.target.value;
     setCreateTicketForm({
       ...createTicketForm,
       [event.target.name]: value,
     });
-  }
+  };
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
 
     MyTicketData.push({
       ticketID: "T" + `${MyTicketData.length + 1}`,
       icon: "./avatar.jpg",
-      fullname: `${createTicketForm.name}`,
-      email: `${createTicketForm.email}`,
+      fullname: `${user.fullName}`,
+      email: `${user.email}`,
       contactNumber: `${createTicketForm.contactNumber}`,
       createdDate: "01/01/2022",
       ticketTitle: `${createTicketForm.title}`,
@@ -61,100 +64,53 @@ const CreateTicket = () => {
     }]);
     */
 
-    (document.getElementById("create-ticket-form") as HTMLFormElement).reset();
-    console.log(MyTicketData);
+    formRef.current.reset();
+    navigate("/my-tickets");
   };
-  console.log(MyTicketData);
+
   return (
-    <form onSubmit={onSubmitHandler} id="create-ticket-form">
+    <form onSubmit={onSubmitHandler} ref={formRef}>
       <div className={classes["create-ticket-container"]}>
         <div className={classes["create-ticket-wrapper"]}>
           <div className={classes["create-ticket-wrapper__title"]}>
             Create Ticket
           </div>
-          <div className={classes["create-ticket-wrapper__info"]}>
-            <div className={classes["create-ticket-wrapper__input-field"]}>
-              <input
-                type="text"
-                name="name"
-                id=""
-                placeholder="Name"
-                value={createTicketForm.name}
-                onChange={onChangeHandler}
-              />
-            </div>
-            <div className={classes["create-ticket-wrapper__input-field"]}>
-              <input
-                type="text"
-                name="email"
-                id=""
-                placeholder="Email"
-                value={createTicketForm.email}
-                onChange={onChangeHandler}
-              />
-            </div>
-            <div className={classes["create-ticket-wrapper__input-field"]}>
-              <input
-                type="text"
-                name="contactNumber"
-                id=""
-                placeholder="Contact Number"
-                value={createTicketForm.contactNumber}
-                onChange={onChangeHandler}
-              />
-            </div>
-            <div className={classes["create-ticket-wrapper__select-field"]}>
-              <select
-                name="category"
-                id=""
-                value={createTicketForm.category}
-                onChange={onChangeHandler}
-              >
-                <option value="Category">Category</option>
-                <option value="Problem">Problem</option>
-              </select>
-              <div
-                className={classes["create-ticket-wrapper__select-field__icon"]}
-              >
-                <FaChevronDown />
-              </div>
-            </div>
+
+          <div className={classes["create-ticket-wrapper__input-title"]}>
+            Title
           </div>
-          <div className={classes["create-ticket-wrapper__ticket-info"]}>
-            <div
-              className={`${classes["create-ticket-wrapper__input-field"]} ${classes["--ticket-title"]}`}
-            >
-              <input
-                type="text"
-                name="title"
-                id=""
-                placeholder="Title"
-                value={createTicketForm.title}
-                onChange={onChangeHandler}
-              />
-            </div>
-            <div className={classes["create-ticket-wrapper__file-input"]}>
-              <input type="file" id="myfile" name="myfile"></input>
-            </div>
+          <div
+            className={`${classes["create-ticket-wrapper__input-field"]} ${classes["--ticket-title"]}`}
+          >
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              onChange={onChangeHandler}
+            />
           </div>
 
+          <div className={classes["create-ticket-wrapper__input-title"]}>
+            Description
+          </div>
           <textarea
             className={classes["create-ticket-wrapper__description"]}
             name="description"
-            id=""
             placeholder="Description"
-            value={createTicketForm.description}
             onChange={onChangeHandler}
           ></textarea>
 
           <div className={classes["create-ticket-wrapper__button_wrapper"]}>
             <button
               className={classes["create-ticket-wrapper__secondary-button"]}
+              onClick={onClickClearHandler}
+              type="button"
             >
               Clear
             </button>
             <button
               className={classes["create-ticket-wrapper__primary-button"]}
+              type="submit"
             >
               Create
             </button>
