@@ -1,7 +1,7 @@
 import { FaGlobe, FaRegEnvelope, FaEllipsisV, FaPlus } from "react-icons/fa";
 import classes from "./Ticket.module.css";
-import StatusTag from "../../components/UI/StatusTag/StatusTag";
-
+import StatusTag from ".././UI/StatusTag/StatusTag";
+import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 
 const Tickets = (props: any) => {
   let statusTag;
@@ -65,9 +65,8 @@ const Tickets = (props: any) => {
       break;
   }
 
+  let moreThanThreeAssign = props.agent.slice(2, props.agent.length - 1);
 
-  let moreThanThreeAssign = props.agent.slice(2,props.agent.length - 1);
-  
   return (
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
@@ -144,50 +143,21 @@ const Tickets = (props: any) => {
                   >
                     {props.agent.map((agentValue: any, index: number) => {
                       if (index === 3) {
-                        
                         return (
-                          
-                          <div
-                            className={classes["ticket-details__agent-name-circle-wrapper__circle"]}
+                          <DefaultAvatar
                             key={props.ticketID + index}
-                          >
-                            
-                            <div
-                              className={
-                                classes["ticket-details__agent-name-circle-wrapper__circle"]
-                              }
-                            >
-                              {<FaPlus />}
-                            </div>
-
-                            <div
-                              className={
-                                classes["ticket-details__agent-name-circle-wrapper__circle-list"]
-                              }
-                            >
-                              {moreThanThreeAssign.map((agentValue: any, index: number) => {
-                                return <div key={props.ticketID + index}>{agentValue}</div>
-                              })}
-                              
-                            </div>
-                          </div>
+                            name={agentValue}
+                            moreThanThree={moreThanThreeAssign}
+                            ticketID={props.ticketID}
+                          />
                         );
                       } else if (index >= 0 && index < 3) {
-                     
                         return (
-                          <div
-                            className={classes["ticket-details__agent-name-circle-wrapper__circle"]}
+                          <DefaultAvatar
                             key={props.ticketID + index}
-                          >
-                            {props.agent[index].match(/^\w|\b\w(?=\S+$)/g).join().replace(",","")}
-                            <div
-                              className={
-                                classes["ticket-details__agent-name-circle-wrapper__circle-list"]
-                              }
-                            >
-                              {agentValue}
-                            </div>
-                          </div>
+                            name={agentValue}
+                            agentList={agentValue}
+                          />
                         );
                       }
                     })}

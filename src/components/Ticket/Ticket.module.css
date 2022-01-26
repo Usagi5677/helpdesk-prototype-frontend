@@ -172,11 +172,10 @@
   align-items: center;
 }
 
-.ticket-details__agent-name-circle-wrapper__circle-list {
+.ticket-details__agent-name-circle-wrapper__circle-assign-list {
   background-color: white;
   position: absolute;
   min-width: 100px;
-  
   border: 1px solid #ccc;
   z-index: 3;
   top: 40px;
@@ -187,7 +186,7 @@
   
 }
 
-.ticket-details__agent-name-circle-wrapper__circle:hover .ticket-details__agent-name-circle-wrapper__circle-list{
+.ticket-details__agent-name-circle-wrapper__circle:hover .ticket-details__agent-name-circle-wrapper__circle-assign-list{
 
   visibility: visible;
 }
