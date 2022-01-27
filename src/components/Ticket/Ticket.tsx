@@ -71,11 +71,7 @@ const Tickets = (props: any) => {
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
-          <img
-            className={classes["my-tickets-wrapper__user-details__icon"]}
-            src={props.profileIcon}
-            alt=""
-          />
+          <DefaultAvatar userAvatar={props.profileIcon} userAvatarWidth={"42px"} userAvatarHeight={"42px"}/>
           <div className={classes["my-tickets-wrapper__user-details__user-info-wrapper"]}>
             <div className={classes["my-tickets-wrapper__user-details__fullname"]}>
               {props.name}
