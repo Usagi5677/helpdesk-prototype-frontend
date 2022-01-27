@@ -46,7 +46,8 @@ const DefaultAvatar = (props: any) => {
     initials = props.name
       .match(/^\w|\b\w(?=\S+$)/g)
       .join()
-      .replace(",", "");
+      .replace(",", "")
+      .toUpperCase();
   }
 
   return (
@@ -63,7 +64,7 @@ const DefaultAvatar = (props: any) => {
       ) : (
         initials
       )}
-      {!props.userAvatar ? (
+      {props.showAgentList ? (
         <DefaultAvatarAssignList>
           {props.moreThanThree && props.moreThanThree.length > 1
             ? props.moreThanThree.map((agentValue: any, index: number) => {

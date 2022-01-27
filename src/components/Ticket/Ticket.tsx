@@ -71,7 +71,22 @@ const Tickets = (props: any) => {
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
-          <DefaultAvatar userAvatar={props.profileIcon} userAvatarWidth={"42px"} userAvatarHeight={"42px"}/>
+          {props.profileIcon ? (
+            <DefaultAvatar
+              userAvatar={props.profileIcon}
+              userAvatarWidth={"42px"}
+              userAvatarHeight={"42px"}
+              showAgentList={false}
+            />
+          ) : (
+            <DefaultAvatar
+              name={props.name}
+              userAvatarWidth={"36px"}
+              userAvatarHeight={"36px"}
+              showAgentList={false}
+            />
+          )}
+
           <div className={classes["my-tickets-wrapper__user-details__user-info-wrapper"]}>
             <div className={classes["my-tickets-wrapper__user-details__fullname"]}>
               {props.name}
@@ -145,6 +160,7 @@ const Tickets = (props: any) => {
                             name={agentValue}
                             moreThanThree={moreThanThreeAssign}
                             ticketID={props.ticketID}
+                            showAgentList={true}
                           />
                         );
                       } else if (index >= 0 && index < 3) {
@@ -153,6 +169,7 @@ const Tickets = (props: any) => {
                             key={props.ticketID + index}
                             name={agentValue}
                             agentList={agentValue}
+                            showAgentList={true}
                           />
                         );
                       }

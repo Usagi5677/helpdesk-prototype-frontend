@@ -1,5 +1,5 @@
 interface Ticket {
-  icon: any;
+  icon?: any;
   fullname: string;
   email: string;
   contactNumber: string;
@@ -48,7 +48,7 @@ export const MyTicketData: Ticket[] = [
   },
   {
     ticketID: "T3",
-    icon: "./avatar.jpg",
+    
     fullname: "Ibrahimu naishu",
     email: "ibrahim.naish@mtcc.com.mv",
     contactNumber: "7777767",
