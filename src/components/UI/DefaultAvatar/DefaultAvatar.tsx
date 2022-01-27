@@ -14,11 +14,11 @@ const DefaultAvatarAssignList = styled.div<any>`
 `;
 
 const DefaultAvatarWrapper = styled.div<any>`
-  width: 30px;
-  height: 30px;
+  width: ${(props) => (props.userAvatarWidth ? props.userAvatarWidth : "30px")};
+  height: ${(props) => (props.userAvatarHeight ? props.userAvatarHeight : "30px")};
   border-radius: 50%;
   background-color: ${(props) => props.colors[props.randomValue].backgroundColor};
-  color: ${(props) => props.colors[props.randomValue].color};;
+  color: ${(props) => props.colors[props.randomValue].color};
   margin-right: 2px;
   position: relative;
   display: flex;
@@ -33,28 +33,45 @@ const DefaultAvatar = (props: any) => {
   const min = 0;
   const max = 2;
   const randomValue = Math.floor(Math.random() * (max - min + 1) + min);
-    
+
   const colors = [
-    { backgroundColor: "rgb(219, 50, 77)", color: "rgb(166, 38, 57)" },
+    { backgroundColor: "rgb(241, 247, 237)", color: "rgb(36, 62, 54)" },
     { backgroundColor: "rgb(147, 168, 172)", color: "rgb(76, 87, 96)" },
     { backgroundColor: "rgb(164, 158, 141)", color: "rgb(80, 65, 54)" },
+    { backgroundColor: "rgb(217, 184, 196)", color: "rgb(149, 113, 134)" },
   ];
 
-  const initials = props.name
-    .match(/^\w|\b\w(?=\S+$)/g)
-    .join()
-    .replace(",", "");
+  let initials;
+  if (props.name) {
+    initials = props.name
+      .match(/^\w|\b\w(?=\S+$)/g)
+      .join()
+      .replace(",", "");
+  }
 
   return (
-    <DefaultAvatarWrapper colors={colors} randomValue={randomValue}>
-      {props.moreThanThree && props.moreThanThree.length > 1 ? <FaPlus /> : initials}
-      <DefaultAvatarAssignList >
-        {props.moreThanThree && props.moreThanThree.length > 1
-          ? props.moreThanThree.map((agentValue: any, index: number) => {
-              return <div key={props.ticketID + index}>{agentValue}</div>;
-            })
-          : props.agentList}
-      </DefaultAvatarAssignList>
+    <DefaultAvatarWrapper
+      colors={colors}
+      randomValue={randomValue}
+      userAvatarWidth={props.userAvatarWidth}
+      userAvatarHeight={props.userAvatarHeight}
+    >
+      {props.moreThanThree && props.moreThanThree.length > 1 ? (
+        <FaPlus />
+      ) : props.userAvatar ? (
+        <img src={props.userAvatar} alt="" style={{ borderRadius: "50%" }} />
+      ) : (
+        initials
+      )}
+      {!props.userAvatar ? (
+        <DefaultAvatarAssignList>
+          {props.moreThanThree && props.moreThanThree.length > 1
+            ? props.moreThanThree.map((agentValue: any, index: number) => {
+                return <div key={props.ticketID + index}>{agentValue}</div>;
+              })
+            : props.agentList}
+        </DefaultAvatarAssignList>
+      ) : null}
     </DefaultAvatarWrapper>
   );
 };
