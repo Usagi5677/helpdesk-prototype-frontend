@@ -233,7 +233,7 @@
   height: 350px;
   background-color: white;
   border: 2px solid #ccc;
-  z-index: 100;
+  z-index: 10;
   position: absolute;
   left: -265px;
   cursor: initial;

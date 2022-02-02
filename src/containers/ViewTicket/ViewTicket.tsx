@@ -8,6 +8,9 @@ import { MyTicketData } from "../MyTickets/MyTicketsData";
 import { useEffect, useState } from "react";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 
+/*
+  List used for assigning
+*/
 const groupList = [
   { id: "G1", name: "Software" },
   { id: "G2", name: "AGroup A" },
@@ -30,13 +33,22 @@ const ViewTicket = (props: any) => {
   const [searchUser, setSearchUser] = useState("");
   const [groupMenuOpen, setGroupMenuOpen] = useState(false);
 
+  /*
+    Used param state to get id from url
+    using filter on ticket data file to return ticket data of ticket id
+  */
   let ticketData = MyTicketData.filter((ticket) => {
     return ticket.ticketID === ticketID;
   });
 
+  /*
+    When ViewTicket renders it will run this once
+    first copying the array and then setting it in the state
+    for each user in list give a new attribute called 'checked'
+    if the id is equal to the one in ticket data then give 'true'
+  */
   useEffect(() => {
     let newListOfUsers = groupList.slice();
-
     setCheckedList(
       newListOfUsers.map((newListofUser) => {
         return {
@@ -47,25 +59,22 @@ const ViewTicket = (props: any) => {
         };
       })
     );
-
     //let groupID: any = ticketData[0].group?.[1]?.id;
     //let groupLength: any = ticketData[0].group?.length;
   }, []);
 
-  console.log("checkedlist");
-  console.log(checkedList);
+ 
 
+  /*
+    When clicked it will set a new array to the state.
+    making a copy of array again before setting it to the state,
+    for each one in array(copy) it will check the current id is equal to 
+    the one in array, if it is then it will use the checkbox boolean value
+    to update the checked attribute. Then it will update the state with the modified array
+
+  */
   const onClickCheckboxHandler = (event: any) => {
-    //let tempArray = [];
-    //if (event.target.checked) {
-    //  tempArray = assignedList.filter((checkbox: any) => checkbox.id !== event.target.value);
-    //  tempArray.push({ id: event.target.value, name: event.target.dataset.value });
-    //}else{
-
-    //}
     let id = event.target.value;
-    console.log("inside onclick");
-    console.log(checkedList);
     let newCheckedLists = [...checkedList];
 
     setCheckedList(
@@ -75,16 +84,22 @@ const ViewTicket = (props: any) => {
           : newCheckedList
       )
     );
-
-    //}
-    //setCheckedList(tempArray);
   };
-  console.log("checklist");
-  console.log(checkedList);
+
+  /*
+    Used for onChange handler for finding users. 
+    it will set the state with input so that it will filter the 
+    list based on the input given here
+  */
   const onChangeSearchUserHandler = (event: any) => {
     setSearchUser(event.target.value);
   };
 
+
+  /*
+    Used this for checking if there is a assigned user to the ticket
+    if there is then it will be used as a condition to render the defaultAvatar 
+  */
   let checkedExist;
   for (let index = 0; index < checkedList.length; index++) {
     if (checkedList[index].checked === true) {
@@ -94,6 +109,12 @@ const ViewTicket = (props: any) => {
 
   console.log("group");
   console.log(ticketData[0].group);
+  /*
+    This is the final step. When clicked it will check all
+    list if it has checked 'true' value or not, if there is then it will
+    push it to a temp array and then finally it will replace the old assigned list in
+    ticket data file with new one.
+  */
   const onClickUpdateAssignList = () => {
     let assignedListArray: any = [];
     for (let index = 0; index < checkedList.length; index++) {
@@ -103,21 +124,31 @@ const ViewTicket = (props: any) => {
     }
     ticketData[0].group = assignedListArray;
     setGroupMenuOpen(!groupMenuOpen);
-    console.log(ticketData[0].group);
+    
   };
 
+  /*
+    State used for opening and closing the menu
+  */
   const openGroupMenuHandler = () => {
     setGroupMenuOpen(!groupMenuOpen);
   };
 
+
+  /*
+    This is used for the dafaultAvatar. In here the condition is
+    if there is more than 3 assign then it will save the rest of the assigned users
+    in this variable called 'moreThanThreeAssign'. Can change to any amount if you want.
+    this is used because there is not enough space sometimes so rest of the assigned users will be
+    seen through hover over the last DefaultAvatar which is a plus sign
+  */
   let moreThanThreeAssign: any;
   let groupLength: any = ticketData[0].group?.length;
   if (groupLength > 2) {
     moreThanThreeAssign = ticketData[0].group?.slice(3, groupLength);
   }
 
-  console.log("morethanThree");
-  console.log(moreThanThreeAssign);
+ 
 
   return (
     <div className={classes["view-ticket-container"]}>
@@ -189,7 +220,12 @@ const ViewTicket = (props: any) => {
               </div>
               <div className={classes["group-wrapper__change-option-container"]}>
                 <>
-                  <Backdrop show={groupMenuOpen} clicked={openGroupMenuHandler} invisible />
+                  <Backdrop
+                    show={groupMenuOpen}
+                    clicked={openGroupMenuHandler}
+                    invisible
+                    zIndex={10}
+                  />
                   {groupMenuOpen && (
                     <div className={classes["group-wrapper__change-option-wrapper"]}>
                       <div className={classes["group-wrapper__change-option-wrapper__heading"]}>

@@ -1,4 +1,4 @@
-import { FaGlobe, FaRegEnvelope, FaEllipsisV, FaPlus } from "react-icons/fa";
+import { FaGlobe, FaRegEnvelope, FaEllipsisV } from "react-icons/fa";
 import classes from "./Ticket.module.css";
 import StatusTag from ".././UI/StatusTag/StatusTag";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
@@ -171,7 +171,7 @@ const Tickets = (props: any) => {
                       }
                     })}
                   </div>
-                ) : props.group && props.group.length == 1 ? (
+                ) : props.group && props.group.length === 1 ? (
                   <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
                     {props.group[0].name}
                   </div>
@@ -214,7 +214,7 @@ const Tickets = (props: any) => {
                       }
                     })}
                   </div>
-                ) : props.agent && props.agent.length == 1 ? (
+                ) : props.agent && props.agent.length === 1 ? (
                     <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
                       {props.agent[0].name}
                     </div>

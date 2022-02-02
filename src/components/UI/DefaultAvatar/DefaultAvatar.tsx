@@ -36,61 +36,56 @@ const DefaultAvatarWrapper = styled.div<any>`
 const DefaultAvatar = (props: any) => {
   //const [randomValue, setRandomValue] = useState(0);
   let colorValue;
-  
+
   /*
   useEffect(() => {
     const min = 0;
     const max = 2;
     setRandomValue(Math.floor(Math.random() * (max - min + 1) + min));
-
-
-
-
   }, []);
   */
-  
+
   const colors = [
-    { backgroundColor: "rgb(170, 71, 188)", color: "rgb(255, 255, 255)" },//0
-    { backgroundColor: "rgb(122, 31, 162)", color: "rgb(255, 255, 255)" },//1
-    { backgroundColor: "rgb(120, 144, 156)", color: "rgb(255, 255, 255)" },//2
-    { backgroundColor: "rgb(70, 90, 101)", color: "rgb(255, 255, 255)" },//3
-    { backgroundColor: "rgb(236, 64, 122)", color: "rgb(255, 255, 255)" },//4
-    { backgroundColor: "rgb(194, 23, 91)", color: "rgb(255, 255, 255)" },//5
-    { backgroundColor: "rgb(92, 107, 192)", color: "rgb(255, 255, 255)" },//6
-    { backgroundColor: "rgb(2, 136, 209)", color: "rgb(255, 255, 255)" },//7
-    { backgroundColor: "rgb(0, 87, 156)", color: "rgb(255, 255, 255)" },//8
-    { backgroundColor: "rgb(0, 152, 166)", color: "rgb(255, 255, 255)" },//9
-    { backgroundColor: "rgb(0, 76, 63)", color: "rgb(255, 255, 255)" },//10
-    { backgroundColor: "rgb(104, 159, 57)", color: "rgb(255, 255, 255)" },//11
-    { backgroundColor: "rgb(51, 105, 30)", color: "rgb(255, 255, 255)" },//12
-    { backgroundColor: "rgb(140, 110, 99)", color: "rgb(255, 255, 255)" },//13
-    { backgroundColor: "rgb(93, 64, 56)", color: "rgb(255, 255, 255)" },//14
-    { backgroundColor: "rgb(126, 87, 194)", color: "rgb(255, 255, 255)" },//15
-    { backgroundColor: "rgb(81, 45, 167)", color: "rgb(255, 255, 255)" },//16
-    { backgroundColor: "rgb(239, 108, 0)", color: "rgb(160, 202, 146)" },//17
-    { backgroundColor: "rgb(245, 81, 30)", color: "rgb(255, 255, 255)" },//18
-    { backgroundColor: "rgb(191, 54, 12)", color: "rgb(255, 255, 255)" },//19
-    { backgroundColor: "rgb(0, 167, 225)", color: "rgb(255, 255, 255)" },//20
-    { backgroundColor: "rgb(179, 0, 27)", color: "rgb(255, 255, 255" },//21
-    { backgroundColor: "rgb(20, 49, 9)", color: "rgb(255, 255, 255)" },//22
-    { backgroundColor: "rgb(255, 16, 83)", color: "rgb(255, 255, 255)" },//23
-    { backgroundColor: "rgb(157, 68, 181)", color: "rgb(255, 255, 255)" },//24
-    { backgroundColor: "rgb(110, 68, 255)", color: "rgb(255, 255, 255)" },//25
-    { backgroundColor: "rgb(31, 32, 65)", color: "rgb(255, 255, 255)" },//26
+    { backgroundColor: "rgb(170, 71, 188)", color: "rgb(255, 255, 255)" }, //0
+    { backgroundColor: "rgb(122, 31, 162)", color: "rgb(255, 255, 255)" }, //1
+    { backgroundColor: "rgb(120, 144, 156)", color: "rgb(255, 255, 255)" }, //2
+    { backgroundColor: "rgb(70, 90, 101)", color: "rgb(255, 255, 255)" }, //3
+    { backgroundColor: "rgb(236, 64, 122)", color: "rgb(255, 255, 255)" }, //4
+    { backgroundColor: "rgb(194, 23, 91)", color: "rgb(255, 255, 255)" }, //5
+    { backgroundColor: "rgb(92, 107, 192)", color: "rgb(255, 255, 255)" }, //6
+    { backgroundColor: "rgb(2, 136, 209)", color: "rgb(255, 255, 255)" }, //7
+    { backgroundColor: "rgb(0, 87, 156)", color: "rgb(255, 255, 255)" }, //8
+    { backgroundColor: "rgb(0, 152, 166)", color: "rgb(255, 255, 255)" }, //9
+    { backgroundColor: "rgb(0, 76, 63)", color: "rgb(255, 255, 255)" }, //10
+    { backgroundColor: "rgb(104, 159, 57)", color: "rgb(255, 255, 255)" }, //11
+    { backgroundColor: "rgb(51, 105, 30)", color: "rgb(255, 255, 255)" }, //12
+    { backgroundColor: "rgb(140, 110, 99)", color: "rgb(255, 255, 255)" }, //13
+    { backgroundColor: "rgb(93, 64, 56)", color: "rgb(255, 255, 255)" }, //14
+    { backgroundColor: "rgb(126, 87, 194)", color: "rgb(255, 255, 255)" }, //15
+    { backgroundColor: "rgb(81, 45, 167)", color: "rgb(255, 255, 255)" }, //16
+    { backgroundColor: "rgb(239, 108, 0)", color: "rgb(160, 202, 146)" }, //17
+    { backgroundColor: "rgb(245, 81, 30)", color: "rgb(255, 255, 255)" }, //18
+    { backgroundColor: "rgb(191, 54, 12)", color: "rgb(255, 255, 255)" }, //19
+    { backgroundColor: "rgb(0, 167, 225)", color: "rgb(255, 255, 255)" }, //20
+    { backgroundColor: "rgb(179, 0, 27)", color: "rgb(255, 255, 255" }, //21
+    { backgroundColor: "rgb(20, 49, 9)", color: "rgb(255, 255, 255)" }, //22
+    { backgroundColor: "rgb(255, 16, 83)", color: "rgb(255, 255, 255)" }, //23
+    { backgroundColor: "rgb(157, 68, 181)", color: "rgb(255, 255, 255)" }, //24
+    { backgroundColor: "rgb(110, 68, 255)", color: "rgb(255, 255, 255)" }, //25
+    { backgroundColor: "rgb(31, 32, 65)", color: "rgb(255, 255, 255)" }, //26
   ];
 
   let initials;
-  
+
   if (props.fullname) {
     initials = props.fullname
       .match(/^\w|\b\w(?=\S+$)/g)
       .join()
       .replace(",", "")
       .toUpperCase();
-    
   }
-  
-  if(initials !== undefined){
+
+  if (initials !== undefined) {
     switch (initials.charAt(0)) {
       case "A":
         colorValue = 0;
@@ -174,10 +169,9 @@ const DefaultAvatar = (props: any) => {
         colorValue = 26;
         break;
     }
-  }else{
+  } else {
     colorValue = 26;
   }
-  
 
   return (
     <DefaultAvatarWrapper
