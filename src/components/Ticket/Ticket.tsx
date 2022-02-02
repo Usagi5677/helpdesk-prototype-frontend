@@ -65,7 +65,11 @@ const Tickets = (props: any) => {
       break;
   }
 
-  let moreThanThreeAssign = props.agent.slice(2, props.agent.length - 1);
+  let moreThanThreeAssign: any;
+  if (props.agent.length > 2) {
+    moreThanThreeAssign = props.agent.slice(3, props.agent.length);
+  }
+  console.log(moreThanThreeAssign);
 
   return (
     <div className={classes["my-tickets-wrapper"]}>
@@ -80,7 +84,7 @@ const Tickets = (props: any) => {
             />
           ) : (
             <DefaultAvatar
-              name={props.name}
+              fullname={props.fullname}
               userAvatarWidth={"36px"}
               userAvatarHeight={"36px"}
               showAgentList={false}
@@ -89,7 +93,7 @@ const Tickets = (props: any) => {
 
           <div className={classes["my-tickets-wrapper__user-details__user-info-wrapper"]}>
             <div className={classes["my-tickets-wrapper__user-details__fullname"]}>
-              {props.name}
+              {props.fullname}
             </div>
             <div className={classes["my-tickets-wrapper__user-details__email-wrapper"]}>
               <div className={classes["my-tickets-wrapper__user-details__email__icon"]}>
@@ -138,9 +142,44 @@ const Tickets = (props: any) => {
                 <div className={classes["my-tickets-wrapper__ticket-details__group-title"]}>
                   Group
                 </div>
+                {props.group && props.group.length > 1 ? (
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__group-name-circle-wrapper"]
+                    }
+                  >
+                    {props.group.map((groupValue: any, index: number) => {
+                      if (index === 3) {
+                        return (
+                          <DefaultAvatar
+                            key={props.ticketID + index}
+                            fullname={groupValue.name}
+                            moreThan={moreThanThreeAssign}
+                            ticketID={props.ticketID}
+                            showAgentList={true}
+                          />
+                        );
+                      } else if (index >= 0 && index < 3) {
+                        return (
+                          <DefaultAvatar
+                            key={props.ticketID + index}
+                            fullname={groupValue.name}
+                            agentList={groupValue.name}
+                            showAgentList={true}
+                          />
+                        );
+                      }
+                    })}
+                  </div>
+                ) : props.group && props.group.length == 1 ? (
+                  <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
+                    {props.group[0].name}
+                  </div>
+              ) : (
                 <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
-                  {props.group}
+                  Unassigned
                 </div>
+              )}
               </div>
               <div className={classes["my-tickets-wrapper__ticket-details__agent-wrapper"]}>
                 <div className={classes["my-tickets-wrapper__ticket-details__agent-title"]}>
@@ -157,8 +196,8 @@ const Tickets = (props: any) => {
                         return (
                           <DefaultAvatar
                             key={props.ticketID + index}
-                            name={agentValue}
-                            moreThanThree={moreThanThreeAssign}
+                            fullname={agentValue.name}
+                            moreThan={moreThanThreeAssign}
                             ticketID={props.ticketID}
                             showAgentList={true}
                           />
@@ -167,17 +206,21 @@ const Tickets = (props: any) => {
                         return (
                           <DefaultAvatar
                             key={props.ticketID + index}
-                            name={agentValue}
-                            agentList={agentValue}
+                            fullname={agentValue.name}
+                            agentList={agentValue.name}
                             showAgentList={true}
                           />
                         );
                       }
                     })}
                   </div>
+                ) : props.agent && props.agent.length == 1 ? (
+                    <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
+                      {props.agent[0].name}
+                    </div>
                 ) : (
                   <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
-                    {props.agent}
+                    Unassigned
                   </div>
                 )}
               </div>

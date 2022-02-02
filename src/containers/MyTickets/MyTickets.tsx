@@ -2,20 +2,15 @@ import { FaSearch, FaPlus } from "react-icons/fa";
 import classes from "./MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
 import { MyTicketData } from "./MyTicketsData";
+import { Link } from "react-router-dom";
 
 const MyTickets = () => {
   return (
     <div className={classes["my-tickets-container"]}>
       <div className={classes["my-tickets-options-wrapper"]}>
-        <div className={classes["my-tickets-options-wrapper__ticket-amount"]}>
-          1 ticket
-        </div>
+        <div className={classes["my-tickets-options-wrapper__ticket-amount"]}>1 ticket</div>
         <div className={classes["my-tickets-options-wrapper__search-wrapper"]}>
-          <div
-            className={
-              classes["my-tickets-options-wrapper__search-wrapper_icon"]
-            }
-          >
+          <div className={classes["my-tickets-options-wrapper__search-wrapper_icon"]}>
             <FaSearch />
           </div>
           <input type="text" name="" id="" placeholder="Search" />
@@ -26,23 +21,26 @@ const MyTickets = () => {
           <span>Filter</span>
         </button>
       </div>
-      {MyTicketData.map((ticketData: any, index: number) => (
-        <Ticket
-          key={ticketData.ticketID}
-          ticketID={ticketData.ticketID}
-          profileIcon={ticketData.icon}
-          name={ticketData.fullname}
-          email={ticketData.email}
-          createdDate={ticketData.createdDate}
-          ticketTitle={ticketData.ticketTitle}
-          category={ticketData.category}
-          priority={ticketData.priority}
-          group={ticketData.group}
-          agent={ticketData.agent}
-          started={ticketData.started}
-          status={ticketData.status}
-        />
-      ))}
+      {MyTicketData.map((ticketData: any, index: number) => {
+        return (
+          <Link to={'/view-ticket/'+ticketData.ticketID} key={ticketData.ticketID}>
+            <Ticket
+              ticketID={ticketData.ticketID}
+              profileIcon={ticketData.icon}
+              fullname={ticketData.fullname}
+              email={ticketData.email}
+              createdDate={ticketData.createdDate}
+              ticketTitle={ticketData.ticketTitle}
+              category={ticketData.category}
+              priority={ticketData.priority}
+              group={ticketData.group}
+              agent={ticketData.agent}
+              started={ticketData.started}
+              status={ticketData.status}
+            />
+          </Link>
+        );
+      })}
     </div>
   );
 };

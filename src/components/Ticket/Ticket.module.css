@@ -11,6 +11,7 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   transition: all 0.3s ease;
   position: relative;
+  
 }
 
 .my-tickets-wrapper:hover{
@@ -135,9 +136,7 @@
   cursor: pointer;
   transition: background-color var(--speed) ease;
 }
-.my-tickets-wrapper__ticket-activity__status:hover {
-  background-color: cyan;
-}
+
 
 .my-tickets-container .my-tickets-wrapper__divider {
   margin: 10px 0;
@@ -189,6 +188,12 @@
 .ticket-details__agent-name-circle-wrapper__circle:hover .ticket-details__agent-name-circle-wrapper__circle-assign-list{
 
   visibility: visible;
+}
+
+
+.my-tickets-wrapper__ticket-details__group-name-circle-wrapper {
+  display: flex;
+  
 }
 
 @media only screen and (min-width: 600px) {

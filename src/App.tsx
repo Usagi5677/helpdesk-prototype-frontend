@@ -131,7 +131,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/my-tickets" element={<MyTickets />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
-            <Route path="/view-ticket/:id" element={<ViewTicket />} />
+            <Route path="/view-ticket/:ticketID" element={<ViewTicket />} />
           </Routes>
         </Layout>
       </ApolloProvider>

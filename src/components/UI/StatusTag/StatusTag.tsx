@@ -14,7 +14,7 @@ const StatusTagWrapper = styled.div<any>`
   color: ${(props) => props.fontColor ? props.fontColor : "rgb(0, 183, 255)"};
   background-color: ${(props) => props.bgColor ? props.bgColor : "rgba(0, 183, 255, 0.2)"};
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   @media (min-width: 600px) {
     min-width: 80px;
   }
