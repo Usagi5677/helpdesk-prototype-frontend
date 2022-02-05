@@ -12,7 +12,6 @@ import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
 import qs from "qs";
 import UserContext from "./contexts/UserContext";
-//import LoggedOut from "./components/common/LoggedOut";
 
 const ME_QUERY = gql`
   query {
