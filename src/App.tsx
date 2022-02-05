@@ -104,7 +104,7 @@ const App = ({ history }: { history: any }) => {
     } else {
       setAppLoading(false);
     }
-  }, [window.location, user, me]);
+  }, [user, me]);
 
   const logout = () => {
     localStorage.removeItem("helpdesk_token");

@@ -91,23 +91,59 @@ const Tickets = (props: any) => {
             />
           )}
 
-          <div className={classes["my-tickets-wrapper__user-details__user-info-wrapper"]}>
-            <div className={classes["my-tickets-wrapper__user-details__fullname"]}>
+          <div
+            className={
+              classes["my-tickets-wrapper__user-details__user-info-wrapper"]
+            }
+          >
+            <div
+              className={classes["my-tickets-wrapper__user-details__fullname"]}
+            >
               {props.fullname}
             </div>
-            <div className={classes["my-tickets-wrapper__user-details__email-wrapper"]}>
-              <div className={classes["my-tickets-wrapper__user-details__email__icon"]}>
+            <div
+              className={
+                classes["my-tickets-wrapper__user-details__email-wrapper"]
+              }
+            >
+              <div
+                className={
+                  classes["my-tickets-wrapper__user-details__email__icon"]
+                }
+              >
                 <FaRegEnvelope />
               </div>
-              <div className={classes["my-tickets-wrapper__user-details__email__text"]}>
+              <div
+                className={
+                  classes["my-tickets-wrapper__user-details__email__text"]
+                }
+              >
                 {props.email}
               </div>
             </div>
-            <div className={classes["my-tickets-wrapper__user-details__created-date-wrapper"]}>
-              <div className={classes["my-tickets-wrapper__user-details__created-date__icon"]}>
+            <div
+              className={
+                classes[
+                  "my-tickets-wrapper__user-details__created-date-wrapper"
+                ]
+              }
+            >
+              <div
+                className={
+                  classes[
+                    "my-tickets-wrapper__user-details__created-date__icon"
+                  ]
+                }
+              >
                 <FaGlobe />
               </div>
-              <div className={classes["my-tickets-wrapper__user-details__created-date__date"]}>
+              <div
+                className={
+                  classes[
+                    "my-tickets-wrapper__user-details__created-date__date"
+                  ]
+                }
+              >
                 {props.createdDate}
               </div>
             </div>
@@ -118,34 +154,88 @@ const Tickets = (props: any) => {
           <div className={classes["my-tickets-wrapper__ticket-details__title"]}>
             {props.ticketID} - {props.ticketTitle}
           </div>
-          <div className={classes["my-tickets-wrapper__ticket-details__info-container"]}>
-            <div className={classes["my-tickets-wrapper__ticket-details__info-wrapper"]}>
-              <div className={classes["my-tickets-wrapper__ticket-details__category-wrapper"]}>
-                <div className={classes["my-tickets-wrapper__ticket-details__category-title"]}>
+          <div
+            className={
+              classes["my-tickets-wrapper__ticket-details__info-container"]
+            }
+          >
+            <div
+              className={
+                classes["my-tickets-wrapper__ticket-details__info-wrapper"]
+              }
+            >
+              <div
+                className={
+                  classes[
+                    "my-tickets-wrapper__ticket-details__category-wrapper"
+                  ]
+                }
+              >
+                <div
+                  className={
+                    classes[
+                      "my-tickets-wrapper__ticket-details__category-title"
+                    ]
+                  }
+                >
                   Category
                 </div>
-                <div className={classes["my-tickets-wrapper__ticket-details__category-type"]}>
+                <div
+                  className={
+                    classes["my-tickets-wrapper__ticket-details__category-type"]
+                  }
+                >
                   {props.category}
                 </div>
               </div>
-              <div className={classes["my-tickets-wrapper__ticket-details__priority-wrapper"]}>
-                <div className={classes["my-tickets-wrapper__ticket-details__priority-title"]}>
+              <div
+                className={
+                  classes[
+                    "my-tickets-wrapper__ticket-details__priority-wrapper"
+                  ]
+                }
+              >
+                <div
+                  className={
+                    classes[
+                      "my-tickets-wrapper__ticket-details__priority-title"
+                    ]
+                  }
+                >
                   Priority
                 </div>
-                <div className={classes["my-tickets-wrapper__ticket-details__priority-type"]}>
+                <div
+                  className={
+                    classes["my-tickets-wrapper__ticket-details__priority-type"]
+                  }
+                >
                   {props.priority}
                 </div>
               </div>
             </div>
-            <div className={classes["my-tickets-wrapper__ticket-details__info-wrapper"]}>
-              <div className={classes["my-tickets-wrapper__ticket-details__group-wrapper"]}>
-                <div className={classes["my-tickets-wrapper__ticket-details__group-title"]}>
+            <div
+              className={
+                classes["my-tickets-wrapper__ticket-details__info-wrapper"]
+              }
+            >
+              <div
+                className={
+                  classes["my-tickets-wrapper__ticket-details__group-wrapper"]
+                }
+              >
+                <div
+                  className={
+                    classes["my-tickets-wrapper__ticket-details__group-title"]
+                  }
+                >
                   Group
                 </div>
                 {props.group && props.group.length > 1 ? (
                   <div
                     className={
-                      classes["my-tickets-wrapper__ticket-details__group-name-circle-wrapper"]
+                      classes[
+                        "my-tickets-wrapper__ticket-details__group-name-circle-wrapper"
+                      ]
                     }
                   >
                     {props.group.map((groupValue: any, index: number) => {
@@ -168,27 +258,45 @@ const Tickets = (props: any) => {
                             showAgentList={true}
                           />
                         );
-                      }
+                      } else return null;
                     })}
                   </div>
                 ) : props.group && props.group.length === 1 ? (
-                  <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__group-name"]
+                    }
+                  >
                     {props.group[0].name}
                   </div>
-              ) : (
-                <div className={classes["my-tickets-wrapper__ticket-details__group-name"]}>
-                  Unassigned
-                </div>
-              )}
+                ) : (
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__group-name"]
+                    }
+                  >
+                    Unassigned
+                  </div>
+                )}
               </div>
-              <div className={classes["my-tickets-wrapper__ticket-details__agent-wrapper"]}>
-                <div className={classes["my-tickets-wrapper__ticket-details__agent-title"]}>
+              <div
+                className={
+                  classes["my-tickets-wrapper__ticket-details__agent-wrapper"]
+                }
+              >
+                <div
+                  className={
+                    classes["my-tickets-wrapper__ticket-details__agent-title"]
+                  }
+                >
                   Agent
                 </div>
                 {props.agent && props.agent.length > 1 ? (
                   <div
                     className={
-                      classes["my-tickets-wrapper__ticket-details__agent-name-circle-wrapper"]
+                      classes[
+                        "my-tickets-wrapper__ticket-details__agent-name-circle-wrapper"
+                      ]
                     }
                   >
                     {props.agent.map((agentValue: any, index: number) => {
@@ -211,15 +319,23 @@ const Tickets = (props: any) => {
                             showAgentList={true}
                           />
                         );
-                      }
+                      } else return null;
                     })}
                   </div>
                 ) : props.agent && props.agent.length === 1 ? (
-                    <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
-                      {props.agent[0].name}
-                    </div>
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__agent-name"]
+                    }
+                  >
+                    {props.agent[0].name}
+                  </div>
                 ) : (
-                  <div className={classes["my-tickets-wrapper__ticket-details__agent-name"]}>
+                  <div
+                    className={
+                      classes["my-tickets-wrapper__ticket-details__agent-name"]
+                    }
+                  >
                     Unassigned
                   </div>
                 )}
@@ -228,10 +344,22 @@ const Tickets = (props: any) => {
           </div>
         </div>
         <div className={classes["my-tickets-wrapper__ticket-activity-wrapper"]}>
-          <div className={classes["my-tickets-wrapper__ticket-activity__started-wrapper"]}>
-            <div className={classes["my-tickets-wrapper__ticket-activity__started"]}>
+          <div
+            className={
+              classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
+            }
+          >
+            <div
+              className={
+                classes["my-tickets-wrapper__ticket-activity__started"]
+              }
+            >
               Started:
-              <span className={classes["my-tickets-wrapper__ticket-activity__started-date"]}>
+              <span
+                className={
+                  classes["my-tickets-wrapper__ticket-activity__started-date"]
+                }
+              >
                 {props.started}
               </span>
             </div>

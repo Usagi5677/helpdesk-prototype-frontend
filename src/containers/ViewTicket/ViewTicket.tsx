@@ -63,8 +63,6 @@ const ViewTicket = (props: any) => {
     //let groupLength: any = ticketData[0].group?.length;
   }, []);
 
- 
-
   /*
     When clicked it will set a new array to the state.
     making a copy of array again before setting it to the state,
@@ -95,7 +93,6 @@ const ViewTicket = (props: any) => {
     setSearchUser(event.target.value);
   };
 
-
   /*
     Used this for checking if there is a assigned user to the ticket
     if there is then it will be used as a condition to render the defaultAvatar 
@@ -119,12 +116,14 @@ const ViewTicket = (props: any) => {
     let assignedListArray: any = [];
     for (let index = 0; index < checkedList.length; index++) {
       if (checkedList[index].checked === true) {
-        assignedListArray.push({ id: checkedList[index].id, name: checkedList[index].name });
+        assignedListArray.push({
+          id: checkedList[index].id,
+          name: checkedList[index].name,
+        });
       }
     }
     ticketData[0].group = assignedListArray;
     setGroupMenuOpen(!groupMenuOpen);
-    
   };
 
   /*
@@ -133,7 +132,6 @@ const ViewTicket = (props: any) => {
   const openGroupMenuHandler = () => {
     setGroupMenuOpen(!groupMenuOpen);
   };
-
 
   /*
     This is used for the dafaultAvatar. In here the condition is
@@ -148,8 +146,6 @@ const ViewTicket = (props: any) => {
     moreThanThreeAssign = ticketData[0].group?.slice(3, groupLength);
   }
 
- 
-
   return (
     <div className={classes["view-ticket-container"]}>
       <div className={classes["view-ticket-container__view-ticket-wrapper"]}>
@@ -163,25 +159,51 @@ const ViewTicket = (props: any) => {
           <div className={classes["view-ticket-wrapper__spacer"]}></div>
         </div>
         <div className={classes["view-ticket-wrapper__tab-wrapper"]}>
-          <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>Conversation</div>
-          <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>Attachment</div>
+          <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
+            Conversation
+          </div>
+          <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
+            Attachment
+          </div>
         </div>
       </div>
-      <div className={classes["view-ticket-container__view-ticket-details-wrapper"]}>
-        <div className={classes["view-ticket-container__view-ticket-information-wrapper"]}>
+      <div
+        className={
+          classes["view-ticket-container__view-ticket-details-wrapper"]
+        }
+      >
+        <div
+          className={
+            classes["view-ticket-container__view-ticket-information-wrapper"]
+          }
+        >
           <div className={classes["view-ticket-information-wrapper__title"]}>
             Ticket Information
           </div>
-          <div className={classes["view-ticket-information-wrapper__ticket-id"]}>
+          <div
+            className={classes["view-ticket-information-wrapper__ticket-id"]}
+          >
             Ticket ID: <span>{ticketData[0].ticketID}</span>
           </div>
-          <div className={classes["view-ticket-information-wrapper__priority-wrapper"]}>
-            <div className={classes["view-ticket-information-wrapper__priority-wrapper__title"]}>
+          <div
+            className={
+              classes["view-ticket-information-wrapper__priority-wrapper"]
+            }
+          >
+            <div
+              className={
+                classes[
+                  "view-ticket-information-wrapper__priority-wrapper__title"
+                ]
+              }
+            >
               Priority:
             </div>
             <div
               className={
-                classes["view-ticket-information-wrapper__priority-wrapper__select-wrapper"]
+                classes[
+                  "view-ticket-information-wrapper__priority-wrapper__select-wrapper"
+                ]
               }
             >
               <select name="" id="">
@@ -191,7 +213,13 @@ const ViewTicket = (props: any) => {
                 <option value="3">High</option>
                 <option value="4">Urgent</option>
               </select>
-              <div className={classes["view-ticket-information-wrapper__select-wrapper__icon"]}>
+              <div
+                className={
+                  classes[
+                    "view-ticket-information-wrapper__select-wrapper__icon"
+                  ]
+                }
+              >
                 <FaChevronDown />
               </div>
             </div>
@@ -199,26 +227,48 @@ const ViewTicket = (props: any) => {
           <div className={classes["view-ticket-information-wrapper__rating"]}>
             Rating: <span>Not Rated</span>
           </div>
-          <div className={classes["view-ticket-information-wrapper__created-date"]}>
+          <div
+            className={classes["view-ticket-information-wrapper__created-date"]}
+          >
             Created date: <span>{ticketData[0].createdDate}</span>
           </div>
           <div className={classes["view-ticket-information-wrapper__last-msg"]}>
             Last message: <span>01/01/2022</span>
           </div>
-          <div className={classes["view-ticket-information-wrapper__group-wrapper"]}>
-            <div className={classes["view-ticket-information-wrapper__group-wrapper__heading"]}>
-              <div className={classes["view-ticket-information-wrapper__group-wrapper__title"]}>
+          <div
+            className={
+              classes["view-ticket-information-wrapper__group-wrapper"]
+            }
+          >
+            <div
+              className={
+                classes[
+                  "view-ticket-information-wrapper__group-wrapper__heading"
+                ]
+              }
+            >
+              <div
+                className={
+                  classes[
+                    "view-ticket-information-wrapper__group-wrapper__title"
+                  ]
+                }
+              >
                 Group
               </div>
               <div
                 className={
-                  classes["view-ticket-information-wrapper__group-wrapper__change-option-btn"]
+                  classes[
+                    "view-ticket-information-wrapper__group-wrapper__change-option-btn"
+                  ]
                 }
                 onClick={openGroupMenuHandler}
               >
                 Change
               </div>
-              <div className={classes["group-wrapper__change-option-container"]}>
+              <div
+                className={classes["group-wrapper__change-option-container"]}
+              >
                 <>
                   <Backdrop
                     show={groupMenuOpen}
@@ -227,58 +277,103 @@ const ViewTicket = (props: any) => {
                     zIndex={10}
                   />
                   {groupMenuOpen && (
-                    <div className={classes["group-wrapper__change-option-wrapper"]}>
-                      <div className={classes["group-wrapper__change-option-wrapper__heading"]}>
-                        <div className={classes["group-wrapper__change-option-wrapper__title"]}>
+                    <div
+                      className={
+                        classes["group-wrapper__change-option-wrapper"]
+                      }
+                    >
+                      <div
+                        className={
+                          classes[
+                            "group-wrapper__change-option-wrapper__heading"
+                          ]
+                        }
+                      >
+                        <div
+                          className={
+                            classes[
+                              "group-wrapper__change-option-wrapper__title"
+                            ]
+                          }
+                        >
                           Group
                         </div>
                         <div
-                          className={classes["group-wrapper__change-option-wrapper__close-btn"]}
+                          className={
+                            classes[
+                              "group-wrapper__change-option-wrapper__close-btn"
+                            ]
+                          }
                           onClick={openGroupMenuHandler}
                         >
                           <FaTimes />
                         </div>
                       </div>
                       <div
-                        className={classes["group-wrapper__change-option-wrapper__search-wrapper"]}
+                        className={
+                          classes[
+                            "group-wrapper__change-option-wrapper__search-wrapper"
+                          ]
+                        }
                       >
-                        <div className={classes["my-tickets-options-wrapper__search-wrapper_icon"]}>
+                        <div
+                          className={
+                            classes[
+                              "my-tickets-options-wrapper__search-wrapper_icon"
+                            ]
+                          }
+                        >
                           <FaSearch />
                         </div>
                         <input
-                          className={classes["group-wrapper__change-option-wrapper__search"]}
+                          className={
+                            classes[
+                              "group-wrapper__change-option-wrapper__search"
+                            ]
+                          }
                           placeholder="Search"
                           onChange={onChangeSearchUserHandler}
                         ></input>
                       </div>
                       <div
                         className={`${
-                          classes["group-wrapper__change-option-wrapper__assigned-wrapper"]
+                          classes[
+                            "group-wrapper__change-option-wrapper__assigned-wrapper"
+                          ]
                         } ${checkedExist ? classes["active"] : ""}`}
                       >
                         {checkedExist &&
-                          checkedList.map((checkedListValue: any, checkedListIndex: number) => {
-                            if (checkedListValue.checked) {
-                              return (
-                                <DefaultAvatar
-                                  key={checkedListIndex}
-                                  fullname={checkedListValue.name}
-                                  userAvatarWidth={"22px"}
-                                  userAvatarHeight={"22px"}
-                                  showAgentList={false}
-                                />
-                              );
+                          checkedList.map(
+                            (
+                              checkedListValue: any,
+                              checkedListIndex: number
+                            ) => {
+                              if (checkedListValue.checked) {
+                                return (
+                                  <DefaultAvatar
+                                    key={checkedListIndex}
+                                    fullname={checkedListValue.name}
+                                    userAvatarWidth={"22px"}
+                                    userAvatarHeight={"22px"}
+                                    showAgentList={false}
+                                  />
+                                );
+                              } else return null;
                             }
-                          })}
+                          )}
                       </div>
                       <div
                         className={
-                          classes["group-wrapper__change-option-wrapper__group-list-wrapper"]
+                          classes[
+                            "group-wrapper__change-option-wrapper__group-list-wrapper"
+                          ]
                         }
                       >
                         {checkedList
                           .filter((value: any) =>
-                            value.name.toLowerCase().includes(searchUser.toLowerCase())
+                            value.name
+                              .toLowerCase()
+                              .includes(searchUser.toLowerCase())
                           )
                           .map((group: any, groupIndex: number) => {
                             return (
@@ -306,7 +401,9 @@ const ViewTicket = (props: any) => {
                                     />
                                     <div
                                       className={
-                                        classes["list-item-wrapper__group-detail-wrapper__name"]
+                                        classes[
+                                          "list-item-wrapper__group-detail-wrapper__name"
+                                        ]
                                       }
                                     >
                                       {group.name}
@@ -315,13 +412,17 @@ const ViewTicket = (props: any) => {
 
                                   <input
                                     className={
-                                      classes["group-list-wrapper__list-item-wrapper__checkbox"]
+                                      classes[
+                                        "group-list-wrapper__list-item-wrapper__checkbox"
+                                      ]
                                     }
                                     type="checkbox"
                                     name="group"
                                     data-value={group.name}
                                     value={group.id}
-                                    onChange={(event) => onClickCheckboxHandler(event)}
+                                    onChange={(event) =>
+                                      onClickCheckboxHandler(event)
+                                    }
                                     checked={group.checked}
                                   />
                                 </div>
@@ -330,15 +431,27 @@ const ViewTicket = (props: any) => {
                           })}
                       </div>
                       <div
-                        className={classes["group-wrapper__change-option-wrapper__button-wrapper"]}
+                        className={
+                          classes[
+                            "group-wrapper__change-option-wrapper__button-wrapper"
+                          ]
+                        }
                       >
                         <button
-                          className={classes["group-wrapper__button-wrapper__secondary-button"]}
+                          className={
+                            classes[
+                              "group-wrapper__button-wrapper__secondary-button"
+                            ]
+                          }
                         >
                           Clear
                         </button>
                         <button
-                          className={classes["group-wrapper__button-wrapper__primary-button"]}
+                          className={
+                            classes[
+                              "group-wrapper__button-wrapper__primary-button"
+                            ]
+                          }
                           onClick={onClickUpdateAssignList}
                         >
                           Ok
@@ -351,36 +464,51 @@ const ViewTicket = (props: any) => {
             </div>
             <div className={classes["group-wrapper__assigned-list"]}>
               {ticketData[0].group && ticketData[0].group.length > 0 ? (
-                ticketData[0].group.map((assignedList: any, assignedListIndex: number) => {
-                  if (assignedListIndex === 3) {
-                    return (
-                      <DefaultAvatar
-                        key={ticketData[0].ticketID + assignedList.id}
-                        fullname={assignedList.name}
-                        agentList={assignedList.name}
-                        showAgentList={true}
-                        moreThan={moreThanThreeAssign}
-                        ticketID={ticketData[0].ticketID}
-                      />
-                    );
-                  } else if (assignedListIndex >= 0 && assignedListIndex < 3) {
-                    return (
-                      <DefaultAvatar
-                        key={ticketData[0].ticketID + assignedList.id}
-                        fullname={assignedList.name}
-                        agentList={assignedList.name}
-                        showAgentList={true}
-                      />
-                    );
+                ticketData[0].group.map(
+                  (assignedList: any, assignedListIndex: number) => {
+                    if (assignedListIndex === 3) {
+                      return (
+                        <DefaultAvatar
+                          key={ticketData[0].ticketID + assignedList.id}
+                          fullname={assignedList.name}
+                          agentList={assignedList.name}
+                          showAgentList={true}
+                          moreThan={moreThanThreeAssign}
+                          ticketID={ticketData[0].ticketID}
+                        />
+                      );
+                    } else if (
+                      assignedListIndex >= 0 &&
+                      assignedListIndex < 3
+                    ) {
+                      return (
+                        <DefaultAvatar
+                          key={ticketData[0].ticketID + assignedList.id}
+                          fullname={assignedList.name}
+                          agentList={assignedList.name}
+                          showAgentList={true}
+                        />
+                      );
+                    } else return null;
                   }
-                })
+                )
               ) : (
                 <div>Unassigned</div>
               )}
             </div>
           </div>
-          <div className={classes["view-ticket-information-wrapper__assign-wrapper"]}>
-            <div className={classes["view-ticket-information-wrapper__assign-wrapper__title"]}>
+          <div
+            className={
+              classes["view-ticket-information-wrapper__assign-wrapper"]
+            }
+          >
+            <div
+              className={
+                classes[
+                  "view-ticket-information-wrapper__assign-wrapper__title"
+                ]
+              }
+            >
               Agent:
             </div>
             <Select
@@ -391,9 +519,19 @@ const ViewTicket = (props: any) => {
             />
           </div>
         </div>
-        <div className={classes["view-ticket-container__view-ticket-history-wrapper"]}>
-          <div className={classes["view-ticket-history-wrapper__title"]}>Ticket History</div>
-          <ul className={classes["view-ticket-history-wrapper__time-line-wrapper"]}>
+        <div
+          className={
+            classes["view-ticket-container__view-ticket-history-wrapper"]
+          }
+        >
+          <div className={classes["view-ticket-history-wrapper__title"]}>
+            Ticket History
+          </div>
+          <ul
+            className={
+              classes["view-ticket-history-wrapper__time-line-wrapper"]
+            }
+          >
             <li>
               <div className={classes["view-ticket-history-wrapper__time"]}>
                 1st January 2021 <span>&#9679;</span> 22:00

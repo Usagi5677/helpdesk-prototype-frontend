@@ -32,7 +32,7 @@ const CreateTicket = () => {
     event.preventDefault();
 
     MyTicketData.push({
-      ticketID: "T" + `${MyTicketData.length + 1}`,
+      ticketID: `T${MyTicketData.length + 1}`,
       icon: "./avatar.jpg",
       fullname: `${user.fullName}`,
       email: `${user.email}`,
