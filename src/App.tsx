@@ -12,6 +12,7 @@ import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
 import qs from "qs";
 import UserContext from "./contexts/UserContext";
+import Users from "./containers/Users/Users";
 
 const ME_QUERY = gql`
   query {
@@ -131,6 +132,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/my-tickets" element={<MyTickets />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
             <Route path="/view-ticket/:ticketID" element={<ViewTicket />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
         </Layout>
       </ApolloProvider>

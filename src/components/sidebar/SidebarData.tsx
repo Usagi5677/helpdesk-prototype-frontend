@@ -1,4 +1,4 @@
-import { FaHome, FaTicketAlt, FaBook } from "react-icons/fa";
+import { FaHome, FaTicketAlt, FaBook, FaUserLock } from "react-icons/fa";
 
 interface SidebarItem {
   name: string;
@@ -36,5 +36,10 @@ export const SidebarData: SidebarItem[] = [
     name: "Information",
     path: "/information",
     icon: <FaBook />,
+  },
+  {
+    name: "Users",
+    path: "/users",
+    icon: <FaUserLock />,
   },
 ];

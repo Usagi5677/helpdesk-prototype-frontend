@@ -1,0 +1,17 @@
+.user-list-wrapper {
+  font-size: 0.75rem;
+  padding: 5px;
+  margin: 10px 0;
+  border-radius: 6px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.user-list-wrapper:hover {
+  background-color: #dcdcdc;
+  transform: translateX(6px);
+  z-index: 2;
+}
