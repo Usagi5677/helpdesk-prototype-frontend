@@ -5,6 +5,8 @@ import { APP_USERS_QUERY } from "../../api/queries";
 import { useEffect, useState } from "react";
 import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
+import { Spin } from "antd";
+import "antd/lib/spin/style/index.css";
 
 const Users = () => {
   const [search, setSearch] = useState("");
@@ -58,6 +60,11 @@ const Users = () => {
           </div>
         )}
       </div>
+      {loading && (
+        <div>
+          <Spin style={{ width: "100%", margin: "0 auto" }} />
+        </div>
+      )}
       {filered.map((u: User) => (
         <UserList user={u} key={u.id} />
       ))}
