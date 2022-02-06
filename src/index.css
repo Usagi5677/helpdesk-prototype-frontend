@@ -99,3 +99,7 @@ body {
 .ant-menu-item .anticon {
   font-size: 14px;
 }
+
+.ant-modal-content {
+  border-radius: 20px !important;
+}

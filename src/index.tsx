@@ -6,11 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App history={window.history} />
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App history={window.history} />
+  </BrowserRouter>,
   document.getElementById("root")
 );
 

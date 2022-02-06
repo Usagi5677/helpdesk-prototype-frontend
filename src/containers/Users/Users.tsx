@@ -1,5 +1,4 @@
 import { FaSearch, FaTimes } from "react-icons/fa";
-import classes from "./Users.module.css";
 import { useLazyQuery } from "@apollo/client";
 import { APP_USERS_QUERY } from "../../api/queries";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
 import { Spin } from "antd";
 import "antd/lib/spin/style/index.css";
+import AddAppUser from "../../components/AddAppUser";
 
 const Users = () => {
   const [search, setSearch] = useState("");
@@ -38,27 +38,55 @@ const Users = () => {
   }, [search, data]);
 
   return (
-    <div className={classes["users-container"]}>
-      <div className={classes["users-search_wrapper"]}>
-        <div className={classes["users-search_wrapper_icon"]}>
-          <FaSearch />
+    <div
+      style={{
+        backgroundColor: "white",
+        borderRadius: 20,
+        boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+        padding: "10px 10px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            border: "1px solid #ccc",
+            borderRadius: 20,
+            padding: 5,
+            paddingLeft: 10,
+          }}
+        >
+          <FaSearch style={{ color: "#ccc", paddingRight: 10, fontSize: 25 }} />
+          <input
+            type="text"
+            name=""
+            id=""
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search !== "" && (
+            <FaTimes
+              style={{
+                color: "#ccc",
+                paddingRight: 10,
+                cursor: "pointer",
+                fontSize: 25,
+                marginLeft: -25,
+              }}
+              onClick={() => setSearch("")}
+            />
+          )}
         </div>
-        <input
-          type="text"
-          name=""
-          id=""
-          placeholder="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {search !== "" && (
-          <div
-            style={{ color: "#ccc", paddingRight: 10, cursor: "pointer" }}
-            onClick={() => setSearch("")}
-          >
-            <FaTimes />
-          </div>
-        )}
+        <div>
+          <AddAppUser />
+        </div>
       </div>
       {loading && (
         <div>
