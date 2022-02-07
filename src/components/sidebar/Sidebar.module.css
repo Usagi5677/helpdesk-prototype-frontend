@@ -15,7 +15,7 @@
 }
 
 .sidebar a {
-  color: #6c756e;
+  color: #6c756e !important;
 }
 .sidebar a:hover{
   color: var(--primary);
