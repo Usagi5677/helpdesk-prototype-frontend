@@ -18,3 +18,35 @@ export const SEARCH_APS_QUERY = gql`
     }
   }
 `;
+
+export const CATEGORIES_QUERY = gql`
+  query categories(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $name: String
+  ) {
+    categories(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      name: $name
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        count
+      }
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;

@@ -11,3 +11,9 @@ export const REMOVE_USER_ROLE = gql`
     removeUserRole(userId: $userId, role: $role)
   }
 `;
+
+export const ADD_CATEGORY = gql`
+  mutation ($name: String!) {
+    createCategory(name: $name)
+  }
+`;

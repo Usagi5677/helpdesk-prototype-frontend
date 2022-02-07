@@ -1,26 +1,25 @@
 import { useMutation } from "@apollo/client";
-import { Button, Checkbox, Col, Form, message, Modal, Row } from "antd";
+import { Button, Col, Form, Input, message, Modal, Row } from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
-import SearchAPSUser from "./common/SearchAPS";
-import { ADD_APP_USER } from "../api/mutations";
-import { errorMessage } from "../helpers/gql";
+import { ADD_CATEGORY } from "../../api/mutations";
+import { errorMessage } from "../../helpers/gql";
 
-const AddUserRoles = () => {
+const AddCategory = () => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
-  const [addUserRoles, { loading: loadingAddUserRoles }] = useMutation(
-    ADD_APP_USER,
+  const [addCategory, { loading: loadingAddCategory }] = useMutation(
+    ADD_CATEGORY,
     {
       onCompleted: () => {
-        message.success("Successfully added user roles.");
+        message.success("Successfully added category.");
         handleCancel();
       },
       onError: (error) => {
-        errorMessage(error, "Unexpected error while adding user roles.");
+        errorMessage(error, "Unexpected error while adding category.");
       },
-      refetchQueries: ["appUsers"],
+      refetchQueries: ["categories"],
     }
   );
 
@@ -30,24 +29,14 @@ const AddUserRoles = () => {
   };
 
   const onFinish = async (values: any) => {
-    const { employee, admin, agent } = values;
-    let roles = [];
-    if (!employee) {
-      message.error("Please select an employee.");
+    const { category } = values;
+    if (!category) {
+      message.error("Please enter a category.");
       return;
     }
-    if (admin === true) roles.push("Admin");
-    if (agent === true) roles.push("Agent");
-
-    if (roles.length === 0) {
-      message.error("Please select at least one role.");
-      return;
-    }
-
-    addUserRoles({
+    addCategory({
       variables: {
-        userId: employee.userId,
-        roles,
+        name: category,
       },
     });
   };
@@ -60,7 +49,7 @@ const AddUserRoles = () => {
         onClick={() => setVisible(true)}
         style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
       >
-        Add User Roles
+        Add Category
       </Button>
       <Modal visible={visible} closable={false} footer={null}>
         <Form
@@ -70,32 +59,19 @@ const AddUserRoles = () => {
           onFinish={onFinish}
           id="myForm"
         >
-          <Form.Item label="Employee" name="employee">
-            <SearchAPSUser />
+          <Form.Item
+            label="Category"
+            name="category"
+            required={false}
+            rules={[
+              {
+                required: true,
+                message: "Please enter a category name.",
+              },
+            ]}
+          >
+            <Input placeholder="Category name" />
           </Form.Item>
-          <Row gutter={16}>
-            <Col>
-              <Form.Item
-                label="Roles"
-                name="admin"
-                required={false}
-                valuePropName="checked"
-              >
-                <Checkbox>Admin</Checkbox>
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item
-                label=" "
-                name="agent"
-                required={false}
-                valuePropName="checked"
-              >
-                <Checkbox>Agent</Checkbox>
-              </Form.Item>
-            </Col>
-          </Row>
-
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>
@@ -113,7 +89,7 @@ const AddUserRoles = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={loadingAddUserRoles}
+                  loading={loadingAddCategory}
                   style={{ borderRadius: 20 }}
                 >
                   Add
@@ -127,4 +103,4 @@ const AddUserRoles = () => {
   );
 };
 
-export default AddUserRoles;
+export default AddCategory;

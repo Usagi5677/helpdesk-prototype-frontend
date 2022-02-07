@@ -1,5 +1,5 @@
 import classes from "./UserList.module.css";
-import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
+import DefaultAvatar from "../UI/DefaultAvatar/DefaultAvatar";
 import User from "../../models/User";
 import { message, Popconfirm, Tag } from "antd";
 import { useMutation } from "@apollo/client";
@@ -19,7 +19,7 @@ const UserList = ({ user }: { user: User }) => {
         setRemovingRole("");
       },
       onError: (error) => {
-        errorMessage(error, "Unexpected error while adding app user.");
+        errorMessage(error, "Unexpected error while removing app user.");
       },
       refetchQueries: ["appUsers"],
     }

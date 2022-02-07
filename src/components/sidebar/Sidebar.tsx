@@ -2,6 +2,7 @@ import {
   FaBook,
   FaHome,
   FaSignOutAlt,
+  FaTh,
   FaTicketAlt,
   FaUserLock,
 } from "react-icons/fa";
@@ -57,11 +58,18 @@ const Sidebar = (props: any) => {
 
   // Items only shown to admins
   if (user.isAdmin) {
-    data.push({
-      name: "Users",
-      path: "/users",
-      icon: <FaUserLock />,
-    });
+    data.push(
+      {
+        name: "Categories",
+        path: "/categories",
+        icon: <FaTh />,
+      },
+      {
+        name: "Users",
+        path: "/users",
+        icon: <FaUserLock />,
+      }
+    );
   }
 
   const SidebarData = data;

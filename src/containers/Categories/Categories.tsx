@@ -1,15 +1,15 @@
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
-import { APP_USERS_QUERY } from "../../api/queries";
+import { CATEGORIES_QUERY } from "../../api/queries";
 import { useContext, useEffect, useState } from "react";
-import User from "../../models/User";
-import UserList from "../../components/Users/UserList";
 import { Spin } from "antd";
-import AddUserRoles from "../../components/Users/AddUserRoles";
 import { errorMessage } from "../../helpers/gql";
 import UserContext from "../../contexts/UserContext";
+import Category from "../../models/Category";
+import CategoryList from "../../components/Categories/CategoryList";
+import AddCategory from "../../components/Categories/AddCategory";
 
-const Users = () => {
+const Categories = () => {
   const { user } = useContext(UserContext);
 
   // Redirect to home if not an admin
@@ -18,28 +18,29 @@ const Users = () => {
   }
 
   const [search, setSearch] = useState("");
-  const [filered, setFiltered] = useState<User[]>([]);
-  const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {
+  const [filered, setFiltered] = useState<Category[]>([]);
+  const [getCategories, { data, loading }] = useLazyQuery(CATEGORIES_QUERY, {
     onError: (err) => {
-      errorMessage(err, "Error loading app users.");
+      errorMessage(err, "Error loading categories.");
     },
   });
 
   useEffect(() => {
-    getAppUsers();
+    getCategories({ variables: { first: 500 } });
   }, []);
 
   useEffect(() => {
     if (!data) return;
+    const categories = data?.categories.edges.map(
+      (c: { node: Category }) => c.node
+    );
     if (search === "") {
-      setFiltered(data?.appUsers);
+      setFiltered(categories);
     } else {
       const lower = search.toLowerCase();
       setFiltered(
-        data?.appUsers.filter(
-          (user: User) =>
-            user.fullName.toLowerCase().includes(lower) ||
-            user.rcno.toString().toLowerCase().includes(lower)
+        categories.filter((category: Category) =>
+          category.name.toLowerCase().includes(lower)
         )
       );
     }
@@ -93,7 +94,7 @@ const Users = () => {
           )}
         </div>
         <div>
-          <AddUserRoles />
+          <AddCategory />
         </div>
       </div>
       {loading && (
@@ -101,11 +102,11 @@ const Users = () => {
           <Spin style={{ width: "100%", margin: "0 auto" }} />
         </div>
       )}
-      {filered.map((u: User) => (
-        <UserList user={u} key={u.id} />
+      {filered.map((category: Category) => (
+        <CategoryList category={category} key={category.id} />
       ))}
     </div>
   );
 };
 
-export default Users;
+export default Categories;
