@@ -1,10 +1,5 @@
 import { useMutation } from "@apollo/client";
 import { Button, Checkbox, Col, Form, message, Modal, Row } from "antd";
-import "antd/lib/button/style/css";
-import "antd/lib/form/style/css";
-import "antd/lib/modal/style/css";
-import "antd/lib/message/style/css";
-import "antd/lib/checkbox/style/css";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import SearchAPSUser from "./common/SearchAPS";

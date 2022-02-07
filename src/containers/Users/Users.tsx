@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
 import { Spin } from "antd";
-import "antd/lib/spin/style/css";
 import AddAppUser from "../../components/AddAppUser";
 import { errorMessage } from "../../helpers/gql";
 
