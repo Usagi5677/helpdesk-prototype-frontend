@@ -80,6 +80,10 @@ body {
   font-family: "Nunito";
 }
 
+a {
+  color: initial !important;
+}
+
 :root {
   --html-bg-color: #f0f1f1;
   --primary: #1c6493;
