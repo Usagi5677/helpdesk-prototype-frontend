@@ -1,14 +1,22 @@
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 import { APP_USERS_QUERY } from "../../api/queries";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
 import { Spin } from "antd";
 import AddAppUser from "../../components/AddAppUser";
 import { errorMessage } from "../../helpers/gql";
+import UserContext from "../../contexts/UserContext";
 
 const Users = () => {
+  const { user } = useContext(UserContext);
+
+  // Redirect to home if not an admin
+  if (!user.isAdmin) {
+    window.location.pathname = "/";
+  }
+
   const [search, setSearch] = useState("");
   const [filered, setFiltered] = useState<User[]>([]);
   const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {

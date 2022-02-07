@@ -34,7 +34,11 @@ const App = ({ history }: { history: any }) => {
   const [me] = useLazyQuery(ME_QUERY, {
     client: apolloClient,
     onCompleted: (data) => {
-      setUser({ ...data.me });
+      setUser({
+        ...data.me,
+        isAdmin: data.me.roles.includes("Admin"),
+        isAgent: data.me.roles.includes("Agent"),
+      });
       setAppLoading(false);
       setLoggedOut(false);
     },
