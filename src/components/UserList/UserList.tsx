@@ -4,7 +4,6 @@ import User from "../../models/User";
 import { Tag } from "antd";
 import "antd/lib/tag/style/index.css";
 
-
 const UserList = ({ user }: { user: User }) => {
   return (
     <div className={classes["user-list-wrapper"]}>

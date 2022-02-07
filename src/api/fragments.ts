@@ -8,3 +8,12 @@ export const USER_FRAGMENT = gql`
     roles
   }
 `;
+
+export const APS_USER_FRAGMENT = gql`
+  fragment UserFields on User {
+    id
+    userId
+    fullName
+    rcno
+  }
+`;
