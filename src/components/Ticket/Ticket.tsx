@@ -4,12 +4,13 @@ import StatusTag from ".././UI/StatusTag/StatusTag";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 
 const Tickets = (props: any) => {
+  
   let statusTag;
-  switch (props.status) {
+  switch (props.ticketData.status) {
     case "open":
       statusTag = (
         <StatusTag
-          name={props.status}
+          name={props.ticketData.status}
           bgColor={"rgba(0, 183, 255, 0.2)"}
           fontColor={"rgb(0, 115, 161)"}
           bgHover={"rgb(0, 183, 255)"}
@@ -20,7 +21,7 @@ const Tickets = (props: any) => {
     case "pending":
       statusTag = (
         <StatusTag
-          name={props.status}
+          name={props.ticketData.status}
           bgColor={"rgba(247, 173, 3, 0.2)"}
           fontColor={"rgb(145, 101, 0)"}
           bgHover={"rgb(247, 173, 3)"}
@@ -31,7 +32,7 @@ const Tickets = (props: any) => {
     case "solved":
       statusTag = (
         <StatusTag
-          name={props.status}
+          name={props.ticketData.status}
           bgColor={"rgba(83, 233, 0, 0.2)"}
           fontColor={"rgb(61, 163, 2)"}
           bgHover={"rgb(83, 233, 0)"}
@@ -42,7 +43,7 @@ const Tickets = (props: any) => {
     case "closed":
       statusTag = (
         <StatusTag
-          name={props.status}
+          name={props.ticketData.status}
           bgColor={"rgba(140, 146, 149, 0.2)"}
           fontColor={"rgb(97, 100, 102)"}
           bgHover={"rgb(140, 146, 149)"}
@@ -53,7 +54,7 @@ const Tickets = (props: any) => {
     case "unassigned":
       statusTag = (
         <StatusTag
-          name={props.status}
+          name={props.ticketData.status}
           bgColor={"rgba(0, 183, 255, 0.2)"}
           fontColor={"rgb(0, 115, 161)"}
           bgHover={"rgb(0, 183, 255)"}
@@ -66,8 +67,8 @@ const Tickets = (props: any) => {
   }
 
   let moreThanThreeAssign: any;
-  if (props.agent.length > 2) {
-    moreThanThreeAssign = props.agent.slice(3, props.agent.length);
+  if (props.ticketData.agent.length > 2) {
+    moreThanThreeAssign = props.ticketData.agent.slice(3, props.ticketData.agent.length);
   }
   console.log(moreThanThreeAssign);
 
@@ -75,16 +76,16 @@ const Tickets = (props: any) => {
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
-          {props.profileIcon ? (
+          {props.ticketData.profileIcon ? (
             <DefaultAvatar
-              userAvatar={props.profileIcon}
+              userAvatar={props.ticketData.profileIcon}
               userAvatarWidth={"42px"}
               userAvatarHeight={"42px"}
               showAgentList={false}
             />
           ) : (
             <DefaultAvatar
-              fullname={props.fullname}
+              fullname={props.ticketData.fullname}
               userAvatarWidth={"36px"}
               userAvatarHeight={"36px"}
               showAgentList={false}
@@ -99,7 +100,7 @@ const Tickets = (props: any) => {
             <div
               className={classes["my-tickets-wrapper__user-details__fullname"]}
             >
-              {props.fullname}
+              {props.ticketData.fullname}
             </div>
             <div
               className={
@@ -118,7 +119,7 @@ const Tickets = (props: any) => {
                   classes["my-tickets-wrapper__user-details__email__text"]
                 }
               >
-                {props.email}
+                {props.ticketData.email}
               </div>
             </div>
             <div
@@ -144,7 +145,7 @@ const Tickets = (props: any) => {
                   ]
                 }
               >
-                {props.createdDate}
+                {props.ticketData.createdDate}
               </div>
             </div>
           </div>
@@ -152,7 +153,7 @@ const Tickets = (props: any) => {
         <div className={classes["my-tickets-wrapper__divider"]}></div>
         <div className={classes["my-tickets-wrapper__ticket-details-wrapper"]}>
           <div className={classes["my-tickets-wrapper__ticket-details__title"]}>
-            {props.ticketID} - {props.ticketTitle}
+            {props.ticketData.ticketID} - {props.ticketData.ticketTitle}
           </div>
           <div
             className={
@@ -185,7 +186,7 @@ const Tickets = (props: any) => {
                     classes["my-tickets-wrapper__ticket-details__category-type"]
                   }
                 >
-                  {props.category}
+                  {props.ticketData.category}
                 </div>
               </div>
               <div
@@ -209,7 +210,7 @@ const Tickets = (props: any) => {
                     classes["my-tickets-wrapper__ticket-details__priority-type"]
                   }
                 >
-                  {props.priority}
+                  {props.ticketData.priority}
                 </div>
               </div>
             </div>
@@ -218,67 +219,8 @@ const Tickets = (props: any) => {
                 classes["my-tickets-wrapper__ticket-details__info-wrapper"]
               }
             >
-              <div
-                className={
-                  classes["my-tickets-wrapper__ticket-details__group-wrapper"]
-                }
-              >
-                <div
-                  className={
-                    classes["my-tickets-wrapper__ticket-details__group-title"]
-                  }
-                >
-                  Group
-                </div>
-                {props.group && props.group.length > 1 ? (
-                  <div
-                    className={
-                      classes[
-                        "my-tickets-wrapper__ticket-details__group-name-circle-wrapper"
-                      ]
-                    }
-                  >
-                    {props.group.map((groupValue: any, index: number) => {
-                      if (index === 3) {
-                        return (
-                          <DefaultAvatar
-                            key={props.ticketID + index}
-                            fullname={groupValue.name}
-                            moreThan={moreThanThreeAssign}
-                            ticketID={props.ticketID}
-                            showAgentList={true}
-                          />
-                        );
-                      } else if (index >= 0 && index < 3) {
-                        return (
-                          <DefaultAvatar
-                            key={props.ticketID + index}
-                            fullname={groupValue.name}
-                            agentList={groupValue.name}
-                            showAgentList={true}
-                          />
-                        );
-                      } else return null;
-                    })}
-                  </div>
-                ) : props.group && props.group.length === 1 ? (
-                  <div
-                    className={
-                      classes["my-tickets-wrapper__ticket-details__group-name"]
-                    }
-                  >
-                    {props.group[0].name}
-                  </div>
-                ) : (
-                  <div
-                    className={
-                      classes["my-tickets-wrapper__ticket-details__group-name"]
-                    }
-                  >
-                    Unassigned
-                  </div>
-                )}
-              </div>
+              
+              
               <div
                 className={
                   classes["my-tickets-wrapper__ticket-details__agent-wrapper"]
@@ -291,7 +233,7 @@ const Tickets = (props: any) => {
                 >
                   Agent
                 </div>
-                {props.agent && props.agent.length > 1 ? (
+                {props.ticketData.agent && props.ticketData.agent.length > 1 ? (
                   <div
                     className={
                       classes[
@@ -299,21 +241,21 @@ const Tickets = (props: any) => {
                       ]
                     }
                   >
-                    {props.agent.map((agentValue: any, index: number) => {
+                    {props.ticketData.agent.map((agentValue: any, index: number) => {
                       if (index === 3) {
                         return (
                           <DefaultAvatar
-                            key={props.ticketID + index}
+                            key={props.ticketData.ticketID + index}
                             fullname={agentValue.name}
                             moreThan={moreThanThreeAssign}
-                            ticketID={props.ticketID}
+                            ticketID={props.ticketData.ticketID}
                             showAgentList={true}
                           />
                         );
                       } else if (index >= 0 && index < 3) {
                         return (
                           <DefaultAvatar
-                            key={props.ticketID + index}
+                            key={props.ticketData.ticketID + index}
                             fullname={agentValue.name}
                             agentList={agentValue.name}
                             showAgentList={true}
@@ -322,13 +264,13 @@ const Tickets = (props: any) => {
                       } else return null;
                     })}
                   </div>
-                ) : props.agent && props.agent.length === 1 ? (
+                ) : props.ticketData.agent && props.ticketData.agent.length === 1 ? (
                   <div
                     className={
                       classes["my-tickets-wrapper__ticket-details__agent-name"]
                     }
                   >
-                    {props.agent[0].name}
+                    {props.ticketData.agent[0].name}
                   </div>
                 ) : (
                   <div
@@ -360,7 +302,7 @@ const Tickets = (props: any) => {
                   classes["my-tickets-wrapper__ticket-activity__started-date"]
                 }
               >
-                {props.started}
+                {props.ticketData.started}
               </span>
             </div>
             {statusTag}

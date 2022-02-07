@@ -25,18 +25,7 @@ const MyTickets = () => {
         return (
           <Link to={'/view-ticket/'+ticketData.ticketID} key={ticketData.ticketID}>
             <Ticket
-              ticketID={ticketData.ticketID}
-              profileIcon={ticketData.icon}
-              fullname={ticketData.fullname}
-              email={ticketData.email}
-              createdDate={ticketData.createdDate}
-              ticketTitle={ticketData.ticketTitle}
-              category={ticketData.category}
-              priority={ticketData.priority}
-              group={ticketData.group}
-              agent={ticketData.agent}
-              started={ticketData.started}
-              status={ticketData.status}
+              ticketData={ticketData}
             />
           </Link>
         );

@@ -8,7 +8,7 @@ const DefaultAvatarAssignList = styled.div<any>`
   border: 1px solid #ccc;
   z-index: 3;
   top: 32px;
-  left: -70px;
+  left: -90px;
   padding: 0 10px;
   margin-right: 209px;
   visibility: hidden;

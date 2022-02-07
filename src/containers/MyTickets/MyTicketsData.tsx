@@ -9,7 +9,7 @@ interface Ticket {
   ticketDescription?: string;
   category: string;
   priority?: string;
-  group?: any[];
+  //group?: any[];
   agent?: any[];
   started?: string;
   status: string;
@@ -26,13 +26,22 @@ export const MyTicketData: Ticket[] = [
     ticketTitle: "Change password",
     category: "Problem",
     priority: "Medium",
+    /*
     group: [
-      { name: "Software", id: "G1" },
-      { name: "BGroup", id: "G2"},
+      {
+        id: "G1",
+        name: "Software",
+        agents: [
+          { id: "U1", name: "Ibrahim Naish" },
+          { id: "U2", name: "Ibrahim Naishu" },
+        ],
+      },
+      { id: "G2", name: "BGroup" },
     ],
+    */
     agent: [
-      { name: "Ibrahim Naish", id: "U1" },
-      { name: "Ibrahim Naish", id: "U2"},
+      { id: "U1", name: "Ibrahim Naish1" },
+      { id: "U2", name: "Ibrahim Naish2" },
     ],
     started: "01/01/2022",
     status: "open",
@@ -47,24 +56,27 @@ export const MyTicketData: Ticket[] = [
     ticketTitle: "Change account",
     category: "Problem",
     priority: "High",
+    /*
     group: [
-      { name: "Software", id: "G3" },
-      { name: "BGroup", id: "G4"},
-      { name: "DGroup", id: "G5"}
+      { id: "G3", name: "Software" },
+      { id: "G4", name: "BGroup" },
+      { id: "G5", name: "DGroup" },
     ],
+    */
     agent: [
-      { name: "Ibrahim Naish1", id: "U3" },
-      { name: "Ibrahim Naish2", id: "U4"},
-      { name: "Ibrahim Naish3", id: "U3" },
-      { name: "Ibrahim Naish4", id: "U4"},
-     
+      { id: "U3", name: "Ibrahim Naish3" },
+      { id: "U4", name: "Ibrahim Naish4" },
+      { id: "U5", name: "Ibrahim Naish5" },
+      { id: "U6", name: "Ibrahim Naish6" },
+      { id: "U8", name: "Ibrahim Naish8" },
+      { id: "U9", name: "Ibrahim Naish9" },
     ],
     started: "01/01/2022",
     status: "closed",
   },
   {
     ticketID: "T3",
-    
+
     fullname: "Ibrahimu naishu",
     email: "ibrahim.naish@mtcc.com.mv",
     contactNumber: "7777767",
@@ -72,7 +84,9 @@ export const MyTicketData: Ticket[] = [
     ticketTitle: "Change mouse",
     category: "Problem",
     priority: "Low",
+    /*
     group: [],
+    */
     agent: [],
     started: "01/01/2022",
     status: "solved",
@@ -87,12 +101,10 @@ export const MyTicketData: Ticket[] = [
     ticketTitle: "Change keyboard",
     category: "Problem",
     priority: "Low",
-    group: [
-      { name: "EGroup", id: "G6"},
-    ],
-    agent: [
-      { name: "Ibrahim Naish5", id: "U5"}
-    ],
+    /*
+    group: [{ id: "G6", name: "EGroup" }],
+    */
+    agent: [{ id: "U7", name: "Ibrahim Naish7" }],
     started: "01/01/2022",
     status: "pending",
   },

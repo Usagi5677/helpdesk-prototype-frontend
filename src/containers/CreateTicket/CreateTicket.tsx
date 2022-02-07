@@ -42,7 +42,7 @@ const CreateTicket = () => {
       ticketDescription: `${createTicketForm.description}`,
       category: `${createTicketForm.category}`,
       priority: "Low",
-      group: ["Software"],
+      //group: ["Software"],
       agent: ["Unassigned"],
       started: "01/01/2022",
       status: "open",
