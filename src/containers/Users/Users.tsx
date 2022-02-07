@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
 import { Spin } from "antd";
-import AddAppUser from "../../components/AddAppUser";
+import AddUserRoles from "../../components/AddUserRoles";
 import { errorMessage } from "../../helpers/gql";
 import UserContext from "../../contexts/UserContext";
 
@@ -93,7 +93,7 @@ const Users = () => {
           )}
         </div>
         <div>
-          <AddAppUser />
+          <AddUserRoles />
         </div>
       </div>
       {loading && (

@@ -6,19 +6,19 @@ import SearchAPSUser from "./common/SearchAPS";
 import { ADD_APP_USER } from "../api/mutations";
 import { errorMessage } from "../helpers/gql";
 
-const AddAppUser = () => {
+const AddUserRoles = () => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
-  const [addAppUser, { loading: loadingAddAppUser }] = useMutation(
+  const [addUserRoles, { loading: loadingAddUserRoles }] = useMutation(
     ADD_APP_USER,
     {
       onCompleted: () => {
-        message.success("Successfully added app user.");
+        message.success("Successfully added user roles.");
         handleCancel();
       },
       onError: (error) => {
-        errorMessage(error, "Unexpected error while adding app user.");
+        errorMessage(error, "Unexpected error while adding user roles.");
       },
       refetchQueries: ["appUsers"],
     }
@@ -44,7 +44,7 @@ const AddAppUser = () => {
       return;
     }
 
-    addAppUser({
+    addUserRoles({
       variables: {
         userId: employee.userId,
         roles,
@@ -60,7 +60,7 @@ const AddAppUser = () => {
         onClick={() => setVisible(true)}
         style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
       >
-        Add User
+        Add User Roles
       </Button>
       <Modal visible={visible} closable={false} footer={null}>
         <Form
@@ -113,7 +113,7 @@ const AddAppUser = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={loadingAddAppUser}
+                  loading={loadingAddUserRoles}
                   style={{ borderRadius: 20 }}
                 >
                   Add
@@ -127,4 +127,4 @@ const AddAppUser = () => {
   );
 };
 
-export default AddAppUser;
+export default AddUserRoles;
