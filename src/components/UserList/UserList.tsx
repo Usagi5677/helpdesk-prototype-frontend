@@ -2,7 +2,7 @@ import classes from "./UserList.module.css";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import User from "../../models/User";
 import { Tag } from "antd";
-import "antd/lib/tag/style/index.css";
+import "antd/lib/tag/style/css";
 
 const UserList = ({ user }: { user: User }) => {
   return (

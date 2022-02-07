@@ -5,15 +5,16 @@ import { useEffect, useState } from "react";
 import User from "../../models/User";
 import UserList from "../../components/UserList/UserList";
 import { Spin } from "antd";
-import "antd/lib/spin/style/index.css";
+import "antd/lib/spin/style/css";
 import AddAppUser from "../../components/AddAppUser";
+import { errorMessage } from "../../helpers/gql";
 
 const Users = () => {
   const [search, setSearch] = useState("");
   const [filered, setFiltered] = useState<User[]>([]);
   const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {
     onError: (err) => {
-      console.log(err);
+      errorMessage(err, "Error loading app users.");
     },
   });
 

@@ -1,7 +1,7 @@
 import { useLazyQuery } from "@apollo/client";
 import { Select, Spin } from "antd";
-import "antd/lib/select/style/index.css";
-import "antd/lib/spin/style/index.css";
+import "antd/lib/select/style/css";
+import "antd/lib/spin/style/css";
 import { FC, useEffect, useState } from "react";
 import { SEARCH_APS_QUERY } from "../../api/queries";
 import User from "../../models/User";

@@ -57,26 +57,26 @@ textarea {
 }
 
 html {
-  background-color: var(--html-bg-color);
+  background-color: var(--html-bg-color) !important;
   scrollbar-color: var(--primary) #ccc;
   scrollbar-width: thin;
 }
 
 html::-webkit-scrollbar-track {
-  background-color: #ccc;
+  background-color: #ccc !important;
 }
 
 html::-webkit-scrollbar {
   width: 8px;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5 !important;
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
 }
 
 body {
-  background-color: var(--html-bg-color);
+  background-color: var(--html-bg-color) !important;
   font-family: "Nunito";
 }
 
