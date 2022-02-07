@@ -184,16 +184,24 @@ const ViewTicket = (props: any) => {
     setSearchGroup(event.target.value);
   };
 
+  const onClickGroupMenuClear = () => {
+    let newCheckedLists = [...checkedGroupList];
+    //let tempArray = [...groupMenuAssignList];
+
+    setCheckedGroupList(
+      newCheckedLists.map((newCheckedList) => {
+        return { ...newCheckedList, checked: false };
+      })
+    );
+    setGroupMenuAssignList([]);
+  };
+
   /*
-    Used this for checking if there is a assigned group to the ticket
-    if there is then it will be used as a condition to render the defaultAvatar 
+    State used for opening and closing the group menu
   */
-  let checkedGroupExist;
-  for (let index = 0; index < checkedGroupList.length; index++) {
-    if (checkedGroupList[index].checked === true) {
-      checkedGroupExist = true;
-    }
-  }
+  const openGroupMenuHandler = () => {
+    setGroupMenuOpen(!groupMenuOpen);
+  };
 
   /*
     This is the final step. When clicked it will check group & agent
@@ -203,7 +211,7 @@ const ViewTicket = (props: any) => {
   */
   const onClickUpdateAssignList = () => {
     let assignedListArray: any = [];
-    
+
     //checking group and adding
     for (let index = 0; index < checkedGroupList?.length; index++) {
       if (checkedGroupList[index].checked === true) {
@@ -230,15 +238,27 @@ const ViewTicket = (props: any) => {
 
     //find unique id and then add
     const uniqueAssigns: any[] = [];
-    assignedListArray.map((assign:any) => {
+    assignedListArray.map((assign: any) => {
       let findAgent = uniqueAssigns.find((agent) => agent.id === assign.id);
       if (!findAgent) uniqueAssigns.push(assign);
     });
-    console.log("uniqueAssigns")
+    console.log("uniqueAssigns");
     console.log(uniqueAssigns);
 
     //add to ticket data
     ticketData[0].agent = uniqueAssigns;
+
+
+
+    //reset checked group list and group menu assign list
+    let newListOfGroups = [...checkedGroupList];
+    setCheckedGroupList(
+      newListOfGroups.map((newListOfGroup) => {
+        return { ...newListOfGroup, checked: false };
+      })
+    );
+    setGroupMenuAssignList([]);
+
 
     //update the checkedagentlist
     let newListOfAgents = agentList.slice();
@@ -263,18 +283,22 @@ const ViewTicket = (props: any) => {
         };
       })
     );
-    
+
     //close menu
     setGroupMenuOpen(false);
     setAgentMenuOpen(false);
   };
 
   /*
-    State used for opening and closing the group menu
+    Used this for checking if there is a assigned group to the ticket
+    if there is then it will be used as a condition to render the defaultAvatar 
   */
-  const openGroupMenuHandler = () => {
-    setGroupMenuOpen(!groupMenuOpen);
-  };
+  let checkedGroupExist;
+  for (let index = 0; index < checkedGroupList.length; index++) {
+    if (checkedGroupList[index].checked === true) {
+      checkedGroupExist = true;
+    }
+  }
 
   /*
     This is used for the dafaultAvatar. In here the condition is
@@ -322,6 +346,18 @@ const ViewTicket = (props: any) => {
 
   const onChangeSearchAgentHandler = (event: any) => {
     setSearchAgent(event.target.value);
+  };
+
+  const onClickAgentMenuClear = () => {
+    let newCheckedLists = [...checkedAgentList];
+    //let tempArray = [...groupMenuAssignList];
+
+    setCheckedAgentList(
+      newCheckedLists.map((newCheckedList) => {
+        return { ...newCheckedList, checked: false };
+      })
+    );
+    setAgentMenuAssignList([]);
   };
 
   let moreThanThreeAgent: any;
@@ -541,6 +577,7 @@ const ViewTicket = (props: any) => {
                         >
                           <button
                             className={classes["group-wrapper__button-wrapper__secondary-button"]}
+                            onClick={onClickGroupMenuClear}
                           >
                             Clear
                           </button>
@@ -712,6 +749,7 @@ const ViewTicket = (props: any) => {
                         >
                           <button
                             className={classes["agent-wrapper__button-wrapper__secondary-button"]}
+                            onClick={onClickAgentMenuClear}
                           >
                             Clear
                           </button>
