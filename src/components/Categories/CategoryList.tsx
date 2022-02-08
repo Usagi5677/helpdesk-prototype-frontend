@@ -7,8 +7,11 @@ import { errorMessage } from "../../helpers/gql";
 import Category from "../../models/Category";
 import EditCategory from "./EditCategory";
 import { FaTrash } from "react-icons/fa";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const CategoryList = ({ category }: { category: Category }) => {
+  const { user } = useContext(UserContext);
   const [removeCategory, { loading: deleting }] = useMutation(DELETE_CATEGORY, {
     onCompleted: () => {
       message.success("Successfully removed category.");
@@ -44,30 +47,32 @@ const CategoryList = ({ category }: { category: Category }) => {
           />
           <div style={{ marginLeft: ".5rem" }}>{category.name}</div>
         </div>
-        <div>
-          <EditCategory category={category} />
-          <Popconfirm
-            disabled={deleting}
-            title={`Are you sure to remove this category?`}
-            onConfirm={() => remove()}
-            okText="Confirm"
-            cancelText="No"
-            placement="topRight"
-          >
-            <Button
-              htmlType="button"
-              size="middle"
-              icon={<FaTrash style={{ fontSize: 20 }} />}
-              shape="round"
-              style={{
-                color: "var(--primary)",
-                marginLeft: "1rem",
-                border: "none",
-              }}
-              loading={deleting}
-            />
-          </Popconfirm>
-        </div>
+        {user?.isAdmin && (
+          <div>
+            <EditCategory category={category} />
+            <Popconfirm
+              disabled={deleting}
+              title={`Are you sure to remove this category?`}
+              onConfirm={() => remove()}
+              okText="Confirm"
+              cancelText="No"
+              placement="topRight"
+            >
+              <Button
+                htmlType="button"
+                size="middle"
+                icon={<FaTrash style={{ fontSize: 20 }} />}
+                shape="round"
+                style={{
+                  color: "var(--error)",
+                  marginLeft: "1rem",
+                  border: "none",
+                }}
+                loading={deleting}
+              />
+            </Popconfirm>
+          </div>
+        )}
       </div>
     </div>
   );

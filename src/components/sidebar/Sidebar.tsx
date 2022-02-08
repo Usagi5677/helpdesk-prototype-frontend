@@ -59,15 +59,6 @@ const Sidebar = (props: any) => {
 
   // Items only shown to admins and agents
   if (user?.isAdmin || user?.isAgent) {
-    data.push({
-      name: "User Groups",
-      path: "/usergroups",
-      icon: <FaUsers />,
-    });
-  }
-
-  // Items only shown to admins
-  if (user?.isAdmin) {
     data.push(
       {
         name: "Categories",
@@ -75,11 +66,20 @@ const Sidebar = (props: any) => {
         icon: <FaTh />,
       },
       {
-        name: "Users",
-        path: "/users",
-        icon: <FaUserLock />,
+        name: "User Groups",
+        path: "/usergroups",
+        icon: <FaUsers />,
       }
     );
+  }
+
+  // Items only shown to admins
+  if (user?.isAdmin) {
+    data.push({
+      name: "Users",
+      path: "/users",
+      icon: <FaUserLock />,
+    });
   }
 
   const SidebarData = data;

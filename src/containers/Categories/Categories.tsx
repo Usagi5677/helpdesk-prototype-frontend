@@ -14,8 +14,8 @@ const Categories = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // Redirect to home if not an admin
-  if (!user?.isAdmin) {
+  // Redirect to home if not an admin or agent
+  if (!user?.isAdmin && !user?.isAgent) {
     navigate("/");
   }
 
@@ -95,9 +95,11 @@ const Categories = () => {
             />
           )}
         </div>
-        <div>
-          <AddCategory />
-        </div>
+        {user?.isAdmin && (
+          <div>
+            <AddCategory />
+          </div>
+        )}
       </div>
       {loading && (
         <div>
