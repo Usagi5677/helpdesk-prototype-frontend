@@ -57,9 +57,13 @@ const CategoryList = ({ category }: { category: Category }) => {
             <Button
               htmlType="button"
               size="middle"
-              icon={<FaTrash style={{ fontSize: 20, marginRight: -3 }} />}
+              icon={<FaTrash style={{ fontSize: 20 }} />}
               shape="round"
-              style={{ color: "var(--primary)", marginLeft: "1rem" }}
+              style={{
+                color: "var(--primary)",
+                marginLeft: "1rem",
+                border: "none",
+              }}
               loading={deleting}
             />
           </Popconfirm>

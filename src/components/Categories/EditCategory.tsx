@@ -52,7 +52,7 @@ const EditCategory = ({ category }: { category: Category }) => {
         onClick={() => setVisible(true)}
         icon={<FaEdit style={{ fontSize: 20, marginRight: -3 }} />}
         shape="round"
-        style={{ color: "var(--primary)" }}
+        style={{ color: "var(--primary)", border: "none" }}
         loading={loadingEditCategory}
       />
       <Modal visible={visible} closable={false} footer={null}>
