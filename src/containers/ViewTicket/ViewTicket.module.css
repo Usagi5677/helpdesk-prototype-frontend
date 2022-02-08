@@ -549,6 +549,61 @@
 }
 
 
+
+
+.view-ticket-container .view-ticket-information-wrapper__category-wrapper {
+  display: flex;
+  align-items: center;
+}
+.view-ticket-container .category-wrapper__title {
+  color: rgb(85, 84, 84);
+  margin: 10px 10px 10px 0;
+}
+
+.view-ticket-container .category-wrapper__dropdown-wrapper {
+  width: 100%;
+  position: relative;
+}
+.view-ticket-container .category-wrapper__dropdown-wrapper__selected {
+  padding-left: 10px;
+  background-color: white;
+  border-radius: 26px;
+  border: 2px solid #ccc;
+  color: rgb(85, 84, 84);
+  font-weight: 700;
+  background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.19141 7.91675L4.94141 9.16675L10 14.2253L15.0586 9.16675L13.8086 7.91675L10 11.7253L6.19141 7.91675Z" fill="%23525D66"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0 top 50%;
+  background-size: 24px;
+  
+}
+
+.view-ticket-container .category-wrapper__dropdown-content-wrapper{
+  position: absolute;
+  top: 25px;
+  left: 4px;
+  height: 140px;
+  overflow-y: auto;
+  padding: 10px;
+  scrollbar-width: thin;
+  background-color: #fff;
+  box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.06);
+  font-weight: 500;
+  color: #333;
+  width: 95%;
+  z-index: 50;
+}
+
+.view-ticket-container .dropdown-content-wrapper__dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-ticket-container .dropdown-content-wrapper__dropdown-item:hover {
+  background-color: #deebff;
+}
+
 @media only screen and (min-width: 600px) {
   .view-ticket-container .view-ticket-container__view-ticket-wrapper {
     padding: 20px 20px;

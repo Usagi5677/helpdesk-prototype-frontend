@@ -60,6 +60,17 @@ const agentList = [
   { id: "U5", name: "Ibrahim Naish5" },
 ];
 
+/*
+  List used for assigning categories
+*/
+const categoryList = [
+  { id: "C1", name: "Problem1" },
+  { id: "C2", name: "Problem2" },
+  { id: "C3", name: "Problem3" },
+  { id: "C4", name: "Problem4" },
+  { id: "C5", name: "Problem5" },
+];
+
 const ViewTicket = (props: any) => {
   const { ticketID } = useParams();
   const [checkedGroupList, setCheckedGroupList] = useState<any>([]);
@@ -70,6 +81,9 @@ const ViewTicket = (props: any) => {
   const [agentMenuOpen, setAgentMenuOpen] = useState(false);
   const [groupMenuAssignList, setGroupMenuAssignList] = useState<any>([]);
   const [agentMenuAssignList, setAgentMenuAssignList] = useState<any>([]);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [categorySelected, setCategorySelected] = useState("Choose category");
+
   //limit for default avatar, if it goes beyond this it will put it all in one defaultavatar
   let maxAgentMenuAssign = 3;
   let maxGroupMenuAssign = 3;
@@ -248,8 +262,6 @@ const ViewTicket = (props: any) => {
     //add to ticket data
     ticketData[0].agent = uniqueAssigns;
 
-
-
     //reset checked group list and group menu assign list
     let newListOfGroups = [...checkedGroupList];
     setCheckedGroupList(
@@ -258,7 +270,6 @@ const ViewTicket = (props: any) => {
       })
     );
     setGroupMenuAssignList([]);
-
 
     //update the checkedagentlist
     let newListOfAgents = agentList.slice();
@@ -373,6 +384,15 @@ const ViewTicket = (props: any) => {
     }
   }
 
+  const onClickOpenCategoryDropdownHandler = () => {
+    setCategoryDropdownOpen(!categoryDropdownOpen);
+  };
+
+  const onClickSelectCategoryHandler = (event: any, value: any) => {
+    setCategorySelected(value);
+    ticketData[0].category = value;
+  };
+
   return (
     <div className={classes["view-ticket-container"]}>
       <div className={classes["view-ticket-container__view-ticket-wrapper"]}>
@@ -417,6 +437,44 @@ const ViewTicket = (props: any) => {
               <div className={classes["view-ticket-information-wrapper__select-wrapper__icon"]}>
                 <FaChevronDown />
               </div>
+            </div>
+          </div>
+
+          <div className={classes["view-ticket-information-wrapper__category-wrapper"]}>
+            <div className={classes["category-wrapper__title"]}>Category:</div>
+            <div
+              className={classes["category-wrapper__dropdown-wrapper"]}
+              onClick={onClickOpenCategoryDropdownHandler}
+            >
+              <div className={classes["category-wrapper__dropdown-wrapper__selected"]}>
+                {categorySelected}
+              </div>
+              {categoryDropdownOpen && (
+                <>
+                  <Backdrop
+                    show={categoryDropdownOpen}
+                    clicked={onClickOpenCategoryDropdownHandler}
+                    invisible
+                    zIndex={10}
+                  />
+                  <div className={classes["category-wrapper__dropdown-content-wrapper"]}>
+                    {categoryList.map((option) => {
+                      return (
+                        <div
+                          key={option.id}
+                          className={classes["dropdown-content-wrapper__dropdown-item"]}
+                          data-categoryid={option.id}
+                          onClick={(event) => {
+                            onClickSelectCategoryHandler(event, option.name);
+                          }}
+                        >
+                          {option.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <div className={classes["view-ticket-information-wrapper__rating"]}>
