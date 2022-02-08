@@ -50,3 +50,36 @@ export const CATEGORIES_QUERY = gql`
     }
   }
 `;
+
+export const USER_GROUPS_QUERY = gql`
+  query userGroups(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $name: String
+  ) {
+    userGroups(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      name: $name
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        count
+      }
+      edges {
+        node {
+          id
+          name
+          mode
+        }
+      }
+    }
+  }
+`;

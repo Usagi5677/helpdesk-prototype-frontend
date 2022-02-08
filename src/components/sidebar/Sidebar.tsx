@@ -5,6 +5,7 @@ import {
   FaTh,
   FaTicketAlt,
   FaUserLock,
+  FaUsers,
 } from "react-icons/fa";
 import classes from "./Sidebar.module.css";
 import Backdrop from "../UI/Backdrop/Backdrop";
@@ -56,8 +57,17 @@ const Sidebar = (props: any) => {
     },
   ];
 
+  // Items only shown to admins and agents
+  if (user?.isAdmin || user?.isAgent) {
+    data.push({
+      name: "User Groups",
+      path: "/usergroups",
+      icon: <FaUsers />,
+    });
+  }
+
   // Items only shown to admins
-  if (user.isAdmin) {
+  if (user?.isAdmin) {
     data.push(
       {
         name: "Categories",
@@ -238,7 +248,7 @@ const Sidebar = (props: any) => {
                 <div className={classes["sidebar__profile-avatar-wrapper"]}>
                   <div className={classes["sidebar__profile-avatar"]}>
                     <DefaultAvatar
-                      fullname={user.fullName}
+                      fullname={user?.fullName}
                       userAvatarWidth={"34px"}
                       userAvatarHeight={"34px"}
                       showAgentList={false}
@@ -253,7 +263,7 @@ const Sidebar = (props: any) => {
                 </div>
                 <div className={classes["sidebar__profile-details"]}>
                   <div className={classes["sidebar__profile-name"]}>
-                    {user.fullName}
+                    {user?.fullName}
                   </div>
                   <div className={classes["sidebar__profile-link"]}>
                     Profile

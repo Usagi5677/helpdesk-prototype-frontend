@@ -9,8 +9,8 @@ const CreateTicket = () => {
   const navigate = useNavigate();
   const formRef = useRef<any>();
   const [createTicketForm, setCreateTicketForm] = useState({
-    name: user.fullName,
-    email: user.email,
+    name: user?.fullName,
+    email: user?.email,
     contactNumber: "",
     category: "Category",
     title: "",
@@ -34,8 +34,8 @@ const CreateTicket = () => {
     MyTicketData.push({
       ticketID: `T${MyTicketData.length + 1}`,
       icon: "./avatar.jpg",
-      fullname: `${user.fullName}`,
-      email: `${user.email}`,
+      fullname: `${user?.fullName}`,
+      email: `${user?.email}`,
       contactNumber: `${createTicketForm.contactNumber}`,
       createdDate: "01/01/2022",
       ticketTitle: `${createTicketForm.title}`,

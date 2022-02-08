@@ -1,47 +1,48 @@
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
-import { APP_USERS_QUERY } from "../../api/queries";
+import { USER_GROUPS_QUERY } from "../../api/queries";
 import { useContext, useEffect, useState } from "react";
-import User from "../../models/User";
-import UserList from "../../components/Users/UserList";
 import { Spin } from "antd";
-import AddUserRoles from "../../components/Users/AddUserRoles";
 import { errorMessage } from "../../helpers/gql";
 import UserContext from "../../contexts/UserContext";
+import UserGroup from "../../models/UserGroup";
+import UserGroupList from "../../components/UserGroups/UserGroupList";
+import AddUserGroup from "../../components/UserGroups/AddUserGroup";
 import { useNavigate } from "react-router";
 
-const Users = () => {
+const UserGroups = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // Redirect to home if not an admin
-  if (!user?.isAdmin) {
+  // Redirect to home if not an admin or agent
+  if (!user?.isAdmin && !user?.isAgent) {
     navigate("/");
   }
 
   const [search, setSearch] = useState("");
-  const [filered, setFiltered] = useState<User[]>([]);
-  const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {
+  const [filered, setFiltered] = useState<UserGroup[]>([]);
+  const [getUserGroups, { data, loading }] = useLazyQuery(USER_GROUPS_QUERY, {
     onError: (err) => {
-      errorMessage(err, "Error loading app users.");
+      errorMessage(err, "Error loading user groups.");
     },
   });
 
   useEffect(() => {
-    getAppUsers();
+    getUserGroups({ variables: { first: 500 } });
   }, []);
 
   useEffect(() => {
     if (!data) return;
+    const userGroups = data?.userGroups.edges.map(
+      (c: { node: UserGroup }) => c.node
+    );
     if (search === "") {
-      setFiltered(data?.appUsers);
+      setFiltered(userGroups);
     } else {
       const lower = search.toLowerCase();
       setFiltered(
-        data?.appUsers.filter(
-          (user: User) =>
-            user.fullName.toLowerCase().includes(lower) ||
-            user.rcno.toString().toLowerCase().includes(lower)
+        userGroups.filter((userGroup: UserGroup) =>
+          userGroup.name.toLowerCase().includes(lower)
         )
       );
     }
@@ -94,20 +95,22 @@ const Users = () => {
             />
           )}
         </div>
-        <div>
-          <AddUserRoles />
-        </div>
+        {user?.isAdmin && (
+          <div>
+            <AddUserGroup />
+          </div>
+        )}
       </div>
       {loading && (
         <div>
           <Spin style={{ width: "100%", margin: "0 auto" }} />
         </div>
       )}
-      {filered.map((u: User) => (
-        <UserList user={u} key={u.id} />
+      {filered.map((userGroup: UserGroup) => (
+        <UserGroupList userGroup={userGroup} key={userGroup.id} />
       ))}
     </div>
   );
 };
 
-export default Users;
+export default UserGroups;

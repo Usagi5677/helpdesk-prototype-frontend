@@ -58,7 +58,7 @@ const UserList = ({ user }: { user: User }) => {
             <Popconfirm
               disabled={
                 (removingUserRole && role === removingRole) ||
-                (self.id === user.id && role === "Admin")
+                (self?.id === user.id && role === "Admin")
               }
               key={role}
               title={`Do you want to remove ${role} role from ${user.fullName}?`}
@@ -78,7 +78,7 @@ const UserList = ({ user }: { user: User }) => {
                 key={role}
                 style={{
                   cursor:
-                    self.id === user.id && role === "Admin"
+                    self?.id === user.id && role === "Admin"
                       ? "auto"
                       : "pointer",
                 }}

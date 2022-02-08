@@ -29,3 +29,21 @@ export const DELETE_CATEGORY = gql`
     deleteCategory(id: $id)
   }
 `;
+
+export const ADD_USER_GROUP = gql`
+  mutation ($name: String!, $mode: String!) {
+    createUserGroup(name: $name, mode: $mode)
+  }
+`;
+
+export const EDIT_USER_GROUP = gql`
+  mutation ($id: Int!, $name: String!, $mode: String!) {
+    editUserGroup(id: $id, name: $name, mode: $mode)
+  }
+`;
+
+export const DELETE_USER_GROUP = gql`
+  mutation ($id: Int!) {
+    deleteUserGroup(id: $id)
+  }
+`;

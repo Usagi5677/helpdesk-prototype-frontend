@@ -8,13 +8,15 @@ import UserContext from "../../contexts/UserContext";
 import Category from "../../models/Category";
 import CategoryList from "../../components/Categories/CategoryList";
 import AddCategory from "../../components/Categories/AddCategory";
+import { useNavigate } from "react-router";
 
 const Categories = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // Redirect to home if not an admin
-  if (!user.isAdmin) {
-    window.location.pathname = "/";
+  if (!user?.isAdmin) {
+    navigate("/");
   }
 
   const [search, setSearch] = useState("");

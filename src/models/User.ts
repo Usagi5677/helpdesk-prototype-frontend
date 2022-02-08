@@ -5,4 +5,6 @@ export default interface User {
   userId: string;
   email: string;
   roles: string[];
+  isAdmin?: boolean;
+  isAgent?: boolean;
 }

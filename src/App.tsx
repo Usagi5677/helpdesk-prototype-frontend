@@ -14,6 +14,7 @@ import qs from "qs";
 import UserContext from "./contexts/UserContext";
 import Users from "./containers/Users/Users";
 import Categories from "./containers/Categories/Categories";
+import UserGroups from "./containers/UserGroups/UserGroups";
 
 const ME_QUERY = gql`
   query {
@@ -139,6 +140,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/view-ticket/:ticketID" element={<ViewTicket />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/usergroups" element={<UserGroups />} />
           </Routes>
         </Layout>
       </ApolloProvider>
