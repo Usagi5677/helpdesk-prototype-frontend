@@ -17,3 +17,15 @@ export const ADD_CATEGORY = gql`
     createCategory(name: $name)
   }
 `;
+
+export const EDIT_CATEGORY = gql`
+  mutation ($id: Int!, $name: String!) {
+    changeCategoryName(id: $id, name: $name)
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation ($id: Int!) {
+    deleteCategory(id: $id)
+  }
+`;

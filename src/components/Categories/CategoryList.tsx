@@ -1,32 +1,27 @@
 import classes from "../Users/UserList.module.css";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
-import { message } from "antd";
+import { Button, message, Popconfirm } from "antd";
 import { useMutation } from "@apollo/client";
-import { REMOVE_USER_ROLE } from "../../api/mutations";
+import { DELETE_CATEGORY } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { useState } from "react";
 import Category from "../../models/Category";
+import EditCategory from "./EditCategory";
+import { FaTrash } from "react-icons/fa";
 
 const CategoryList = ({ category }: { category: Category }) => {
-  const [removingRole, setRemovingRole] = useState("");
-  const [removeUserRole, { loading: removingUserRole }] = useMutation(
-    REMOVE_USER_ROLE,
-    {
-      onCompleted: () => {
-        message.success("Successfully removed category.");
-        setRemovingRole("");
-      },
-      onError: (error) => {
-        errorMessage(error, "Unexpected error while removing category.");
-      },
-      refetchQueries: ["appUsers"],
-    }
-  );
-  const remove = (role: string) => {
-    removeUserRole({
+  const [removeCategory, { loading: deleting }] = useMutation(DELETE_CATEGORY, {
+    onCompleted: () => {
+      message.success("Successfully removed category.");
+    },
+    onError: (error) => {
+      errorMessage(error, "Unexpected error while removing category.");
+    },
+    refetchQueries: ["categories"],
+  });
+  const remove = () => {
+    removeCategory({
       variables: {
-        userId: category.id,
-        role,
+        id: category.id,
       },
     });
   };
@@ -50,39 +45,24 @@ const CategoryList = ({ category }: { category: Category }) => {
           <div style={{ marginLeft: ".5rem" }}>{category.name}</div>
         </div>
         <div>
-          {/* {user.roles.map((role) => (
-            <Popconfirm
-              disabled={
-                (removingUserRole && role === removingRole) ||
-                (self.id === user.id && role === "Admin")
-              }
-              key={role}
-              title={`Do you want to remove ${role} role from ${user.fullName}?`}
-              onConfirm={() => remove(role)}
-              okText="Confirm"
-              cancelText="No"
-              placement="topRight"
-            >
-              <Tag
-                color={
-                  role === "Admin"
-                    ? "magenta"
-                    : role === "Agent"
-                    ? "green"
-                    : "grey"
-                }
-                key={role}
-                style={{
-                  cursor:
-                    self.id === user.id && role === "Admin"
-                      ? "auto"
-                      : "pointer",
-                }}
-              >
-                {role}
-              </Tag>
-            </Popconfirm>
-          ))} */}
+          <EditCategory category={category} />
+          <Popconfirm
+            disabled={deleting}
+            title={`Are you sure to remove this category?`}
+            onConfirm={() => remove()}
+            okText="Confirm"
+            cancelText="No"
+            placement="topRight"
+          >
+            <Button
+              htmlType="button"
+              size="middle"
+              icon={<FaTrash style={{ fontSize: 20, marginRight: -3 }} />}
+              shape="round"
+              style={{ color: "var(--primary)", marginLeft: "1rem" }}
+              loading={deleting}
+            />
+          </Popconfirm>
         </div>
       </div>
     </div>

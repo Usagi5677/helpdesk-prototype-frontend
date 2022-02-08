@@ -2,22 +2,24 @@ import { useMutation } from "@apollo/client";
 import { Button, Col, Form, Input, message, Modal, Row } from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
-import { ADD_CATEGORY } from "../../api/mutations";
+import { EDIT_CATEGORY } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
+import Category from "../../models/Category";
+import { FaEdit } from "react-icons/fa";
 
-const AddCategory = () => {
+const EditCategory = ({ category }: { category: Category }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
-  const [addCategory, { loading: loadingAddCategory }] = useMutation(
-    ADD_CATEGORY,
+  const [editCategory, { loading: loadingEditCategory }] = useMutation(
+    EDIT_CATEGORY,
     {
       onCompleted: () => {
-        message.success("Successfully added category.");
+        message.success("Successfully updated category.");
         handleCancel();
       },
       onError: (error) => {
-        errorMessage(error, "Unexpected error while adding category.");
+        errorMessage(error, "Unexpected error while updating category.");
       },
       refetchQueries: ["categories"],
     }
@@ -29,14 +31,15 @@ const AddCategory = () => {
   };
 
   const onFinish = async (values: any) => {
-    const { category } = values;
-    if (!category) {
-      message.error("Please enter a category.");
+    const { name } = values;
+    if (!name) {
+      message.error("Please enter a category name.");
       return;
     }
-    addCategory({
+    editCategory({
       variables: {
-        name: category,
+        id: category.id,
+        name,
       },
     });
   };
@@ -47,11 +50,11 @@ const AddCategory = () => {
         htmlType="button"
         size="middle"
         onClick={() => setVisible(true)}
-        style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
-        loading={loadingAddCategory}
-      >
-        Add Category
-      </Button>
+        icon={<FaEdit style={{ fontSize: 20, marginRight: -3 }} />}
+        shape="round"
+        style={{ color: "var(--primary)" }}
+        loading={loadingEditCategory}
+      />
       <Modal visible={visible} closable={false} footer={null}>
         <Form
           form={form}
@@ -59,10 +62,11 @@ const AddCategory = () => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
+          initialValues={{ name: category.name }}
         >
           <Form.Item
             label="Category"
-            name="category"
+            name="name"
             required={false}
             rules={[
               {
@@ -90,10 +94,10 @@ const AddCategory = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={loadingAddCategory}
+                  loading={loadingEditCategory}
                   style={{ borderRadius: 20 }}
                 >
-                  Add
+                  Update
                 </Button>
               </Form.Item>
             </Col>
@@ -104,4 +108,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default EditCategory;
