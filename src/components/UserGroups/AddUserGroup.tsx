@@ -60,6 +60,7 @@ const AddUserGroup = () => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
+          initialValues={{ mode: "Public" }}
         >
           <Form.Item
             label="Name"
@@ -75,15 +76,17 @@ const AddUserGroup = () => {
             <Input placeholder="User Group name" />
           </Form.Item>
           <Form.Item label="Mode" name="mode">
-            <Radio.Group
-              defaultValue="Public"
-              buttonStyle="solid"
-              optionType="button"
-            >
+            <Radio.Group buttonStyle="solid" optionType="button">
               <Radio.Button value="Public">Public</Radio.Button>
               <Radio.Button value="Private">Private</Radio.Button>
             </Radio.Group>
           </Form.Item>
+          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
+            <div>Public user groups are visible to all users.</div>
+            <div>
+              Private user groups are only visible to admins and agents.
+            </div>
+          </div>
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>

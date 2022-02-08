@@ -78,6 +78,12 @@ export const USER_GROUPS_QUERY = gql`
           id
           name
           mode
+          users {
+            id
+            rcno
+            fullName
+            userId
+          }
         }
       }
     }

@@ -35,6 +35,10 @@ const EditUserGroup = ({ userGroup }: { userGroup: UserGroup }) => {
       message.error("Please enter a user group name.");
       return;
     }
+    if (mode !== "Public" && mode !== "Private") {
+      message.error("Invalid mode.");
+      return;
+    }
     editUserGroup({
       variables: {
         id: userGroup.id,
@@ -52,7 +56,7 @@ const EditUserGroup = ({ userGroup }: { userGroup: UserGroup }) => {
         onClick={() => setVisible(true)}
         icon={<FaEdit style={{ fontSize: 20, marginRight: -3 }} />}
         shape="round"
-        style={{ color: "var(--primary)", border: "none" }}
+        style={{ color: "var(--primary)", border: "none", marginLeft: "1rem" }}
         loading={loadingEditUserGroup}
       />
       <Modal visible={visible} closable={false} footer={null}>
@@ -83,6 +87,12 @@ const EditUserGroup = ({ userGroup }: { userGroup: UserGroup }) => {
               <Radio.Button value="Private">Private</Radio.Button>
             </Radio.Group>
           </Form.Item>
+          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
+            <div>Public user groups are visible to all users.</div>
+            <div>
+              Private user groups are only visible to admins and agents.
+            </div>
+          </div>
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>

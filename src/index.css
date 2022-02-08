@@ -92,6 +92,7 @@ a {
   --sidebar-text-color: black;
   --sidebar-item-hover-color: rgba(49, 166, 245, 0.2);
   --speed: 500ms;
+  --error: #ff4d4f;
 }
 
 .ant-btn-primary {

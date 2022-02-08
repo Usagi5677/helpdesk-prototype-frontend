@@ -9,6 +9,7 @@ import EditUserGroup from "./EditUserGroup";
 import UserGroup from "../../models/UserGroup";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import ViewUserGroupUsers from "./ViewUserGroupUsers";
 
 const UserGroupList = ({ userGroup }: { userGroup: UserGroup }) => {
   const { user } = useContext(UserContext);
@@ -55,6 +56,7 @@ const UserGroupList = ({ userGroup }: { userGroup: UserGroup }) => {
         </div>
         {user?.isAdmin && (
           <div>
+            <ViewUserGroupUsers userGroup={userGroup} />
             <EditUserGroup userGroup={userGroup} />
             <Popconfirm
               disabled={deleting}
@@ -70,7 +72,7 @@ const UserGroupList = ({ userGroup }: { userGroup: UserGroup }) => {
                 icon={<FaTrash style={{ fontSize: 20 }} />}
                 shape="round"
                 style={{
-                  color: "var(--primary)",
+                  color: "var(--error)",
                   marginLeft: "1rem",
                   border: "none",
                 }}

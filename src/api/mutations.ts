@@ -47,3 +47,15 @@ export const DELETE_USER_GROUP = gql`
     deleteUserGroup(id: $id)
   }
 `;
+
+export const ADD_TO_USER_GROUP = gql`
+  mutation ($userId: String!, $userGroupId: Int!) {
+    addToUserGroup(userId: $userId, userGroupId: $userGroupId)
+  }
+`;
+
+export const REMOVE_FROM_USER_GROUP = gql`
+  mutation ($userId: Int!, $userGroupId: Int!) {
+    removeFromUserGroup(userId: $userId, userGroupId: $userGroupId)
+  }
+`;
