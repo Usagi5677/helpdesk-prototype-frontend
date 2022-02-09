@@ -83,7 +83,6 @@ const ViewTicket = (props: any) => {
   const [isAgentModalVisible, setIsAgentModalVisible] = useState(false);
   const [agentMenuAssignList, setAgentMenuAssignList] = useState<any>([]);
 
-
   const [agentAssignedList, setAgentAssignedList] = useState<any>([]);
 
   /*
@@ -94,7 +93,6 @@ const ViewTicket = (props: any) => {
     return ticket.ticketID === ticketID;
   });
 
- 
   useEffect(() => {
     setAgentAssignedList(
       ticketData[0].agent?.map((agent) => {
@@ -104,8 +102,6 @@ const ViewTicket = (props: any) => {
         };
       })
     );
-
-
 
     //update the agent menu assign list
     setAgentMenuAssignList(
@@ -118,8 +114,6 @@ const ViewTicket = (props: any) => {
     //let groupLength: any = ticketData[0].group?.length;
   }, []);
 
-  
-
   /*
     This is the final step. When clicked it will combine group and agent list
     after that it getting all the unique values by checking id. Then setting it
@@ -127,10 +121,8 @@ const ViewTicket = (props: any) => {
   const onSubmitUpdateAssignList = () => {
     let assignedListArray: any = [];
     for (let index = 0; index < groupMenuAssignList?.length; index++) {
-      let groupValue: any = groupList.find(
-        (group: any) => group.id === groupMenuAssignList[index]
-      );
-  
+      let groupValue: any = groupList.find((group: any) => group.id === groupMenuAssignList[index]);
+
       for (let index2 = 0; index2 < groupValue.agents?.length; index2++) {
         assignedListArray.push({
           id: groupValue.agents[index2].id,
@@ -140,24 +132,18 @@ const ViewTicket = (props: any) => {
     }
 
     for (let index = 0; index < agentMenuAssignList.length; index++) {
-   
-      let agentValue: any = agentList.find(
-        (agent: any) => agent.id === agentMenuAssignList[index]
-      );
+      let agentValue: any = agentList.find((agent: any) => agent.id === agentMenuAssignList[index]);
       assignedListArray.push({
         id: agentValue.id,
         name: agentValue.name,
       });
     }
 
-
-
-    let newUniqueList:any = [];
+    let newUniqueList: any = [];
     assignedListArray.map((assign: any) => {
-      let findAgent = newUniqueList.find((agent:any) => agent.id === assign.id);
+      let findAgent = newUniqueList.find((agent: any) => agent.id === assign.id);
       if (!findAgent) newUniqueList.push(assign);
     });
-
 
     //add to ticket data
     ticketData[0].agent = newUniqueList;
@@ -174,10 +160,6 @@ const ViewTicket = (props: any) => {
     setIsGroupModalVisible(false);
     setIsAgentModalVisible(false);
   };
-
-
-
- 
 
   const onClickOpenCategoryDropdownHandler = () => {
     setCategoryDropdownOpen(!categoryDropdownOpen);
@@ -214,8 +196,6 @@ const ViewTicket = (props: any) => {
     setGroupMenuAssignList(newList.filter((agentID) => agentID !== id));
   };
 
-
-
   const onAgentSelectHandler = (id: any) => {
     const newList = [...agentMenuAssignList];
     newList.push(id);
@@ -226,8 +206,6 @@ const ViewTicket = (props: any) => {
     const newList = [...agentMenuAssignList];
     setAgentMenuAssignList(newList.filter((agentID) => agentID !== id));
   };
-
- 
 
   return (
     <>
@@ -247,6 +225,12 @@ const ViewTicket = (props: any) => {
           onSelect={onGroupSelectHandler}
           onDeselect={onGroupDeSelectHandler}
           allowClear
+          filterOption={(input, option: any) => {
+            return (
+              option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          }}
         >
           {groupList.map((group: any, groupIndex: number) => {
             return (
@@ -274,10 +258,16 @@ const ViewTicket = (props: any) => {
           onDeselect={onAgentDeSelectHandler}
           defaultValue={agentMenuAssignList}
           allowClear
+          filterOption={(input, option: any) => {
+            return (
+              option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+              option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          }}
         >
           {agentList.map((agent: any, agentIndex: number) => {
             return (
-              <Select.Option key={agent.id + agentIndex} value={agent.id}>
+              <Select.Option key={agent.id + agentIndex} value={agent.id} label={agent.name}>
                 {agent.name}
               </Select.Option>
             );
@@ -418,7 +408,11 @@ const ViewTicket = (props: any) => {
                   >
                     {agentAssignedList.map((assignedList: any, assignedListIndex: number) => {
                       return (
-                        <Tooltip title={assignedList.name} placement="bottom" key={assignedListIndex}>
+                        <Tooltip
+                          title={assignedList.name}
+                          placement="bottom"
+                          key={assignedListIndex}
+                        >
                           <Avatar
                             style={{
                               backgroundColor: "red",
