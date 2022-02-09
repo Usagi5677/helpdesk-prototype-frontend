@@ -27,15 +27,22 @@ const Categories = () => {
     },
   });
 
+  // Fetch categories when component mounts
   useEffect(() => {
     getCategories({ variables: { first: 500 } });
   }, []);
 
+  // Filter categories based on the search value. This function will run
+  // whenever search and data changes
   useEffect(() => {
+    // If categories have not been fetched yet, return
     if (!data) return;
+    /// Mapping the fetched data to an array of categories as the data from the
+    // API is in a form optimized for pagination
     const categories = data?.categories.edges.map(
       (c: { node: Category }) => c.node
     );
+    // If search value is empty, all usergroups are shown
     if (search === "") {
       setFiltered(categories);
     } else {

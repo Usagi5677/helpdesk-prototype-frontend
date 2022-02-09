@@ -14,7 +14,7 @@ import { useContext, useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { ADD_TO_USER_GROUP, REMOVE_FROM_USER_GROUP } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { FaListUl, FaMinus, FaMinusCircle, FaTrash } from "react-icons/fa";
+import { FaListUl, FaMinus } from "react-icons/fa";
 import UserGroup from "../../models/UserGroup";
 import SearchAPSUser from "../common/SearchAPS";
 import User from "../../models/User";
@@ -81,8 +81,9 @@ const ViewUserGroupUsers = ({ userGroup }: { userGroup: UserGroup }) => {
         <Typography.Title level={4}>
           User Group: {userGroup.name}
         </Typography.Title>
-
         {self?.isAdmin && (
+          // When a user is selected from the SearchAPSUser component, the
+          // addUser function is run and the SearchAPSUser searchbar is cleared
           <SearchAPSUser
             allowClear={true}
             placeholder="Select employee to add"

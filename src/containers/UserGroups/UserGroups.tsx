@@ -27,15 +27,22 @@ const UserGroups = () => {
     },
   });
 
+  // Fetch user groups when component mounts
   useEffect(() => {
     getUserGroups({ variables: { first: 500 } });
   }, []);
 
+  // Filter user groups based on the search value. This function will run
+  // whenever search and data changes
   useEffect(() => {
+    // If user groups have not been fetched yet, return
     if (!data) return;
+    // Mapping the fetched data to an array of user groups as the data from the
+    // API is in a form optimized for pagination
     const userGroups = data?.userGroups.edges.map(
       (c: { node: UserGroup }) => c.node
     );
+    // If search value is empty, all usergroups are shown
     if (search === "") {
       setFiltered(userGroups);
     } else {

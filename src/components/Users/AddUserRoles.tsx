@@ -71,6 +71,9 @@ const AddUserRoles = () => {
           id="myForm"
         >
           <Form.Item label="Employee" name="employee">
+            {/* As SearchAPSUser component is inside a form, the onChange event 
+            handler does not need to be specifically passed. The selected 
+            employee will automatically be added to the form value */}
             <SearchAPSUser />
           </Form.Item>
           <Row gutter={16}>

@@ -27,12 +27,17 @@ const Users = () => {
     },
   });
 
+  // Fetch users when component mounts
   useEffect(() => {
     getAppUsers();
   }, []);
 
+  // Filter users based on the search value. This function will run whenever
+  // search and data changes
   useEffect(() => {
+    // If users have not been fetched yet, return
     if (!data) return;
+    // If search value is empty, all usergroups are shown
     if (search === "") {
       setFiltered(data?.appUsers);
     } else {
