@@ -20,7 +20,7 @@ const Categories = () => {
   }
 
   const [search, setSearch] = useState("");
-  const [filered, setFiltered] = useState<Category[]>([]);
+  const [filtered, setFiltered] = useState<Category[]>([]);
   const [getCategories, { data, loading }] = useLazyQuery(CATEGORIES_QUERY, {
     onError: (err) => {
       errorMessage(err, "Error loading categories.");
@@ -113,7 +113,7 @@ const Categories = () => {
           <Spin style={{ width: "100%", margin: "0 auto" }} />
         </div>
       )}
-      {filered.map((category: Category) => (
+      {filtered.map((category: Category) => (
         <CategoryList category={category} key={category.id} />
       ))}
     </div>

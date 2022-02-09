@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { APS_USER_FRAGMENT, USER_FRAGMENT } from "./fragments";
+import { APS_USER_FRAGMENT, TICKET_FRAGMENT, USER_FRAGMENT } from "./fragments";
 
 export const APP_USERS_QUERY = gql`
   ${USER_FRAGMENT}
@@ -84,6 +84,48 @@ export const USER_GROUPS_QUERY = gql`
             fullName
             userId
           }
+        }
+      }
+    }
+  }
+`;
+
+export const MY_TICKETS = gql`
+  ${TICKET_FRAGMENT}
+  query myTickets(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $search: String
+    $status: Status
+    $categoryId: Int
+    $priority: Priority
+    $from: Date
+    $to: Date
+  ) {
+    myTickets(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      search: $search
+      categoryId: $categoryId
+      priority: $priority
+      status: $status
+      from: $from
+      to: $to
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        count
+      }
+      edges {
+        node {
+          ...TicketFields
         }
       }
     }

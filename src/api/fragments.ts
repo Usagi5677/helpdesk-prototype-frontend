@@ -17,3 +17,23 @@ export const APS_USER_FRAGMENT = gql`
     rcno
   }
 `;
+
+export const TICKET_FRAGMENT = gql`
+  ${USER_FRAGMENT}
+  fragment TicketFields on Ticket {
+    id
+    createdAt
+    createdBy {
+      ...UserFields
+      email
+    }
+    status
+    title
+    body
+    priority
+    categories {
+      id
+      name
+    }
+  }
+`;

@@ -59,3 +59,9 @@ export const REMOVE_FROM_USER_GROUP = gql`
     removeFromUserGroup(userId: $userId, userGroupId: $userGroupId)
   }
 `;
+
+export const CREATE_TICKET = gql`
+  mutation ($title: String!, $body: String!) {
+    createTicket(title: $title, body: $body)
+  }
+`;
