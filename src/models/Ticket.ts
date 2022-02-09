@@ -13,4 +13,5 @@ export default interface Ticket {
   started: boolean;
   priority?: String;
   categories: Category[];
+  agents: User[];
 }

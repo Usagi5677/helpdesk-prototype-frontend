@@ -1,6 +1,5 @@
 import classes from "../Users/UserList.module.css";
-import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
-import { Button, message, Popconfirm } from "antd";
+import { Button, message, Popconfirm, Tag } from "antd";
 import { useMutation } from "@apollo/client";
 import { DELETE_CATEGORY } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
@@ -9,6 +8,7 @@ import EditCategory from "./EditCategory";
 import { FaTrash } from "react-icons/fa";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { stringToColor } from "../../helpers/style";
 
 const CategoryList = ({ category }: { category: Category }) => {
   const { user } = useContext(UserContext);
@@ -38,14 +38,10 @@ const CategoryList = ({ category }: { category: Category }) => {
           lineHeight: 2,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <DefaultAvatar
-            fullname={category.name}
-            userAvatarWidth={"36px"}
-            userAvatarHeight={"36px"}
-            showAgentList={false}
-          />
-          <div style={{ marginLeft: ".5rem" }}>{category.name}</div>
+        <div
+          style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}
+        >
+          <Tag color={stringToColor(category.name)}>{category.name}</Tag>
         </div>
         {user?.isAdmin && (
           <div>

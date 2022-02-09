@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
+import User from "../../../models/User";
 
 const DefaultAvatarAssignList = styled.div<any>`
   background-color: white;
@@ -17,9 +18,11 @@ const DefaultAvatarAssignList = styled.div<any>`
 
 const DefaultAvatarWrapper = styled.div<any>`
   width: ${(props) => (props.userAvatarWidth ? props.userAvatarWidth : "30px")};
-  height: ${(props) => (props.userAvatarHeight ? props.userAvatarHeight : "30px")};
+  height: ${(props) =>
+    props.userAvatarHeight ? props.userAvatarHeight : "30px"};
   border-radius: ${(props) => (props.squareShaped ? "6px" : "50%")};
-  background-color: ${(props) => props.colors[props.colorValue].backgroundColor};
+  background-color: ${(props) =>
+    props.colors[props.colorValue].backgroundColor};
   color: ${(props) => props.colors[props.colorValue].color};
   margin-right: ${(props) => (props.fromSiderBar ? "0" : "2px")};
   position: relative;
@@ -192,8 +195,8 @@ const DefaultAvatar = (props: any) => {
       {props.showAgentList ? (
         <DefaultAvatarAssignList>
           {props.moreThan && props.moreThan.length > 0
-            ? props.moreThan.map((agentValue: any, index: number) => {
-                return <div key={props.ticketID + index}>{agentValue.name}</div>;
+            ? props.moreThan.map((agent: User) => {
+                return <div key={agent.id}>{agent.fullName}</div>;
               })
             : props.agentList}
         </DefaultAvatarAssignList>

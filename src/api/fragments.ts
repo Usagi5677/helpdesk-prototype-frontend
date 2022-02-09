@@ -1,5 +1,15 @@
 import { gql } from "@apollo/client";
 
+export const PAGE_INFO = gql`
+  fragment PageInfoField on PageInfo {
+    endCursor
+    hasNextPage
+    hasPreviousPage
+    startCursor
+    count
+  }
+`;
+
 export const USER_FRAGMENT = gql`
   fragment UserFields on User {
     id
@@ -18,8 +28,16 @@ export const APS_USER_FRAGMENT = gql`
   }
 `;
 
+export const CATEGORIES_FRAGMENT = gql`
+  fragment CategoryFields on Category {
+    id
+    name
+  }
+`;
+
 export const TICKET_FRAGMENT = gql`
   ${USER_FRAGMENT}
+  ${CATEGORIES_FRAGMENT}
   fragment TicketFields on Ticket {
     id
     createdAt
@@ -32,8 +50,10 @@ export const TICKET_FRAGMENT = gql`
     body
     priority
     categories {
-      id
-      name
+      ...CategoryFields
+    }
+    agents {
+      ...UserFields
     }
   }
 `;

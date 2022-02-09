@@ -1,5 +1,10 @@
 import { gql } from "@apollo/client";
-import { APS_USER_FRAGMENT, TICKET_FRAGMENT, USER_FRAGMENT } from "./fragments";
+import {
+  APS_USER_FRAGMENT,
+  CATEGORIES_FRAGMENT,
+  TICKET_FRAGMENT,
+  USER_FRAGMENT,
+} from "./fragments";
 
 export const APP_USERS_QUERY = gql`
   ${USER_FRAGMENT}
@@ -20,6 +25,7 @@ export const SEARCH_APS_QUERY = gql`
 `;
 
 export const CATEGORIES_QUERY = gql`
+  ${CATEGORIES_FRAGMENT}
   query categories(
     $after: String
     $before: String
@@ -43,8 +49,7 @@ export const CATEGORIES_QUERY = gql`
       }
       edges {
         node {
-          id
-          name
+          ...CategoryFields
         }
       }
     }
@@ -99,7 +104,7 @@ export const MY_TICKETS = gql`
     $last: Int
     $search: String
     $status: Status
-    $categoryId: Int
+    $categoryIds: [Int!]
     $priority: Priority
     $from: Date
     $to: Date
@@ -110,7 +115,7 @@ export const MY_TICKETS = gql`
       first: $first
       last: $last
       search: $search
-      categoryId: $categoryId
+      categoryIds: $categoryIds
       priority: $priority
       status: $status
       from: $from

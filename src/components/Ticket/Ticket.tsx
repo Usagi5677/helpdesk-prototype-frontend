@@ -4,11 +4,14 @@ import StatusTag from ".././UI/StatusTag/StatusTag";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
+import User from "../../models/User";
+import { Tag } from "antd";
+import { stringToColor } from "../../helpers/style";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   let statusTag;
   switch (ticket.status) {
-    case "open":
+    case "Open":
       statusTag = (
         <StatusTag
           name={ticket.status}
@@ -19,7 +22,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         />
       );
       break;
-    case "pending":
+    case "Pending":
       statusTag = (
         <StatusTag
           name={ticket.status}
@@ -30,7 +33,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         />
       );
       break;
-    case "solved":
+    case "Solved":
       statusTag = (
         <StatusTag
           name={ticket.status}
@@ -41,7 +44,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         />
       );
       break;
-    case "closed":
+    case "Closed":
       statusTag = (
         <StatusTag
           name={ticket.status}
@@ -52,10 +55,21 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         />
       );
       break;
-    case "unassigned":
+    case "Reopened":
       statusTag = (
         <StatusTag
           name={ticket.status}
+          bgColor={"rgba(0, 241, 255, 0.2)"}
+          fontColor={"rgb(0, 160, 161)"}
+          bgHover={"rgb(0, 183, 255)"}
+          fontHover={"white"}
+        />
+      );
+      break;
+    default:
+      statusTag = (
+        <StatusTag
+          name="Unassigned"
           bgColor={"rgba(0, 183, 255, 0.2)"}
           fontColor={"rgb(0, 115, 161)"}
           bgHover={"rgb(0, 183, 255)"}
@@ -63,15 +77,12 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         />
       );
       break;
-    default:
-      break;
   }
 
-  // let moreThanThreeAssign: any;
-  // if (ticket.agent.length > 2) {
-  //   moreThanThreeAssign = ticket.agent.slice(3, ticket.agent.length);
-  // }
-  // console.log(moreThanThreeAssign);
+  let moreThanThreeAssign: any;
+  if (ticket.agents.length > 2) {
+    moreThanThreeAssign = ticket.agents.slice(3, ticket.agents.length);
+  }
 
   return (
     <div className={classes["my-tickets-wrapper"]}>
@@ -180,14 +191,23 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                     ]
                   }
                 >
-                  Category
+                  Categories
                 </div>
                 <div
                   className={
                     classes["my-tickets-wrapper__ticket-details__category-type"]
                   }
                 >
-                  {ticket.categories[0]}
+                  {/* {ticket.categories.map((c) => c.name).join(", ")} */}
+                  {ticket.categories.map((category) => (
+                    <Tag
+                      style={{ padding: "0px 4px 0px 4px" }}
+                      key={category.id}
+                      color={stringToColor(category.name)}
+                    >
+                      {category.name}
+                    </Tag>
+                  ))}
                 </div>
               </div>
               <div
@@ -230,9 +250,9 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                     classes["my-tickets-wrapper__ticket-details__agent-title"]
                   }
                 >
-                  Agent
+                  Agents
                 </div>
-                {/* {ticket.agent && ticket.agent.length > 1 ? (
+                {ticket.agents.length > 1 ? (
                   <div
                     className={
                       classes[
@@ -240,36 +260,36 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                       ]
                     }
                   >
-                    {ticket.agent.map((agentValue: any, index: number) => {
+                    {ticket.agents.map((agent: User, index: number) => {
                       if (index === 3) {
                         return (
                           <DefaultAvatar
-                            key={ticket.ticketID + index}
-                            fullname={agentValue.name}
+                            key={agent.id}
+                            fullname={agent.fullName}
                             moreThan={moreThanThreeAssign}
-                            ticketID={ticket.ticketID}
+                            ticketID={ticket.id}
                             showAgentList={true}
                           />
                         );
                       } else if (index >= 0 && index < 3) {
                         return (
                           <DefaultAvatar
-                            key={ticket.ticketID + index}
-                            fullname={agentValue.name}
-                            agentList={agentValue.name}
+                            key={agent.id}
+                            fullname={agent.fullName}
+                            agentList={agent.fullName}
                             showAgentList={true}
                           />
                         );
                       } else return null;
                     })}
                   </div>
-                ) : ticket.agent && ticket.agent.length === 1 ? (
+                ) : ticket.agents.length === 1 ? (
                   <div
                     className={
                       classes["my-tickets-wrapper__ticket-details__agent-name"]
                     }
                   >
-                    {ticket.agent[0].name}
+                    {ticket.agents[0].fullName}
                   </div>
                 ) : (
                   <div
@@ -279,7 +299,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                   >
                     Unassigned
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           </div>
