@@ -109,6 +109,11 @@ a {
   border-radius: 20px !important;
 }
 
+.ant-modal-header {
+  border-top-right-radius: 20px !important;
+  border-top-left-radius: 20px !important;
+}
+
 .ant-popover-inner {
   border-radius: 20px !important;
 }

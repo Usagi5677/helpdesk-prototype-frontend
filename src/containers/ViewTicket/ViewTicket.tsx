@@ -85,7 +85,6 @@ const priorityList = [
 const ViewTicket = (props: any) => {
   const { ticketID } = useParams();
 
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [categorySelected, setCategorySelected] = useState("Choose Category");
   const [prioritySelected, setPrioritySelected] = useState("Choose Priority");
   const [isGroupModalVisible, setIsGroupModalVisible] = useState(false);
