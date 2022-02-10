@@ -5,3 +5,9 @@ export enum Status {
   Solved = "Solved",
   Reopened = "Reopened",
 }
+
+export enum Priority {
+  High = "High",
+  Normal = "Normal",
+  Low = "Low",
+}

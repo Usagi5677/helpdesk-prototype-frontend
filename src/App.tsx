@@ -137,7 +137,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/my-tickets" element={<MyTickets />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
-            <Route path="/ticket/:ticketID" element={<ViewTicket />} />
+            <Route path="/ticket/:id" element={<ViewTicket />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/users" element={<Users />} />
             <Route path="/usergroups" element={<UserGroups />} />

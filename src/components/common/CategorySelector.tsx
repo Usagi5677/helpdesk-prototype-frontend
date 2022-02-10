@@ -6,8 +6,12 @@ import Category from "../../models/Category";
 
 const CategorySelector = ({
   onChange,
+  minWidth,
+  marginLeft,
 }: {
   onChange?: (val: number[]) => void;
+  minWidth?: number;
+  marginLeft?: string;
 }) => {
   const { data, loading } = useQuery(CATEGORIES_QUERY, {
     variables: { first: 500 },
@@ -39,7 +43,7 @@ const CategorySelector = ({
         border: "1px solid #ccc",
         borderRadius: 20,
         padding: "1px 5px 1px 5px",
-        marginLeft: "1rem",
+        marginLeft,
         alignItems: "center",
       }}
     >
@@ -48,7 +52,7 @@ const CategorySelector = ({
         showArrow
         loading={loading}
         tagRender={tagRender}
-        style={{ minWidth: 179 }}
+        style={{ minWidth: minWidth ?? "100%" }}
         bordered={false}
         options={data?.categories.edges.map((c: { node: Category }) => ({
           value: c.node.id,

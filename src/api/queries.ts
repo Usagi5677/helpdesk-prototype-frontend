@@ -136,3 +136,23 @@ export const MY_TICKETS = gql`
     }
   }
 `;
+
+export const HAS_TICKET_ACCESS = gql`
+  query hasTicketAccess($ticketId: Int!) {
+    hasTicketAccess(ticketId: $ticketId)
+  }
+`;
+
+export const TICKET = gql`
+  ${TICKET_FRAGMENT}
+  query ticket($ticketId: Int!) {
+    ticket(ticketId: $ticketId) {
+      ...TicketFields
+      followers {
+        id
+        rcno
+        fullName
+      }
+    }
+  }
+`;

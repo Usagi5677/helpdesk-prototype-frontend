@@ -96,7 +96,8 @@
   color: rgb(85, 84, 84);
   margin: 10px 10px 10px 0;
 }
-.view-ticket-container .view-ticket-information-wrapper__priority-wrapper__select-wrapper {
+.view-ticket-container
+  .view-ticket-information-wrapper__priority-wrapper__select-wrapper {
   width: 50%;
   box-sizing: border-box;
   background-color: white;
@@ -206,9 +207,6 @@
   border-bottom: 2px solid #ccc;
 }
 
-
-
-
 .view-ticket-information-wrapper__group-wrapper__heading {
   display: flex;
   justify-content: space-between;
@@ -221,12 +219,6 @@
   cursor: pointer;
 }
 
-
-
-
-
-
-
 .view-ticket-information-wrapper__agent-wrapper__heading {
   display: flex;
   justify-content: space-between;
@@ -238,15 +230,9 @@
   cursor: pointer;
 }
 
-
-
-
-
-
-
 .agent-wrapper__change-option-wrapper__assigned-wrapper {
   padding: 0 20px;
-  
+
   display: flex;
   align-items: center;
   height: 0;
@@ -258,13 +244,11 @@
   margin-bottom: 10px;
 }
 
-
-
-
 .view-ticket-container .category-wrapper__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 5px;
 }
 .view-ticket-container .category-wrapper__title {
   color: rgb(85, 84, 84);
@@ -278,9 +262,9 @@
 
 .view-ticket-container .category-wrapper__category-list {
   display: grid;
-  grid-template-columns: repeat( auto-fit, minmax(80px, 1fr) );
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   grid-template-columns: 1fr 1fr;
-  grid-gap: 4px
+  grid-gap: 4px;
 }
 
 @media only screen and (min-width: 600px) {
@@ -291,21 +275,20 @@
   .view-ticket-container .view-ticket-container__view-ticket-details-wrapper {
     display: grid;
     grid-template-areas: "history information";
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     justify-content: space-between;
     margin-top: 20px;
     grid-gap: 20px;
   }
-  .view-ticket-container .view-ticket-container__view-ticket-information-wrapper {
+  .view-ticket-container
+    .view-ticket-container__view-ticket-information-wrapper {
     margin-top: 0;
     grid-area: information;
-
   }
   .view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
     min-height: 400px;
     margin: 0 10px 0 0;
     grid-area: history;
-    
   }
   .view-ticket-container .view-ticket-wrapper__tab-wrapper_tab {
     font-size: 0.875rem;
@@ -323,7 +306,8 @@
   .view-ticket-container .view-ticket-container__view-ticket-details-wrapper {
     display: block;
   }
-  .view-ticket-container .view-ticket-container__view-ticket-information-wrapper {
+  .view-ticket-container
+    .view-ticket-container__view-ticket-information-wrapper {
     margin-left: 20px;
     margin-top: 0;
   }

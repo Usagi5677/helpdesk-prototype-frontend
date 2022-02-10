@@ -65,3 +65,15 @@ export const CREATE_TICKET = gql`
     createTicket(title: $title, body: $body)
   }
 `;
+
+export const ADD_TICKET_CATEGORY = gql`
+  mutation ($ticketId: Int!, $categoryId: Int!) {
+    addTicketCategory(ticketId: $ticketId, categoryId: $categoryId)
+  }
+`;
+
+export const REMOVE_TICKET_CATEGORY = gql`
+  mutation ($ticketId: Int!, $categoryId: Int!) {
+    removeTicketCategory(ticketId: $ticketId, categoryId: $categoryId)
+  }
+`;

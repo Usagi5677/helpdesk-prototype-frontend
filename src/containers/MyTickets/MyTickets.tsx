@@ -106,6 +106,8 @@ const MyTickets = () => {
           />
           <CategorySelector
             onChange={(categoryIds) => setFilter({ ...filter, categoryIds })}
+            minWidth={179}
+            marginLeft="1rem"
           />
           <StatusSelector
             onChange={(status) => setFilter({ ...filter, status })}
