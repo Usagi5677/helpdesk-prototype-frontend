@@ -1,4 +1,3 @@
-import { FaSearch, FaPlus, FaTimes } from "react-icons/fa";
 import classes from "./MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
 import { Link } from "react-router-dom";
@@ -8,22 +7,32 @@ import { useLazyQuery } from "@apollo/client";
 import { MY_TICKETS } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import TicketModel from "../../models/Ticket";
+import PaginationArgs from "../../models/PaginationArgs";
 import { PAGE_LIMIT } from "../../helpers/constants";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
 import CategorySelector from "../../components/common/CategorySelector";
 import Search from "../../components/common/Search";
+import { Status } from "../../models/Enums";
+import StatusSelector from "../../components/common/StatusSelector";
+import PaginationButtons from "../../components/common/PaginationButtons";
 
 const MyTickets = () => {
+  const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState<{
-    search: string;
-    first: number;
-    categoryIds: number[];
-  }>({
-    search: "",
+
+  // Filter has an intersection type as it has PaginationArgs + other args
+  const [filter, setFilter] = useState<
+    PaginationArgs & {
+      search: string;
+      categoryIds: number[];
+      status: Status | null;
+    }
+  >({
     first: PAGE_LIMIT,
+    search: "",
     categoryIds: [],
+    status: null,
   });
 
   const [getMyTickets, { data, loading }] = useLazyQuery(MY_TICKETS, {
@@ -48,6 +57,31 @@ const MyTickets = () => {
     setTimerId(setTimeout(() => setFilter({ ...filter, search: value }), 500));
   };
 
+  // Pagination functions
+  const next = () => {
+    setFilter({
+      ...filter,
+      first: PAGE_LIMIT,
+      after: pageInfo.endCursor,
+      last: null,
+      before: null,
+    });
+    setPage(page + 1);
+  };
+
+  const back = () => {
+    setFilter({
+      ...filter,
+      last: PAGE_LIMIT,
+      before: pageInfo.startCursor,
+      first: null,
+      after: null,
+    });
+    setPage(page - 1);
+  };
+
+  const pageInfo = data?.myTickets.pageInfo ?? {};
+
   return (
     <div className={classes["my-tickets-container"]}>
       <div
@@ -66,14 +100,13 @@ const MyTickets = () => {
           <CategorySelector
             onChange={(categoryIds) => setFilter({ ...filter, categoryIds })}
           />
+          <StatusSelector
+            onChange={(status) => setFilter({ ...filter, status })}
+          />
         </div>
         <div>
           <NewTicket />
         </div>
-        {/* <button className={classes["my-tickets-options-wrapper__filter"]}>
-          <FaPlus />
-          <span>Filter</span>
-        </button> */}
       </div>
       {loading && (
         <div>
@@ -88,6 +121,12 @@ const MyTickets = () => {
           </Link>
         );
       })}
+      <PaginationButtons
+        pageInfo={pageInfo}
+        page={page}
+        next={next}
+        back={back}
+      />
     </div>
   );
 };
