@@ -7,7 +7,7 @@ interface Ticket {
   ticketID: string;
   ticketTitle: string;
   ticketDescription?: string;
-  category: string;
+  category?: any[];
   priority?: string;
   //group?: any[];
   agent?: any[];
@@ -24,7 +24,7 @@ export const MyTicketData: Ticket[] = [
     contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change password",
-    category: "Problem",
+    category: [{ id: "C1", name: "ProblemOne" }],
     priority: "Medium",
     /*
     group: [
@@ -54,7 +54,7 @@ export const MyTicketData: Ticket[] = [
     contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change account",
-    category: "Problem",
+    category: [{ id: "C2", name: "ProblemTwo" }],
     priority: "High",
     /*
     group: [
@@ -82,7 +82,7 @@ export const MyTicketData: Ticket[] = [
     contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change mouse",
-    category: "Problem",
+    category: [],
     priority: "Low",
     /*
     group: [],
@@ -99,7 +99,7 @@ export const MyTicketData: Ticket[] = [
     contactNumber: "7777767",
     createdDate: "01/01/2022",
     ticketTitle: "Change keyboard",
-    category: "Problem",
+    category: [],
     priority: "Low",
     /*
     group: [{ id: "G6", name: "EGroup" }],

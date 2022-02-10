@@ -123,7 +123,7 @@ const MyTickets = () => {
       {data?.myTickets.edges.map((rec: { node: TicketModel }) => {
         const ticket = rec.node;
         return (
-          <Link to={"/view-ticket/" + ticket.id} key={ticket.id}>
+          <Link to={"/ticket/" + ticket.id} key={ticket.id}>
             <Ticket ticket={ticket} />
           </Link>
         );
