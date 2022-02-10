@@ -1,11 +1,13 @@
-import { FaChevronDown, FaArrowLeft, FaTimes, FaSearch } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useParams } from "react-router";
 import classes from "./ViewTicket.module.css";
-import DefaultAvatar from "../../components/UI/DefaultAvatar/DefaultAvatar";
+
 import { MyTicketData } from "../MyTickets/MyTicketsData";
 import { useEffect, useState } from "react";
-import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import { Select, Avatar, Modal, Tooltip } from "antd";
+
+import { Select, Avatar, Modal, Tooltip, Tag } from "antd";
+import { avatarColor } from "../../helpers/avatarColor";
+import { stringToColor } from "../../helpers/style";
 
 /*
   List used for assigning
@@ -65,11 +67,11 @@ const agentList = [
   List used for assigning categories
 */
 const categoryList = [
-  { id: "C1", name: "Problem1" },
-  { id: "C2", name: "Problem2" },
-  { id: "C3", name: "Problem3" },
-  { id: "C4", name: "Problem4" },
-  { id: "C5", name: "Problem5" },
+  { id: "C1", name: "ProblemOne" },
+  { id: "C2", name: "ProblemTwo" },
+  { id: "C3", name: "ProblemThree" },
+  { id: "C4", name: "ProblemFour" },
+  { id: "C5", name: "ProblemFive" },
 ];
 
 /*
@@ -85,15 +87,18 @@ const priorityList = [
 const ViewTicket = (props: any) => {
   const { ticketID } = useParams();
 
-  const [categorySelected, setCategorySelected] = useState("Choose Category");
   const [prioritySelected, setPrioritySelected] = useState("Choose Priority");
-  const [isGroupModalVisible, setIsGroupModalVisible] = useState(false);
+
   const [groupMenuAssignList, setGroupMenuAssignList] = useState<any>([]);
-  const [isAgentModalVisible, setIsAgentModalVisible] = useState(false);
   const [agentMenuAssignList, setAgentMenuAssignList] = useState<any>([]);
+  const [categoriesList, setCategoriesList] = useState<any>([]);
+
+  const [isGroupModalVisible, setIsGroupModalVisible] = useState(false);
+  const [isAgentModalVisible, setIsAgentModalVisible] = useState(false);
+  const [isCategoryModalVisible, setIsCategoryModalVisible] = useState(false);
 
   const [agentAssignedList, setAgentAssignedList] = useState<any>([]);
-
+  const [categoriesAssignedList, setCategoriesAssignedList] = useState<any>([]);
   /*
     Used param state to get id from url
     using filter on ticket data file to return ticket data of ticket id
@@ -112,10 +117,27 @@ const ViewTicket = (props: any) => {
       })
     );
 
+
+    setCategoriesAssignedList(
+      ticketData[0].category?.map((category) => {
+        return {
+          id: category.id,
+          name: category.name,
+        };
+      })
+    );
+
     //update the agent menu assign list
     setAgentMenuAssignList(
       ticketData[0].agent?.map((agent) => {
         return agent.id;
+      })
+    );
+
+    //update the category menu assign list
+    setCategoriesList(
+      ticketData[0].category?.map((category) => {
+        return category.id;
       })
     );
 
@@ -170,9 +192,34 @@ const ViewTicket = (props: any) => {
     setIsAgentModalVisible(false);
   };
 
-  const onChangeSelectCategoryHandler = (id: any) => {
-    setCategorySelected(id);
-    ticketData[0].category = id;
+  
+
+  const onSubmitUpdateCategoryList = (id: any) => {
+    let assignedListArray: any = [];
+
+    for (let index = 0; index < categoriesList?.length; index++) {
+      let categoryValue: any = categoryList.find(
+        (category: any) => category.id === categoriesList[index]
+      );
+ 
+      assignedListArray.push({
+        id: categoryValue.id,
+        name: categoryValue.name,
+      });
+    }
+
+    let newUniqueList: any = [];
+    assignedListArray.map((assign: any) => {
+      let findCategory = newUniqueList.find((category: any) => category.id === assign.id);
+      if (!findCategory) newUniqueList.push(assign);
+    });
+
+    //add to ticket data
+    ticketData[0].category = newUniqueList;
+    //setCategoriesList(newUniqueList);
+    setCategoriesAssignedList(newUniqueList);
+
+    setIsCategoryModalVisible(false);
   };
 
   const onChangeSelectPriorityHandler = (id: any) => {
@@ -180,6 +227,7 @@ const ViewTicket = (props: any) => {
     ticketData[0].priority = id;
   };
 
+  //show modal
   const showGroupModal = () => {
     setGroupMenuAssignList([]);
     setIsGroupModalVisible(true);
@@ -187,34 +235,55 @@ const ViewTicket = (props: any) => {
   const showAgentModal = () => {
     setIsAgentModalVisible(true);
   };
+  const showCategoryModal = () => {
+    setIsCategoryModalVisible(true);
+  };
 
+  //close modal
   const closeGroupModal = () => {
     setIsGroupModalVisible(false);
   };
   const closeAgentModal = () => {
     setIsAgentModalVisible(false);
   };
+  const closeCategoryModal = () => {
+    setIsCategoryModalVisible(false);
+  };
 
-  const onGroupSelectHandler = (id: any) => {
+  //group
+  const onSelectGroupHandler = (id: any) => {
     const newList = [...groupMenuAssignList];
     newList.push(id);
     setGroupMenuAssignList(newList);
   };
 
-  const onGroupDeSelectHandler = (id: any) => {
+  const onDeSelectGroupHandler = (id: any) => {
     const newList = [...groupMenuAssignList];
     setGroupMenuAssignList(newList.filter((agentID) => agentID !== id));
   };
 
-  const onAgentSelectHandler = (id: any) => {
+  //agent
+  const onSelectAgentHandler = (id: any) => {
     const newList = [...agentMenuAssignList];
     newList.push(id);
     setAgentMenuAssignList(newList);
   };
 
-  const onAgentDeSelectHandler = (id: any) => {
+  const onDeSelectAgentHandler = (id: any) => {
     const newList = [...agentMenuAssignList];
     setAgentMenuAssignList(newList.filter((agentID) => agentID !== id));
+  };
+
+  //category
+  const onSelectCategoryHandler = (id: any) => {
+    const newList = [...categoriesList];
+    newList.push(id);
+    setCategoriesList(newList);
+  };
+
+  const onDeSelectCategoryHandler = (id: any) => {
+    const newList = [...categoriesList];
+    setCategoriesList(newList.filter((categoryID) => categoryID !== id));
   };
 
   return (
@@ -232,8 +301,8 @@ const ViewTicket = (props: any) => {
             width: "100%",
           }}
           placeholder="Select"
-          onSelect={onGroupSelectHandler}
-          onDeselect={onGroupDeSelectHandler}
+          onSelect={onSelectGroupHandler}
+          onDeselect={onDeSelectGroupHandler}
           allowClear
           filterOption={(input, option: any) => {
             return (
@@ -264,8 +333,8 @@ const ViewTicket = (props: any) => {
             width: "100%",
           }}
           placeholder="Select"
-          onSelect={onAgentSelectHandler}
-          onDeselect={onAgentDeSelectHandler}
+          onSelect={onSelectAgentHandler}
+          onDeselect={onDeSelectAgentHandler}
           defaultValue={agentMenuAssignList}
           allowClear
           filterOption={(input, option: any) => {
@@ -285,6 +354,32 @@ const ViewTicket = (props: any) => {
         </Select>
       </Modal>
 
+      <Modal
+        title="Category Assign"
+        visible={isCategoryModalVisible}
+        onOk={onSubmitUpdateCategoryList}
+        onCancel={closeCategoryModal}
+      >
+        <Select
+         
+          style={{
+            width: "100%",
+          }}
+          mode="multiple"
+          placeholder="Select"
+          onSelect={onSelectCategoryHandler}
+          onDeselect={onDeSelectCategoryHandler}
+          defaultValue={categoriesList}
+        >
+          {categoryList.map((category:any, categoryIndex) => {
+            return (
+              <Select.Option key={category.id} value={category.id}>
+                {category.name}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Modal>
       <div className={classes["view-ticket-container"]}>
         <div className={classes["view-ticket-container__view-ticket-wrapper"]}>
           <div className={classes["view-ticket-wrapper__header"]}>
@@ -318,7 +413,8 @@ const ViewTicket = (props: any) => {
                 style={{
                   width: "100%",
                 }}
-                onChange={onChangeSelectPriorityHandler}>
+                onChange={onChangeSelectPriorityHandler}
+              >
                 {priorityList.map((priority) => {
                   return (
                     <Select.Option key={priority.id} value={priority.id}>
@@ -329,24 +425,6 @@ const ViewTicket = (props: any) => {
               </Select>
             </div>
 
-            <div className={classes["view-ticket-information-wrapper__category-wrapper"]}>
-              <div className={classes["category-wrapper__title"]}>Category:</div>
-              <Select
-                defaultValue={categorySelected}
-                style={{
-                  width: "100%",
-                }}
-                onChange={onChangeSelectCategoryHandler}
-              >
-                {categoryList.map((category) => {
-                  return (
-                    <Select.Option key={category.id} value={category.id}>
-                      {category.name}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </div>
             <div className={classes["view-ticket-information-wrapper__rating"]}>
               Rating: <span>Not Rated</span>
             </div>
@@ -357,6 +435,35 @@ const ViewTicket = (props: any) => {
               Last message: <span>01/01/2022</span>
             </div>
 
+            <div className={classes["view-ticket-information-wrapper__category-wrapper"]}>
+              <div className={classes["category-wrapper__header"]}>
+                <div className={classes["category-wrapper__title"]}>Category</div>
+                <div
+                  className={classes["category-wrapper__change-option-btn"]}
+                  onClick={showCategoryModal}
+                >
+                  Change
+                </div>
+              </div>
+            </div>
+            <div className={classes["category-wrapper__category-list"]}>
+            {ticketData[0].category && ticketData[0].category.length > 0 ? (
+              categoriesAssignedList.map((category: any, categoryIndex: any) => {
+                return (
+                  <Tag
+                    style={{padding: "0px 4px 0px 4px", textAlign:"center"}}
+                    key={category.id + categoryIndex}
+                    color={stringToColor(category.name)}
+                  >
+                    {category.name}
+                  </Tag>
+                );
+              })
+            ) : (
+              <div>Unassigned</div>
+            )}
+              
+            </div>
             <div className={classes["view-ticket-information-wrapper__group-wrapper"]}>
               <div className={classes["view-ticket-information-wrapper__group-wrapper__heading"]}>
                 <div className={classes["view-ticket-information-wrapper__group-wrapper__title"]}>
@@ -404,7 +511,8 @@ const ViewTicket = (props: any) => {
                         >
                           <Avatar
                             style={{
-                              backgroundColor: "red",
+                              backgroundColor: avatarColor(assignedList.name).backgroundColor,
+                              color: avatarColor(assignedList.name).color,
                             }}
                           >
                             {assignedList.name

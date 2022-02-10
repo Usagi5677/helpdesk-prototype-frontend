@@ -40,7 +40,7 @@ const CreateTicket = () => {
       createdDate: "01/01/2022",
       ticketTitle: `${createTicketForm.title}`,
       ticketDescription: `${createTicketForm.description}`,
-      category: `${createTicketForm.category}`,
+      category: [`${createTicketForm.category}`],
       priority: "Low",
       //group: ["Software"],
       agent: ["Unassigned"],
