@@ -72,12 +72,21 @@ const categoryList = [
   { id: "C5", name: "Problem5" },
 ];
 
+/*
+  List used for assigning priority
+*/
+const priorityList = [
+  { id: "P1", name: "Low" },
+  { id: "P2", name: "Medium" },
+  { id: "P3", name: "High" },
+  { id: "p4", name: "Urgent" },
+];
+
 const ViewTicket = (props: any) => {
   const { ticketID } = useParams();
 
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [categorySelected, setCategorySelected] = useState("Choose category");
-
+  const [categorySelected, setCategorySelected] = useState("Choose Category");
+  const [prioritySelected, setPrioritySelected] = useState("Choose Priority");
   const [isGroupModalVisible, setIsGroupModalVisible] = useState(false);
   const [groupMenuAssignList, setGroupMenuAssignList] = useState<any>([]);
   const [isAgentModalVisible, setIsAgentModalVisible] = useState(false);
@@ -161,13 +170,14 @@ const ViewTicket = (props: any) => {
     setIsAgentModalVisible(false);
   };
 
-  const onClickOpenCategoryDropdownHandler = () => {
-    setCategoryDropdownOpen(!categoryDropdownOpen);
+  const onChangeSelectCategoryHandler = (id: any) => {
+    setCategorySelected(id);
+    ticketData[0].category = id;
   };
 
-  const onClickSelectCategoryHandler = (event: any, value: any) => {
-    setCategorySelected(value);
-    ticketData[0].category = value;
+  const onChangeSelectPriorityHandler = (id: any) => {
+    setPrioritySelected(id);
+    ticketData[0].priority = id;
   };
 
   const showGroupModal = () => {
@@ -303,60 +313,39 @@ const ViewTicket = (props: any) => {
               <div className={classes["view-ticket-information-wrapper__priority-wrapper__title"]}>
                 Priority:
               </div>
-              <div
-                className={
-                  classes["view-ticket-information-wrapper__priority-wrapper__select-wrapper"]
-                }
-              >
-                <select name="" id="">
-                  <option value="0">Priority</option>
-                  <option value="1">Low</option>
-                  <option value="2">Medium</option>
-                  <option value="3">High</option>
-                  <option value="4">Urgent</option>
-                </select>
-                <div className={classes["view-ticket-information-wrapper__select-wrapper__icon"]}>
-                  <FaChevronDown />
-                </div>
-              </div>
+              <Select
+                defaultValue={prioritySelected}
+                style={{
+                  width: "100%",
+                }}
+                onChange={onChangeSelectPriorityHandler}>
+                {priorityList.map((priority) => {
+                  return (
+                    <Select.Option key={priority.id} value={priority.id}>
+                      {priority.name}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
             </div>
 
             <div className={classes["view-ticket-information-wrapper__category-wrapper"]}>
               <div className={classes["category-wrapper__title"]}>Category:</div>
-              <div
-                className={classes["category-wrapper__dropdown-wrapper"]}
-                onClick={onClickOpenCategoryDropdownHandler}
+              <Select
+                defaultValue={categorySelected}
+                style={{
+                  width: "100%",
+                }}
+                onChange={onChangeSelectCategoryHandler}
               >
-                <div className={classes["category-wrapper__dropdown-wrapper__selected"]}>
-                  {categorySelected}
-                </div>
-                {categoryDropdownOpen && (
-                  <>
-                    <Backdrop
-                      show={categoryDropdownOpen}
-                      clicked={onClickOpenCategoryDropdownHandler}
-                      invisible
-                      zIndex={10}
-                    />
-                    <div className={classes["category-wrapper__dropdown-content-wrapper"]}>
-                      {categoryList.map((option) => {
-                        return (
-                          <div
-                            key={option.id}
-                            className={classes["dropdown-content-wrapper__dropdown-item"]}
-                            data-categoryid={option.id}
-                            onClick={(event) => {
-                              onClickSelectCategoryHandler(event, option.name);
-                            }}
-                          >
-                            {option.name}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
-              </div>
+                {categoryList.map((category) => {
+                  return (
+                    <Select.Option key={category.id} value={category.id}>
+                      {category.name}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
             </div>
             <div className={classes["view-ticket-information-wrapper__rating"]}>
               Rating: <span>Not Rated</span>
