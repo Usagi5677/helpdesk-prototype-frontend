@@ -11,6 +11,7 @@ import TicketModel from "../../models/Ticket";
 import { PAGE_LIMIT } from "../../helpers/constants";
 import { Spin } from "antd";
 import CategorySelector from "../../components/common/CategorySelector";
+import Search from "../../components/common/Search";
 
 const MyTickets = () => {
   const [timerId, setTimerId] = useState(null);
@@ -57,53 +58,14 @@ const MyTickets = () => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            style={{
-              display: "flex",
-              border: "1px solid #ccc",
-              borderRadius: 20,
-              padding: 5,
-              paddingLeft: 10,
-            }}
-          >
-            <FaSearch
-              style={{ color: "#ccc", paddingRight: 10, fontSize: 25 }}
-            />
-            <input
-              type="text"
-              name=""
-              id=""
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            {search !== "" && (
-              <FaTimes
-                style={{
-                  color: "#ccc",
-                  paddingRight: 10,
-                  cursor: "pointer",
-                  fontSize: 25,
-                  marginLeft: -25,
-                }}
-                onClick={() => setSearch("")}
-              />
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              border: "1px solid #ccc",
-              borderRadius: 20,
-              padding: "1px 5px 1px 5px",
-              marginLeft: "1rem",
-              alignItems: "center",
-            }}
-          >
-            <CategorySelector
-              onChange={(categoryIds) => setFilter({ ...filter, categoryIds })}
-            />
-          </div>
+          <Search
+            searchValue={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClick={() => setSearch("")}
+          />
+          <CategorySelector
+            onChange={(categoryIds) => setFilter({ ...filter, categoryIds })}
+          />
         </div>
         <div>
           <NewTicket />

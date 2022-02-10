@@ -33,20 +33,31 @@ const CategorySelector = ({
   };
 
   return (
-    <Select
-      mode="multiple"
-      showArrow
-      loading={loading}
-      tagRender={tagRender}
-      style={{ minWidth: 179 }}
-      bordered={false}
-      options={data?.categories.edges.map((c: { node: Category }) => ({
-        value: c.node.id,
-        label: c.node.name,
-      }))}
-      placeholder="Select categories"
-      onChange={onChange}
-    />
+    <div
+      style={{
+        display: "flex",
+        border: "1px solid #ccc",
+        borderRadius: 20,
+        padding: "1px 5px 1px 5px",
+        marginLeft: "1rem",
+        alignItems: "center",
+      }}
+    >
+      <Select
+        mode="multiple"
+        showArrow
+        loading={loading}
+        tagRender={tagRender}
+        style={{ minWidth: 179 }}
+        bordered={false}
+        options={data?.categories.edges.map((c: { node: Category }) => ({
+          value: c.node.id,
+          label: c.node.name,
+        }))}
+        placeholder="Filter categories"
+        onChange={onChange}
+      />
+    </div>
   );
 };
 

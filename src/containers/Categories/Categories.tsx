@@ -1,4 +1,3 @@
-import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 import { CATEGORIES_QUERY } from "../../api/queries";
 import { useContext, useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import Category from "../../models/Category";
 import CategoryList from "../../components/Categories/CategoryList";
 import AddCategory from "../../components/Categories/AddCategory";
 import { useNavigate } from "react-router";
+import Search from "../../components/common/Search";
 
 const Categories = () => {
   const { user } = useContext(UserContext);
@@ -71,37 +71,11 @@ const Categories = () => {
           alignItems: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            border: "1px solid #ccc",
-            borderRadius: 20,
-            padding: 5,
-            paddingLeft: 10,
-          }}
-        >
-          <FaSearch style={{ color: "#ccc", paddingRight: 10, fontSize: 25 }} />
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {search !== "" && (
-            <FaTimes
-              style={{
-                color: "#ccc",
-                paddingRight: 10,
-                cursor: "pointer",
-                fontSize: 25,
-                marginLeft: -25,
-              }}
-              onClick={() => setSearch("")}
-            />
-          )}
-        </div>
+        <Search
+          searchValue={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onClick={() => setSearch("")}
+        />
         {user?.isAdmin && (
           <div>
             <AddCategory />

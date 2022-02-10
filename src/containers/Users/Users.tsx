@@ -1,4 +1,3 @@
-import { FaSearch, FaTimes } from "react-icons/fa";
 import { useLazyQuery } from "@apollo/client";
 import { APP_USERS_QUERY } from "../../api/queries";
 import { useContext, useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import AddUserRoles from "../../components/Users/AddUserRoles";
 import { errorMessage } from "../../helpers/gql";
 import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
+import Search from "../../components/common/Search";
 
 const Users = () => {
   const { user } = useContext(UserContext);
@@ -68,37 +68,11 @@ const Users = () => {
           alignItems: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            border: "1px solid #ccc",
-            borderRadius: 20,
-            padding: 5,
-            paddingLeft: 10,
-          }}
-        >
-          <FaSearch style={{ color: "#ccc", paddingRight: 10, fontSize: 25 }} />
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="Search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          {search !== "" && (
-            <FaTimes
-              style={{
-                color: "#ccc",
-                paddingRight: 10,
-                cursor: "pointer",
-                fontSize: 25,
-                marginLeft: -25,
-              }}
-              onClick={() => setSearch("")}
-            />
-          )}
-        </div>
+        <Search
+          searchValue={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onClick={() => setSearch("")}
+        />
         <div>
           <AddUserRoles />
         </div>
