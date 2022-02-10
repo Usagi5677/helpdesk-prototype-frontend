@@ -1,8 +1,8 @@
 import { FaArrowLeft } from "react-icons/fa";
 import { useParams } from "react-router";
 import classes from "./ViewTicket.module.css";
-import { useContext, useEffect, useState } from "react";
-import { Select, Avatar, Modal, Tooltip, Tag, message } from "antd";
+import { useContext, useEffect } from "react";
+import { Avatar, Tooltip, Tag, Spin, Alert } from "antd";
 import { avatarColor } from "../../helpers/avatarColor";
 import { stringToColor } from "../../helpers/style";
 import UserContext from "../../contexts/UserContext";
@@ -11,32 +11,9 @@ import { HAS_TICKET_ACCESS, TICKET } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
-import { Priority } from "../../models/Enums";
-import CategorySelector from "../../components/common/CategorySelector";
 import CategoryAdder from "../../components/common/CategoryAdder";
 import { REMOVE_TICKET_CATEGORY } from "../../api/mutations";
-
-/*
-  List used for assigning agent
-*/
-const agentList = [
-  { id: "U1", name: "Ibrahim Naish1" },
-  { id: "U2", name: "Ibrahim Naish2" },
-  { id: "U3", name: "Ibrahim Naish3" },
-  { id: "U4", name: "Ibrahim Naish4" },
-  { id: "U5", name: "Ibrahim Naish5" },
-];
-
-/*
-  List used for assigning categories
-*/
-const categoryList = [
-  { id: "C1", name: "ProblemOne" },
-  { id: "C2", name: "ProblemTwo" },
-  { id: "C3", name: "ProblemThree" },
-  { id: "C4", name: "ProblemFour" },
-  { id: "C5", name: "ProblemFive" },
-];
+import PrioritySelector from "../../components/common/PrioritySelector";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -62,6 +39,7 @@ const ViewTicket = () => {
       onError: (err) => {
         errorMessage(err, "Error loading request.");
       },
+      notifyOnNetworkStatusChange: true,
     }
   );
 
@@ -77,271 +55,249 @@ const ViewTicket = () => {
     hasAccess({ variables: { ticketId: parseInt(id) } });
   }, []);
 
-  const [prioritySelected, setPrioritySelected] = useState("Choose Priority");
-
   const ticketData: Ticket = ticket?.ticket;
+  const isAssigned = ticketData?.agents
+    .map((a: any) => a.id)
+    .includes(user?.id);
+  const isAdminOrAssigned = user?.isAdmin || (user?.isAgent && isAssigned);
 
-  useEffect(() => {
-    //let groupID: any = ticketData?.group?.[1]?.id;
-    //let groupLength: any = ticketData?.group?.length;
-  }, []);
+  const renderInfoLeftSide = (label: string) => (
+    <div style={{ width: 100 }}>{label}</div>
+  );
+  const renderInfoRightSide = (label: string) => (
+    <div style={{ fontWeight: 700 }}>{label}</div>
+  );
+  const renderInfoRow = (left: string, right: string) => (
+    <div style={{ display: "flex", marginBottom: 5, marginTop: 5 }}>
+      {renderInfoLeftSide(left)}
+      {renderInfoRightSide(right)}
+    </div>
+  );
 
-  // const onChangeSelectPriorityHandler = (id: any) => {
-  //   setPrioritySelected(id);
-  //   ticketData?.priority = id;
-  // };
+  const renderCategories = () => {
+    return ticketData?.categories.map((category) => {
+      return (
+        <Tag
+          style={{
+            padding: "0px 4px 0px 4px",
+            textAlign: "center",
+            marginBottom: 2,
+          }}
+          key={category.id}
+          color={stringToColor(category.name)}
+          closable={isAdminOrAssigned ? true : false}
+          onClose={() => {
+            removeTicketCategory({
+              variables: {
+                ticketId: ticketData.id,
+                categoryId: category.id,
+              },
+            });
+          }}
+        >
+          {category.name}
+        </Tag>
+      );
+    });
+  };
 
   return (
     <>
-      <div className={classes["view-ticket-container"]}>
-        <div className={classes["view-ticket-container__view-ticket-wrapper"]}>
-          <div className={classes["view-ticket-wrapper__header"]}>
-            <button className={classes["view-ticket-wrapper__back-btn"]}>
-              <FaArrowLeft /> <span>Back</span>
-            </button>
-            <div className={classes["view-ticket-wrapper__title"]}>
-              {ticketData?.title}
+      {loadingAccess && "Loading..."}
+      {access?.hasTicketAccess === false ? (
+        <Alert
+          type="error"
+          message="This ticket does not exist or you do not have access to this ticket."
+        />
+      ) : (
+        <div className={classes["view-ticket-container"]}>
+          <div
+            className={classes["view-ticket-container__view-ticket-wrapper"]}
+          >
+            <div className={classes["view-ticket-wrapper__header"]}>
+              <button className={classes["view-ticket-wrapper__back-btn"]}>
+                <FaArrowLeft /> <span>Back</span>
+              </button>
+              <div className={classes["view-ticket-wrapper__title"]}>
+                {ticketData?.title}
+              </div>
+              <div style={{ width: 28 }}>
+                {(loadingTicket || loadingRemoveTicketCategory) && <Spin />}
+              </div>
             </div>
-            <div className={classes["view-ticket-wrapper__spacer"]}></div>
+            <div className={classes["view-ticket-wrapper__tab-wrapper"]}>
+              <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
+                Conversation
+              </div>
+              <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
+                Attachment
+              </div>
+            </div>
           </div>
-          <div className={classes["view-ticket-wrapper__tab-wrapper"]}>
-            <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
-              Conversation
-            </div>
-            <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
-              Attachment
-            </div>
-          </div>
-        </div>
-        <div
-          className={
-            classes["view-ticket-container__view-ticket-details-wrapper"]
-          }
-        >
           <div
             className={
-              classes["view-ticket-container__view-ticket-information-wrapper"]
+              classes["view-ticket-container__view-ticket-details-wrapper"]
             }
           >
-            <div className={classes["view-ticket-information-wrapper__title"]}>
-              Ticket Information
-            </div>
-            <div
-              className={classes["view-ticket-information-wrapper__ticket-id"]}
-            >
-              Ticket ID: <span>{ticketData?.id}</span>
-            </div>
             <div
               className={
-                classes["view-ticket-information-wrapper__priority-wrapper"]
+                classes[
+                  "view-ticket-container__view-ticket-information-wrapper"
+                ]
               }
             >
               <div
-                className={
-                  classes[
-                    "view-ticket-information-wrapper__priority-wrapper__title"
-                  ]
-                }
+                className={classes["view-ticket-information-wrapper__title"]}
               >
-                Priority:
+                Ticket Information
               </div>
-              <Select
-                defaultValue={prioritySelected}
-                style={{
-                  width: "100%",
-                }}
-                // onChange={onChangeSelectPriorityHandler}
-              >
-                {(Object.keys(Priority) as Array<keyof typeof Priority>).map(
-                  (priority) => {
-                    return (
-                      <Select.Option key={priority} value={priority}>
-                        {priority}
-                      </Select.Option>
-                    );
-                  }
-                )}
-              </Select>
-            </div>
-
-            <div className={classes["view-ticket-information-wrapper__rating"]}>
-              Rating: <span>Not Rated</span>
-            </div>
-            <div
-              className={
-                classes["view-ticket-information-wrapper__created-date"]
-              }
-            >
-              Created on:{" "}
-              <span>
-                {moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")}
-              </span>
-            </div>
-            <div
-              className={classes["view-ticket-information-wrapper__last-msg"]}
-            >
-              Last message: <span>01/01/2022</span>
-            </div>
-
-            <div
-              className={
-                classes["view-ticket-information-wrapper__category-wrapper"]
-              }
-            >
-              <div></div>
-              <div className={classes["category-wrapper__header"]}>
-                <div className={classes["category-wrapper__title"]}>
-                  Categories
-                </div>
-                <CategoryAdder
-                  ticket={ticketData}
-                  currentCategories={ticketData?.categories}
-                />
-              </div>
-            </div>
-            <div>
-              {ticketData?.categories.map((category) => {
-                return (
-                  <Tag
-                    style={{
-                      padding: "0px 4px 0px 4px",
-                      textAlign: "center",
-                      marginBottom: 2,
-                    }}
-                    key={category.id}
-                    color={stringToColor(category.name)}
-                    closable
-                    onClose={() => {
-                      removeTicketCategory({
-                        variables: {
-                          ticketId: ticketData.id,
-                          categoryId: category.id,
-                        },
-                      });
-                    }}
-                  >
-                    {category.name}
-                  </Tag>
-                );
-              })}
-            </div>
-            <div
-              className={
-                classes["view-ticket-information-wrapper__agent-wrapper"]
-              }
-            >
-              <div
-                className={
-                  classes[
-                    "view-ticket-information-wrapper__agent-wrapper__heading"
-                  ]
-                }
-              >
-                <div
-                  className={
-                    classes[
-                      "view-ticket-information-wrapper__agent-wrapper__title"
-                    ]
-                  }
-                >
-                  Agents
-                </div>
-                <div
-                  className={
-                    classes[
-                      "view-ticket-information-wrapper__agent-wrapper__change-option-btn"
-                    ]
-                  }
-                >
-                  Change
-                </div>
-              </div>
-              <div className={classes["agent-wrapper__assigned-list"]}>
-                {ticketData?.agents.length > 0 ? (
-                  <Avatar.Group
-                    maxCount={3}
-                    maxStyle={{
-                      color: "#f56a00",
-                      backgroundColor: "#fde3cf",
-                    }}
-                  >
-                    {ticketData?.agents.map((agent) => {
-                      return (
-                        <Tooltip
-                          title={agent.fullName}
-                          placement="bottom"
-                          key={agent.id}
-                        >
-                          <Avatar
-                            style={{
-                              backgroundColor: avatarColor(agent.fullName)
-                                .backgroundColor,
-                              color: avatarColor(agent.fullName).color,
-                            }}
-                          >
-                            {agent.fullName
-                              .match(/^\w|\b\w(?=\S+$)/g)
-                              ?.join()
-                              .replace(",", "")
-                              .toUpperCase()}
-                          </Avatar>
-                        </Tooltip>
-                      );
-                    })}
-                  </Avatar.Group>
+              {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                {renderInfoLeftSide("Priority")}
+                {isAdminOrAssigned ? (
+                  <PrioritySelector ticket={ticketData} />
                 ) : (
-                  <div>Unassigned</div>
+                  <>{renderInfoRightSide(`${ticketData?.priority}`)}</>
                 )}
               </div>
+              {renderInfoRow("Rating", `Not Rated`)}
+              {renderInfoRow(
+                "Created on",
+                moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
+              )}
+              {renderInfoRow(
+                "Last message",
+                moment().format("DD MMMM YYYY HH:mm")
+              )}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 5,
+                  flexWrap: "wrap",
+                }}
+              >
+                {renderInfoLeftSide("Categories")}
+                {isAdminOrAssigned ? (
+                  <CategoryAdder
+                    ticket={ticketData}
+                    currentCategories={ticketData?.categories}
+                  />
+                ) : (
+                  <>{renderCategories()}</>
+                )}
+              </div>
+              {isAdminOrAssigned && renderCategories()}
+              <div
+                className={
+                  classes["view-ticket-information-wrapper__agent-wrapper"]
+                }
+              >
+                <div
+                  className={
+                    classes[
+                      "view-ticket-information-wrapper__agent-wrapper__heading"
+                    ]
+                  }
+                >
+                  {renderInfoLeftSide("Agents")}
+                  <div
+                    className={
+                      classes[
+                        "view-ticket-information-wrapper__agent-wrapper__change-option-btn"
+                      ]
+                    }
+                  >
+                    Change
+                  </div>
+                </div>
+                <div className={classes["agent-wrapper__assigned-list"]}>
+                  {ticketData?.agents.length > 0 ? (
+                    <Avatar.Group
+                      maxCount={3}
+                      maxStyle={{
+                        color: "#f56a00",
+                        backgroundColor: "#fde3cf",
+                      }}
+                    >
+                      {ticketData?.agents.map((agent) => {
+                        return (
+                          <Tooltip
+                            title={agent.fullName}
+                            placement="bottom"
+                            key={agent.id}
+                          >
+                            <Avatar
+                              style={{
+                                backgroundColor: avatarColor(agent.fullName)
+                                  .backgroundColor,
+                                color: avatarColor(agent.fullName).color,
+                              }}
+                            >
+                              {agent.fullName
+                                .match(/^\w|\b\w(?=\S+$)/g)
+                                ?.join()
+                                .replace(",", "")
+                                .toUpperCase()}
+                            </Avatar>
+                          </Tooltip>
+                        );
+                      })}
+                    </Avatar.Group>
+                  ) : (
+                    <div>Unassigned</div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-          <div
-            className={
-              classes["view-ticket-container__view-ticket-history-wrapper"]
-            }
-          >
-            <div className={classes["view-ticket-history-wrapper__title"]}>
-              Ticket History
-            </div>
-            <ul
+            <div
               className={
-                classes["view-ticket-history-wrapper__time-line-wrapper"]
+                classes["view-ticket-container__view-ticket-history-wrapper"]
               }
             >
-              <li>
-                <div className={classes["view-ticket-history-wrapper__time"]}>
-                  1st January 2021 <span>&#9679;</span> 22:00
-                </div>
-                <p>You replied to your ticket.</p>
-              </li>
-              <li>
-                <div className={classes["view-ticket-history-wrapper__time"]}>
-                  1st January 2021 <span>&#9679;</span> 22:00
-                </div>
-                <p>You replied to your ticket.</p>
-              </li>
-              <li>
-                <div className={classes["view-ticket-history-wrapper__time"]}>
-                  1st January 2021 <span>&#9679;</span> 22:00
-                </div>
-                <p>You replied to your ticket.</p>
-              </li>
-              <li>
-                <div className={classes["view-ticket-history-wrapper__time"]}>
-                  1st January 2021 <span>&#9679;</span> 22:00
-                </div>
-                <p>You replied to your ticket.</p>
-              </li>
-              <li>
-                <div className={classes["view-ticket-history-wrapper__time"]}>
-                  1st January 2021 <span>&#9679;</span> 22:00
-                </div>
-                <p>You replied to your ticket.</p>
-              </li>
-            </ul>
+              <div className={classes["view-ticket-history-wrapper__title"]}>
+                Ticket History
+              </div>
+              <ul
+                className={
+                  classes["view-ticket-history-wrapper__time-line-wrapper"]
+                }
+              >
+                <li>
+                  <div className={classes["view-ticket-history-wrapper__time"]}>
+                    1st January 2021 <span>&#9679;</span> 22:00
+                  </div>
+                  <p>You replied to your ticket.</p>
+                </li>
+                <li>
+                  <div className={classes["view-ticket-history-wrapper__time"]}>
+                    1st January 2021 <span>&#9679;</span> 22:00
+                  </div>
+                  <p>You replied to your ticket.</p>
+                </li>
+                <li>
+                  <div className={classes["view-ticket-history-wrapper__time"]}>
+                    1st January 2021 <span>&#9679;</span> 22:00
+                  </div>
+                  <p>You replied to your ticket.</p>
+                </li>
+                <li>
+                  <div className={classes["view-ticket-history-wrapper__time"]}>
+                    1st January 2021 <span>&#9679;</span> 22:00
+                  </div>
+                  <p>You replied to your ticket.</p>
+                </li>
+                <li>
+                  <div className={classes["view-ticket-history-wrapper__time"]}>
+                    1st January 2021 <span>&#9679;</span> 22:00
+                  </div>
+                  <p>You replied to your ticket.</p>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

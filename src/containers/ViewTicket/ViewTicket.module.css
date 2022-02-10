@@ -79,89 +79,6 @@
   margin-bottom: 20px;
 }
 
-.view-ticket-container .view-ticket-information-wrapper__ticket-id {
-  color: rgb(85, 84, 84);
-}
-.view-ticket-container .view-ticket-information-wrapper__ticket-id > span {
-  font-weight: 700;
-  margin-left: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__priority-wrapper {
-  display: flex;
-  align-items: center;
-}
-.view-ticket-container
-  .view-ticket-information-wrapper__priority-wrapper__title {
-  color: rgb(85, 84, 84);
-  margin: 10px 10px 10px 0;
-}
-.view-ticket-container
-  .view-ticket-information-wrapper__priority-wrapper__select-wrapper {
-  width: 50%;
-  box-sizing: border-box;
-  background-color: white;
-  border-radius: 20px;
-  max-height: 20px;
-  border: 2px solid#ccc;
-  display: flex;
-  position: relative;
-}
-
-.view-ticket-container
-  .view-ticket-information-wrapper__priority-wrapper__select-wrapper
-  select {
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  padding-left: 10px;
-}
-.view-ticket-container .view-ticket-information-wrapper__select-wrapper__icon {
-  position: absolute;
-  right: 10px;
-  top: 2px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__rating {
-  color: rgb(85, 84, 84);
-  margin-bottom: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__rating > span {
-  font-weight: 700;
-  margin-left: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__created-date {
-  color: rgb(85, 84, 84);
-  margin-bottom: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__created-date > span {
-  font-weight: 700;
-  margin-left: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__last-msg {
-  color: rgb(85, 84, 84);
-  margin-bottom: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__last-msg > span {
-  font-weight: 700;
-  margin-left: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__group-wrapper__title {
-  color: rgb(85, 84, 84);
-  margin-bottom: 10px;
-}
-
-.view-ticket-container .view-ticket-information-wrapper__agent-wrapper__title {
-  color: rgb(85, 84, 84);
-  margin: 10px 0;
-}
-
 .view-ticket-container .view-ticket-wrapper__header {
   display: flex;
   align-items: center;
@@ -244,12 +161,6 @@
   margin-bottom: 10px;
 }
 
-.view-ticket-container .category-wrapper__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
 .view-ticket-container .category-wrapper__title {
   color: rgb(85, 84, 84);
   margin: 10px 10px 10px 0;

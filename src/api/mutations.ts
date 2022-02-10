@@ -77,3 +77,9 @@ export const REMOVE_TICKET_CATEGORY = gql`
     removeTicketCategory(ticketId: $ticketId, categoryId: $categoryId)
   }
 `;
+
+export const SET_TICKET_PRIORITY = gql`
+  mutation ($ticketId: Int!, $priority: Priority!) {
+    setTicketPriority(ticketId: $ticketId, priority: $priority)
+  }
+`;

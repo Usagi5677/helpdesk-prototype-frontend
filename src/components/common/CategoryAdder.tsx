@@ -70,6 +70,11 @@ const CategoryAdder = ({
         placeholder="Add category"
         value={selection}
         onChange={setSelection}
+        showSearch
+        optionFilterProp="label"
+        filterOption={(input, option: any) => {
+          return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        }}
       />
     </div>
   );
