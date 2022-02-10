@@ -1,7 +1,7 @@
 import classes from "./MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NewTicket from "../../components/Ticket/NewTicket";
 import { useLazyQuery } from "@apollo/client";
 import { MY_TICKETS } from "../../api/queries";
@@ -47,8 +47,15 @@ const MyTickets = () => {
   }, [filter]);
 
   // Debounce the search, meaning the search will only execute 500ms after the
-  // last input. This prevents unnecessary API calls.
+  // last input. This prevents unnecessary API calls. useRef is used to prevent
+  // this useEffect from running on the initial render (which would waste an API
+  // call as well).
+  const initialRender = useRef<boolean>(true);
   useEffect(() => {
+    if (initialRender.current === true) {
+      initialRender.current = false;
+      return;
+    }
     searchDebounced(search);
   }, [search]);
   const searchDebounced = (value: string) => {
