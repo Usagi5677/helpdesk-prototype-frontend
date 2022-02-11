@@ -1,5 +1,5 @@
 export const stringToColor = (str: string) => {
-  let hash = 1;
+  let hash = 4;
   for (var i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }

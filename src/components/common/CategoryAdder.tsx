@@ -9,20 +9,18 @@ import Ticket from "../../models/Ticket";
 
 const CategoryAdder = ({
   ticket,
-  currentCategories,
 }: {
   onChange?: (val: number[]) => void;
   ticket: Ticket;
-  currentCategories: Category[];
 }) => {
   const [selection, setSelection] = useState<number | null>(null);
   const [getCategories, { data, loading }] = useLazyQuery(CATEGORIES_QUERY);
 
   useEffect(() => {
-    if (currentCategories) {
+    if (ticket?.categories) {
       getCategories({ variables: { first: 500 } });
     }
-  }, [currentCategories]);
+  }, [ticket?.categories]);
 
   useEffect(() => {
     if (selection) {
@@ -65,7 +63,7 @@ const CategoryAdder = ({
             label: c.node.name,
           }))
           .filter(
-            (c: any) => !currentCategories.map((cc) => cc.id).includes(c.value)
+            (c: any) => !ticket?.categories.map((cc) => cc.id).includes(c.value)
           )}
         placeholder="Add category"
         value={selection}

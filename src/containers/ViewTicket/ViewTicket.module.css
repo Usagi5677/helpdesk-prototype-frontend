@@ -136,17 +136,6 @@
   cursor: pointer;
 }
 
-.view-ticket-information-wrapper__agent-wrapper__heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-.view-ticket-information-wrapper__agent-wrapper__change-option-btn {
-  color: blue;
-  cursor: pointer;
-}
-
 .agent-wrapper__change-option-wrapper__assigned-wrapper {
   padding: 0 20px;
 

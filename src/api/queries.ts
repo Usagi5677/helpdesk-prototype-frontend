@@ -156,3 +156,23 @@ export const TICKET = gql`
     }
   }
 `;
+
+export const SEARCH_USERS_AND_USERGROUPS = gql`
+  ${USER_FRAGMENT}
+  query searchUsersAndGroups($query: String!, $onlyAgents: Boolean!) {
+    searchUsersAndGroups(query: $query, onlyAgents: $onlyAgents) {
+      type
+      name
+      user {
+        ...UserFields
+      }
+      userGroup {
+        id
+        name
+        users {
+          ...UserFields
+        }
+      }
+    }
+  }
+`;

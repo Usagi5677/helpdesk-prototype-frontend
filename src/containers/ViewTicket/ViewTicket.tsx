@@ -12,8 +12,10 @@ import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
 import CategoryAdder from "../../components/common/CategoryAdder";
-import { REMOVE_TICKET_CATEGORY } from "../../api/mutations";
+import { REMOVE_TICKET_CATEGORY, UNASSIGN_AGENT } from "../../api/mutations";
 import PrioritySelector from "../../components/common/PrioritySelector";
+import AgentAdder from "../../components/common/AgentAdder";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -50,6 +52,16 @@ const ViewTicket = () => {
       },
       refetchQueries: ["ticket"],
     });
+
+  const [unassignAgent, { loading: unassigning }] = useMutation(
+    UNASSIGN_AGENT,
+    {
+      onError: (error) => {
+        errorMessage(error, "Unexpected error while removing category.");
+      },
+      refetchQueries: ["ticket"],
+    }
+  );
 
   useEffect(() => {
     hasAccess({ variables: { ticketId: parseInt(id) } });
@@ -99,6 +111,57 @@ const ViewTicket = () => {
         </Tag>
       );
     });
+  };
+
+  const renderAgents = () => {
+    return (
+      ticketData?.agents.length > 0 && (
+        <Avatar.Group
+          maxCount={3}
+          maxStyle={{
+            color: "#f56a00",
+            backgroundColor: "#fde3cf",
+          }}
+        >
+          {ticketData?.agents.map((agent) => {
+            return (
+              <Tooltip
+                title={
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {agent.fullName} ({agent.rcno})
+                    <CloseCircleOutlined
+                      style={{ cursor: "pointer", marginLeft: 3 }}
+                      onClick={() => {
+                        unassignAgent({
+                          variables: {
+                            ticketId: ticketData.id,
+                            agentId: agent.id,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
+                }
+                placement="bottom"
+                key={agent.id}
+              >
+                <Avatar
+                  style={{
+                    backgroundColor: stringToColor(agent.fullName),
+                  }}
+                >
+                  {agent.fullName
+                    .match(/^\w|\b\w(?=\S+$)/g)
+                    ?.join()
+                    .replace(",", "")
+                    .toUpperCase()}
+                </Avatar>
+              </Tooltip>
+            );
+          })}
+        </Avatar.Group>
+      )
+    );
   };
 
   return (
@@ -179,76 +242,28 @@ const ViewTicket = () => {
               >
                 {renderInfoLeftSide("Categories")}
                 {isAdminOrAssigned ? (
-                  <CategoryAdder
-                    ticket={ticketData}
-                    currentCategories={ticketData?.categories}
-                  />
+                  <CategoryAdder ticket={ticketData} />
                 ) : (
                   <>{renderCategories()}</>
                 )}
               </div>
               {isAdminOrAssigned && renderCategories()}
               <div
-                className={
-                  classes["view-ticket-information-wrapper__agent-wrapper"]
-                }
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 5,
+                  flexWrap: "wrap",
+                }}
               >
-                <div
-                  className={
-                    classes[
-                      "view-ticket-information-wrapper__agent-wrapper__heading"
-                    ]
-                  }
-                >
-                  {renderInfoLeftSide("Agents")}
-                  <div
-                    className={
-                      classes[
-                        "view-ticket-information-wrapper__agent-wrapper__change-option-btn"
-                      ]
-                    }
-                  >
-                    Change
-                  </div>
-                </div>
-                <div className={classes["agent-wrapper__assigned-list"]}>
-                  {ticketData?.agents.length > 0 ? (
-                    <Avatar.Group
-                      maxCount={3}
-                      maxStyle={{
-                        color: "#f56a00",
-                        backgroundColor: "#fde3cf",
-                      }}
-                    >
-                      {ticketData?.agents.map((agent) => {
-                        return (
-                          <Tooltip
-                            title={agent.fullName}
-                            placement="bottom"
-                            key={agent.id}
-                          >
-                            <Avatar
-                              style={{
-                                backgroundColor: avatarColor(agent.fullName)
-                                  .backgroundColor,
-                                color: avatarColor(agent.fullName).color,
-                              }}
-                            >
-                              {agent.fullName
-                                .match(/^\w|\b\w(?=\S+$)/g)
-                                ?.join()
-                                .replace(",", "")
-                                .toUpperCase()}
-                            </Avatar>
-                          </Tooltip>
-                        );
-                      })}
-                    </Avatar.Group>
-                  ) : (
-                    <div>Unassigned</div>
-                  )}
-                </div>
+                {renderInfoLeftSide("Agents")}
+                {isAdminOrAssigned ? (
+                  <AgentAdder ticket={ticketData} />
+                ) : (
+                  <>{renderAgents()}</>
+                )}
               </div>
+              {isAdminOrAssigned && renderAgents()}
             </div>
             <div
               className={

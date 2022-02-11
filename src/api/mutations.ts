@@ -83,3 +83,15 @@ export const SET_TICKET_PRIORITY = gql`
     setTicketPriority(ticketId: $ticketId, priority: $priority)
   }
 `;
+
+export const ASSIGN_AGENTS = gql`
+  mutation ($ticketId: Int!, $agentIds: [Int!]!) {
+    assignAgents(ticketId: $ticketId, agentIds: $agentIds)
+  }
+`;
+
+export const UNASSIGN_AGENT = gql`
+  mutation ($ticketId: Int!, $agentId: Int!) {
+    unassignAgent(ticketId: $ticketId, agentId: $agentId)
+  }
+`;
