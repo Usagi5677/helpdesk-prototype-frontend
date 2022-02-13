@@ -95,3 +95,21 @@ export const UNASSIGN_AGENT = gql`
     unassignAgent(ticketId: $ticketId, agentId: $agentId)
   }
 `;
+
+export const SET_OWNER = gql`
+  mutation ($agentId: Int!, $ticketId: Int!) {
+    setOwner(agentId: $agentId, ticketId: $ticketId)
+  }
+`;
+
+export const ADD_FOLLOWER = gql`
+  mutation ($newFollowerUserId: String!, $ticketId: Int!) {
+    addFollower(newFollowerUserId: $newFollowerUserId, ticketId: $ticketId)
+  }
+`;
+
+export const REMOVE_FOLLOWER = gql`
+  mutation ($deletingFollowerId: Int!, $ticketId: Int!) {
+    removeFollower(deletingFollowerId: $deletingFollowerId, ticketId: $ticketId)
+  }
+`;

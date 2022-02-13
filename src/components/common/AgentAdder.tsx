@@ -6,7 +6,6 @@ import { SEARCH_USERS_AND_USERGROUPS } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
 import SearchResult from "../../models/SearchResult";
-import User from "../../models/User";
 
 const AgentAdder = ({
   ticket,
@@ -81,19 +80,11 @@ const AgentAdder = ({
     >
       <Select
         showArrow
-        loading={assigning}
+        loading={assigning || searchLoading}
         style={{ width: "100%" }}
         bordered={false}
         onSearch={(value) => fetchDebounced(value)}
-        // options={searchData?.searchUsersAndGroups
-        //   .map((c: SearchResult) => ({
-        //     value: c,
-        //     label: c.name,
-        //   }))
-        //   .filter(
-        //     (c: any) => !ticket.agents.map((cc) => cc.id).includes(c.value)
-        //   )}
-        placeholder="Add users"
+        placeholder="Add agents"
         value={selection}
         onChange={setSelection}
         showSearch

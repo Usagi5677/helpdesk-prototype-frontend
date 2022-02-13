@@ -55,5 +55,6 @@ export const TICKET_FRAGMENT = gql`
     agents {
       ...UserFields
     }
+    ownerId
   }
 `;

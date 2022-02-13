@@ -14,4 +14,6 @@ export default interface Ticket {
   priority?: String;
   categories: Category[];
   agents: User[];
+  ownerId?: number;
+  followers: User[];
 }

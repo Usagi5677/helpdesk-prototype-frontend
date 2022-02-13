@@ -12,10 +12,16 @@ import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
 import CategoryAdder from "../../components/common/CategoryAdder";
-import { REMOVE_TICKET_CATEGORY, UNASSIGN_AGENT } from "../../api/mutations";
+import {
+  REMOVE_FOLLOWER,
+  REMOVE_TICKET_CATEGORY,
+  SET_OWNER,
+  UNASSIGN_AGENT,
+} from "../../api/mutations";
 import PrioritySelector from "../../components/common/PrioritySelector";
 import AgentAdder from "../../components/common/AgentAdder";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import FollowerAdder from "../../components/common/FollowerAdder";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -57,7 +63,24 @@ const ViewTicket = () => {
     UNASSIGN_AGENT,
     {
       onError: (error) => {
-        errorMessage(error, "Unexpected error while removing category.");
+        errorMessage(error, "Unexpected error while unassigning agent.");
+      },
+      refetchQueries: ["ticket"],
+    }
+  );
+
+  const [setOwner, { loading: settingOwner }] = useMutation(SET_OWNER, {
+    onError: (error) => {
+      errorMessage(error, "Unexpected error while setting owner.");
+    },
+    refetchQueries: ["ticket"],
+  });
+
+  const [removeFollower, { loading: removingFollower }] = useMutation(
+    REMOVE_FOLLOWER,
+    {
+      onError: (error) => {
+        errorMessage(error, "Unexpected error while removing follower.");
       },
       refetchQueries: ["ticket"],
     }
@@ -72,6 +95,7 @@ const ViewTicket = () => {
     .map((a: any) => a.id)
     .includes(user?.id);
   const isAdminOrAssigned = user?.isAdmin || (user?.isAgent && isAssigned);
+  const isOwner = ticketData?.ownerId === user?.id;
 
   const renderInfoLeftSide = (label: string) => (
     <div style={{ width: 100 }}>{label}</div>
@@ -117,7 +141,7 @@ const ViewTicket = () => {
     return (
       ticketData?.agents.length > 0 && (
         <Avatar.Group
-          maxCount={3}
+          maxCount={5}
           maxStyle={{
             color: "#f56a00",
             backgroundColor: "#fde3cf",
@@ -127,20 +151,43 @@ const ViewTicket = () => {
             return (
               <Tooltip
                 title={
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    {agent.fullName} ({agent.rcno})
-                    <CloseCircleOutlined
-                      style={{ cursor: "pointer", marginLeft: 3 }}
-                      onClick={() => {
-                        unassignAgent({
-                          variables: {
-                            ticketId: ticketData.id,
-                            agentId: agent.id,
-                          },
-                        });
-                      }}
-                    />
-                  </div>
+                  <>
+                    {ticketData?.ownerId === agent.id && (
+                      <div>Ticket Owner</div>
+                    )}
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {agent.fullName} ({agent.rcno})
+                      {(user?.isAdmin || isOwner) &&
+                        ticketData?.ownerId !== agent.id && (
+                          <Tooltip title="Set as owner">
+                            <UpCircleOutlined
+                              style={{ cursor: "pointer", marginLeft: 3 }}
+                              onClick={() => {
+                                setOwner({
+                                  variables: {
+                                    ticketId: ticketData?.id,
+                                    agentId: agent.id,
+                                  },
+                                });
+                              }}
+                            />
+                          </Tooltip>
+                        )}
+                      {(user?.isAdmin || user?.id === agent.id) && (
+                        <CloseCircleOutlined
+                          style={{ cursor: "pointer", marginLeft: 3 }}
+                          onClick={() => {
+                            unassignAgent({
+                              variables: {
+                                ticketId: ticketData?.id,
+                                agentId: agent.id,
+                              },
+                            });
+                          }}
+                        />
+                      )}
+                    </div>
+                  </>
                 }
                 placement="bottom"
                 key={agent.id}
@@ -151,6 +198,59 @@ const ViewTicket = () => {
                   }}
                 >
                   {agent.fullName
+                    .match(/^\w|\b\w(?=\S+$)/g)
+                    ?.join()
+                    .replace(",", "")
+                    .toUpperCase()}
+                </Avatar>
+              </Tooltip>
+            );
+          })}
+        </Avatar.Group>
+      )
+    );
+  };
+
+  const renderFollowers = () => {
+    return (
+      ticketData?.followers.length > 0 && (
+        <Avatar.Group
+          maxCount={5}
+          maxStyle={{
+            color: "#f56a00",
+            backgroundColor: "#fde3cf",
+          }}
+        >
+          {ticketData?.followers.map((follower) => {
+            return (
+              <Tooltip
+                title={
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {follower.fullName} ({follower.rcno})
+                    {(follower.id === user?.id || isAdminOrAssigned) && (
+                      <CloseCircleOutlined
+                        style={{ cursor: "pointer", marginLeft: 3 }}
+                        onClick={() => {
+                          removeFollower({
+                            variables: {
+                              ticketId: ticketData.id,
+                              deletingFollowerId: follower.id,
+                            },
+                          });
+                        }}
+                      />
+                    )}
+                  </div>
+                }
+                placement="bottom"
+                key={follower.id}
+              >
+                <Avatar
+                  style={{
+                    backgroundColor: stringToColor(follower.fullName),
+                  }}
+                >
+                  {follower.fullName
                     .match(/^\w|\b\w(?=\S+$)/g)
                     ?.join()
                     .replace(",", "")
@@ -185,7 +285,11 @@ const ViewTicket = () => {
                 {ticketData?.title}
               </div>
               <div style={{ width: 28 }}>
-                {(loadingTicket || loadingRemoveTicketCategory) && <Spin />}
+                {(loadingTicket ||
+                  loadingRemoveTicketCategory ||
+                  unassigning ||
+                  removingFollower ||
+                  settingOwner) && <Spin />}
               </div>
             </div>
             <div className={classes["view-ticket-wrapper__tab-wrapper"]}>
@@ -264,6 +368,22 @@ const ViewTicket = () => {
                 )}
               </div>
               {isAdminOrAssigned && renderAgents()}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 5,
+                  flexWrap: "wrap",
+                }}
+              >
+                {renderInfoLeftSide("Followers")}
+                {isAdminOrAssigned || user?.id === ticketData.createdBy.id ? (
+                  <FollowerAdder ticket={ticketData} />
+                ) : (
+                  <>{renderFollowers()}</>
+                )}
+              </div>
+              {isAdminOrAssigned && renderFollowers()}
             </div>
             <div
               className={
