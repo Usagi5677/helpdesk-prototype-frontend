@@ -2,8 +2,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useParams } from "react-router";
 import classes from "./ViewTicket.module.css";
 import { useContext, useEffect } from "react";
-import { Avatar, Tooltip, Tag, Spin, Alert } from "antd";
-import { avatarColor } from "../../helpers/avatarColor";
+import { Avatar, Tooltip, Tag, Spin, Alert, Progress } from "antd";
 import { stringToColor } from "../../helpers/style";
 import UserContext from "../../contexts/UserContext";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -22,6 +21,9 @@ import PrioritySelector from "../../components/common/PrioritySelector";
 import AgentAdder from "../../components/common/AgentAdder";
 import { CloseCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import FollowerAdder from "../../components/common/FollowerAdder";
+import AddChecklistItem from "../../components/Ticket/AddChecklistItem";
+import ChecklistItem from "../../components/Ticket/ChecklistItem";
+import StatusSelector from "../../components/common/StatusSelector";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -96,6 +98,12 @@ const ViewTicket = () => {
     .includes(user?.id);
   const isAdminOrAssigned = user?.isAdmin || (user?.isAgent && isAssigned);
   const isOwner = ticketData?.ownerId === user?.id;
+  const progressPercentage = Math.round(
+    (ticketData?.checklistItems.filter((item) => item.completedAt !== null)
+      .length /
+      ticketData?.checklistItems.length) *
+      100
+  );
 
   const renderInfoLeftSide = (label: string) => (
     <div style={{ width: 100 }}>{label}</div>
@@ -175,7 +183,10 @@ const ViewTicket = () => {
                         )}
                       {(user?.isAdmin || user?.id === agent.id) && (
                         <CloseCircleOutlined
-                          style={{ cursor: "pointer", marginLeft: 3 }}
+                          style={{
+                            cursor: "pointer",
+                            marginLeft: 3,
+                          }}
                           onClick={() => {
                             unassignAgent({
                               variables: {
@@ -319,6 +330,14 @@ const ViewTicket = () => {
                 Ticket Information
               </div>
               {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
+              {/* <div style={{ display: "flex", alignItems: "center" }}>
+                {renderInfoLeftSide("Status")}
+                {isAdminOrAssigned ? (
+                  <StatusSelector />
+                ) : (
+                  <>{renderInfoRightSide(`${ticketData?.priority}`)}</>
+                )}
+              </div> */}
               <div style={{ display: "flex", alignItems: "center" }}>
                 {renderInfoLeftSide("Priority")}
                 {isAdminOrAssigned ? (
@@ -385,51 +404,59 @@ const ViewTicket = () => {
               </div>
               {isAdminOrAssigned && renderFollowers()}
             </div>
-            <div
-              className={
-                classes["view-ticket-container__view-ticket-history-wrapper"]
-              }
-            >
-              <div className={classes["view-ticket-history-wrapper__title"]}>
-                Ticket History
-              </div>
-              <ul
-                className={
-                  classes["view-ticket-history-wrapper__time-line-wrapper"]
-                }
+            {ticketData?.checklistItems.length > 0 ? (
+              <div
+                style={{
+                  width: "100%",
+                  minWidth: 280,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                  padding: "20px 20px",
+                  fontSize: "0.75rem",
+                  overflowY: "auto",
+                  margin: "0 10px 0 20px",
+                }}
               >
-                <li>
-                  <div className={classes["view-ticket-history-wrapper__time"]}>
-                    1st January 2021 <span>&#9679;</span> 22:00
+                <Progress
+                  percent={progressPercentage}
+                  strokeWidth={5}
+                  style={{ marginBottom: 10 }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      width: 80,
+                    }}
+                  >
+                    Checklist
                   </div>
-                  <p>You replied to your ticket.</p>
-                </li>
-                <li>
-                  <div className={classes["view-ticket-history-wrapper__time"]}>
-                    1st January 2021 <span>&#9679;</span> 22:00
-                  </div>
-                  <p>You replied to your ticket.</p>
-                </li>
-                <li>
-                  <div className={classes["view-ticket-history-wrapper__time"]}>
-                    1st January 2021 <span>&#9679;</span> 22:00
-                  </div>
-                  <p>You replied to your ticket.</p>
-                </li>
-                <li>
-                  <div className={classes["view-ticket-history-wrapper__time"]}>
-                    1st January 2021 <span>&#9679;</span> 22:00
-                  </div>
-                  <p>You replied to your ticket.</p>
-                </li>
-                <li>
-                  <div className={classes["view-ticket-history-wrapper__time"]}>
-                    1st January 2021 <span>&#9679;</span> 22:00
-                  </div>
-                  <p>You replied to your ticket.</p>
-                </li>
-              </ul>
-            </div>
+                  {isAdminOrAssigned && (
+                    <AddChecklistItem ticket={ticketData} />
+                  )}
+                </div>
+                {ticketData?.checklistItems.map((item) => (
+                  <ChecklistItem
+                    key={item.id}
+                    ticketId={ticketData.id}
+                    item={item}
+                    isAdminOrAssigned={isAdminOrAssigned}
+                  />
+                ))}
+              </div>
+            ) : (
+              <>
+                {isAdminOrAssigned && <AddChecklistItem ticket={ticketData} />}
+              </>
+            )}
           </div>
         </div>
       )}

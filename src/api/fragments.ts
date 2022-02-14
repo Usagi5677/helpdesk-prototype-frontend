@@ -56,5 +56,10 @@ export const TICKET_FRAGMENT = gql`
       ...UserFields
     }
     ownerId
+    checklistItems {
+      id
+      description
+      completedAt
+    }
   }
 `;

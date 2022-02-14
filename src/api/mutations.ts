@@ -113,3 +113,21 @@ export const REMOVE_FOLLOWER = gql`
     removeFollower(deletingFollowerId: $deletingFollowerId, ticketId: $ticketId)
   }
 `;
+
+export const ADD_CHECKLIST_ITEM = gql`
+  mutation ($description: String!, $ticketId: Int!) {
+    addChecklistItem(description: $description, ticketId: $ticketId)
+  }
+`;
+
+export const DELETE_CHECKLIST_ITEM = gql`
+  mutation ($id: Int!) {
+    deleteChecklistItem(id: $id)
+  }
+`;
+
+export const TOGGLE_CHECKLIST_ITEM = gql`
+  mutation ($id: Int!, $complete: Boolean!) {
+    toggleChecklistItem(id: $id, complete: $complete)
+  }
+`;

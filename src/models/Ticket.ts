@@ -1,4 +1,5 @@
 import Category from "./Category";
+import ChecklistItem from "./ChecklistItem";
 import User from "./User";
 
 export default interface Ticket {
@@ -16,4 +17,5 @@ export default interface Ticket {
   agents: User[];
   ownerId?: number;
   followers: User[];
+  checklistItems: ChecklistItem[];
 }

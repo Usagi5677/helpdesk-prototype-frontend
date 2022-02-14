@@ -11,10 +11,9 @@
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   transition: all 0.3s ease;
   position: relative;
-  
 }
 
-.my-tickets-wrapper:hover{
+.my-tickets-wrapper:hover {
   background-color: #dcdcdc;
   transform: translateX(6px);
   z-index: 2;
@@ -40,7 +39,6 @@
   display: flex;
   margin-left: 10px;
   align-items: center;
-  
 }
 .my-tickets-wrapper__user-details__email__icon {
   line-height: 0;
@@ -137,7 +135,6 @@
   transition: background-color var(--speed) ease;
 }
 
-
 .my-tickets-container .my-tickets-wrapper__divider {
   margin: 10px 0;
   height: 1px;
@@ -157,7 +154,6 @@
 
 .my-tickets-wrapper__ticket-details__agent-name-circle-wrapper {
   display: flex;
-  
 }
 .ticket-details__agent-name-circle-wrapper__circle {
   width: 30px;
@@ -182,18 +178,15 @@
   padding: 0 10px;
   margin-right: 209px;
   visibility: hidden;
-  
 }
 
-.ticket-details__agent-name-circle-wrapper__circle:hover .ticket-details__agent-name-circle-wrapper__circle-assign-list{
-
+.ticket-details__agent-name-circle-wrapper__circle:hover
+  .ticket-details__agent-name-circle-wrapper__circle-assign-list {
   visibility: visible;
 }
 
-
 .my-tickets-wrapper__ticket-details__group-name-circle-wrapper {
   display: flex;
-  
 }
 
 @media only screen and (min-width: 600px) {
@@ -209,19 +202,19 @@
   .my-tickets-wrapper__divider {
     display: none;
   }
-  
+
   .my-tickets-wrapper__user-details-wrapper {
     word-break: break-all;
     word-break: break-word;
   }
-  
+
   .my-tickets-wrapper__user-details-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     line-height: 2;
   }
-  
+
   .my-tickets-wrapper__ticket-activity__started-wrapper {
     flex-direction: column;
   }

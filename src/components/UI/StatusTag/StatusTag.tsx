@@ -11,24 +11,31 @@ const StatusTagWrapper = styled.div<any>`
   text-align: center;
   white-space: nowrap;
   border-radius: 10rem;
-  color: ${(props) => props.fontColor ? props.fontColor : "rgb(0, 183, 255)"};
-  background-color: ${(props) => props.bgColor ? props.bgColor : "rgba(0, 183, 255, 0.2)"};
+  color: ${(props) => (props.fontColor ? props.fontColor : "rgb(0, 183, 255)")};
+  background-color: ${(props) =>
+    props.bgColor ? props.bgColor : "rgba(0, 183, 255, 0.2)"};
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   @media (min-width: 600px) {
     min-width: 80px;
   }
   &:hover {
-    background-color: ${(props) => props.bgHover ? props.bgHover : "rgb(0, 183, 255)"};
-    color: ${(props) => props.fontHover ? props.fontHover : "cyan"};
+    background-color: ${(props) =>
+      props.bgHover ? props.bgHover : "rgb(0, 183, 255)"};
+    color: ${(props) => (props.fontHover ? props.fontHover : "cyan")};
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 `;
 
 const StatusTag = (props: any) => {
   return (
-    <StatusTagWrapper bgColor={props.bgColor} fontColor={props.fontColor} bgHover={props.bgHover} fontHover={props.fontHover}>
-        {props.name}
+    <StatusTagWrapper
+      bgColor={props.bgColor}
+      fontColor={props.fontColor}
+      bgHover={props.bgHover}
+      fontHover="white"
+    >
+      {props.name}
     </StatusTagWrapper>
   );
 };

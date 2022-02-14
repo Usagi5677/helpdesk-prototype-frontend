@@ -8,18 +8,6 @@
   font-size: 0.75rem;
 }
 
-.view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
-  width: 100%;
-  min-width: 280px;
-  height: 300px;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 20px 20px;
-  font-size: 0.75rem;
-  overflow-y: auto;
-}
-
 .view-ticket-container .view-ticket-container__view-ticket-information-wrapper {
   width: 100%;
   min-width: 280px;
@@ -185,11 +173,6 @@
     margin-top: 0;
     grid-area: information;
   }
-  .view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
-    min-height: 400px;
-    margin: 0 10px 0 0;
-    grid-area: history;
-  }
   .view-ticket-container .view-ticket-wrapper__tab-wrapper_tab {
     font-size: 0.875rem;
   }
@@ -208,10 +191,6 @@
   }
   .view-ticket-container
     .view-ticket-container__view-ticket-information-wrapper {
-    margin-left: 20px;
-    margin-top: 0;
-  }
-  .view-ticket-container .view-ticket-container__view-ticket-history-wrapper {
     margin-left: 20px;
     margin-top: 0;
   }

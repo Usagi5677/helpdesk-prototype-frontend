@@ -5,10 +5,15 @@ import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
 import User from "../../models/User";
-import { Tag } from "antd";
+import { Progress, Tag } from "antd";
 import { stringToColor } from "../../helpers/style";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
+  const progressPercentage = Math.round(
+    (ticket?.checklistItems.filter((item) => item.completedAt !== null).length /
+      ticket?.checklistItems.length) *
+      100
+  );
   let statusTag;
   switch (ticket.status) {
     case "Open":
@@ -18,7 +23,6 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
           bgColor={"rgba(0, 183, 255, 0.2)"}
           fontColor={"rgb(0, 115, 161)"}
           bgHover={"rgb(0, 183, 255)"}
-          fontHover={"white"}
         />
       );
       break;
@@ -29,7 +33,6 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
           bgColor={"rgba(247, 173, 3, 0.2)"}
           fontColor={"rgb(145, 101, 0)"}
           bgHover={"rgb(247, 173, 3)"}
-          fontHover={"white"}
         />
       );
       break;
@@ -40,7 +43,6 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
           bgColor={"rgba(83, 233, 0, 0.2)"}
           fontColor={"rgb(61, 163, 2)"}
           bgHover={"rgb(83, 233, 0)"}
-          fontHover={"white"}
         />
       );
       break;
@@ -51,7 +53,6 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
           bgColor={"rgba(140, 146, 149, 0.2)"}
           fontColor={"rgb(97, 100, 102)"}
           bgHover={"rgb(140, 146, 149)"}
-          fontHover={"white"}
         />
       );
       break;
@@ -164,8 +165,12 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         </div>
         <div className={classes["my-tickets-wrapper__divider"]}></div>
         <div className={classes["my-tickets-wrapper__ticket-details-wrapper"]}>
-          <div className={classes["my-tickets-wrapper__ticket-details__title"]}>
-            {ticket.id} - {ticket.title}
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div
+              className={classes["my-tickets-wrapper__ticket-details__title"]}
+            >
+              {ticket.id} - {ticket.title}
+            </div>
           </div>
           <div
             className={
@@ -304,32 +309,23 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
             </div>
           </div>
         </div>
-        <div className={classes["my-tickets-wrapper__ticket-activity-wrapper"]}>
+        <div>
           <div
             className={
               classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
             }
           >
-            <div
-              className={
-                classes["my-tickets-wrapper__ticket-activity__started"]
-              }
-            >
-              Started:
-              <span
-                className={
-                  classes["my-tickets-wrapper__ticket-activity__started-date"]
-                }
-              >
-                {ticket.started}
-              </span>
-            </div>
+            {ticket?.checklistItems.length > 0 && (
+              <Progress
+                // style={{ marginLeft: 20 }}
+                percent={progressPercentage}
+                size="small"
+              />
+            )}
+
             {statusTag}
           </div>
         </div>
-      </div>
-      <div className={classes["my-tickets-wrapper__icon-wrapper"]}>
-        <FaEllipsisV />
       </div>
     </div>
   );
