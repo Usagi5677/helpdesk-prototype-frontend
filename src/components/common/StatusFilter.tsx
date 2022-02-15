@@ -1,5 +1,6 @@
 import { Select } from "antd";
 import { Status } from "../../models/Enums";
+import StatusTag from "./StatusTag";
 
 const StatusFilter = ({ onChange }: { onChange?: (val: Status) => void }) => {
   return (
@@ -17,17 +18,18 @@ const StatusFilter = ({ onChange }: { onChange?: (val: Status) => void }) => {
         showArrow
         style={{ minWidth: 179 }}
         bordered={false}
-        // Mapping the Status enum after changing it to an array
-        options={(Object.keys(Status) as Array<keyof typeof Status>).map(
-          (status) => ({
-            value: status,
-            label: status,
-          })
-        )}
         placeholder="Filter status"
         onChange={onChange}
         allowClear={true}
-      />
+      >
+        {(Object.keys(Status) as Array<keyof typeof Status>).map(
+          (status: any) => (
+            <Select.Option key={status} value={status}>
+              <StatusTag status={status} />
+            </Select.Option>
+          )
+        )}
+      </Select>
     </div>
   );
 };

@@ -1,12 +1,11 @@
-import { FaGlobe, FaRegEnvelope, FaEllipsisV } from "react-icons/fa";
+import { FaGlobe, FaRegEnvelope } from "react-icons/fa";
 import classes from "./Ticket.module.css";
-import StatusTag from ".././UI/StatusTag/StatusTag";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
-import User from "../../models/User";
-import { Progress, Tag } from "antd";
+import { Avatar, Progress, Tag, Tooltip } from "antd";
 import { stringToColor } from "../../helpers/style";
+import StatusTag from "../common/StatusTag";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -14,97 +13,17 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
       ticket?.checklistItems.length) *
       100
   );
-  let statusTag;
-  switch (ticket.status) {
-    case "Open":
-      statusTag = (
-        <StatusTag
-          name={ticket.status}
-          bgColor={"rgba(0, 183, 255, 0.2)"}
-          fontColor={"rgb(0, 115, 161)"}
-          bgHover={"rgb(0, 183, 255)"}
-        />
-      );
-      break;
-    case "Pending":
-      statusTag = (
-        <StatusTag
-          name={ticket.status}
-          bgColor={"rgba(247, 173, 3, 0.2)"}
-          fontColor={"rgb(145, 101, 0)"}
-          bgHover={"rgb(247, 173, 3)"}
-        />
-      );
-      break;
-    case "Solved":
-      statusTag = (
-        <StatusTag
-          name={ticket.status}
-          bgColor={"rgba(83, 233, 0, 0.2)"}
-          fontColor={"rgb(61, 163, 2)"}
-          bgHover={"rgb(83, 233, 0)"}
-        />
-      );
-      break;
-    case "Closed":
-      statusTag = (
-        <StatusTag
-          name={ticket.status}
-          bgColor={"rgba(140, 146, 149, 0.2)"}
-          fontColor={"rgb(97, 100, 102)"}
-          bgHover={"rgb(140, 146, 149)"}
-        />
-      );
-      break;
-    case "Reopened":
-      statusTag = (
-        <StatusTag
-          name={ticket.status}
-          bgColor={"rgba(0, 241, 255, 0.2)"}
-          fontColor={"rgb(0, 160, 161)"}
-          bgHover={"rgb(0, 183, 255)"}
-          fontHover={"white"}
-        />
-      );
-      break;
-    default:
-      statusTag = (
-        <StatusTag
-          name="Unassigned"
-          bgColor={"rgba(0, 183, 255, 0.2)"}
-          fontColor={"rgb(0, 115, 161)"}
-          bgHover={"rgb(0, 183, 255)"}
-          fontHover={"white"}
-        />
-      );
-      break;
-  }
-
-  let moreThanThreeAssign: any;
-  if (ticket.agents.length > 2) {
-    moreThanThreeAssign = ticket.agents.slice(3, ticket.agents.length);
-  }
 
   return (
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
-          {/* {ticket.profileIcon ? (
-            <DefaultAvatar
-              userAvatar={ticket.profileIcon}
-              userAvatarWidth={"42px"}
-              userAvatarHeight={"42px"}
-              showAgentList={false}
-            />
-          ) : ( */}
           <DefaultAvatar
             fullname={ticket.createdBy.fullName}
             userAvatarWidth={"36px"}
             userAvatarHeight={"36px"}
             showAgentList={false}
           />
-          {/* )} */}
-
           <div
             className={
               classes["my-tickets-wrapper__user-details__user-info-wrapper"]
@@ -257,59 +176,56 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                 >
                   Agents
                 </div>
-                {ticket.agents.length > 1 ? (
-                  <div
-                    className={
-                      classes[
-                        "my-tickets-wrapper__ticket-details__agent-name-circle-wrapper"
-                      ]
-                    }
+                {ticket?.agents.length > 0 && (
+                  <Avatar.Group
+                    maxCount={5}
+                    maxStyle={{
+                      color: "#f56a00",
+                      backgroundColor: "#fde3cf",
+                    }}
                   >
-                    {ticket.agents.map((agent: User, index: number) => {
-                      if (index === 3) {
-                        return (
-                          <DefaultAvatar
-                            key={agent.id}
-                            fullname={agent.fullName}
-                            moreThan={moreThanThreeAssign}
-                            ticketID={ticket.id}
-                            showAgentList={true}
-                          />
-                        );
-                      } else if (index >= 0 && index < 3) {
-                        return (
-                          <DefaultAvatar
-                            key={agent.id}
-                            fullname={agent.fullName}
-                            agentList={agent.fullName}
-                            showAgentList={true}
-                          />
-                        );
-                      } else return null;
+                    {ticket?.agents.map((agent) => {
+                      return (
+                        <Tooltip
+                          title={
+                            <>
+                              {ticket?.ownerId === agent.id && (
+                                <div style={{ opacity: 0.5 }}>Ticket Owner</div>
+                              )}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {agent.fullName} ({agent.rcno})
+                              </div>
+                            </>
+                          }
+                          placement="bottom"
+                          key={agent.id}
+                        >
+                          <Avatar
+                            style={{
+                              backgroundColor: stringToColor(agent.fullName),
+                            }}
+                          >
+                            {agent.fullName
+                              .match(/^\w|\b\w(?=\S+$)/g)
+                              ?.join()
+                              .replace(",", "")
+                              .toUpperCase()}
+                          </Avatar>
+                        </Tooltip>
+                      );
                     })}
-                  </div>
-                ) : ticket.agents.length === 1 ? (
-                  <div
-                    className={
-                      classes["my-tickets-wrapper__ticket-details__agent-name"]
-                    }
-                  >
-                    {ticket.agents[0].fullName}
-                  </div>
-                ) : (
-                  <div
-                    className={
-                      classes["my-tickets-wrapper__ticket-details__agent-name"]
-                    }
-                  >
-                    Unassigned
-                  </div>
+                  </Avatar.Group>
                 )}
               </div>
             </div>
           </div>
         </div>
-        <div>
+        <div style={{ minWidth: 100 }}>
           <div
             className={
               classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
@@ -323,7 +239,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
               />
             )}
 
-            {statusTag}
+            <StatusTag status={ticket.status} />
           </div>
         </div>
       </div>

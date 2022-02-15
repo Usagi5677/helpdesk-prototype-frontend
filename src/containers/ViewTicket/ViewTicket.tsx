@@ -24,6 +24,7 @@ import FollowerAdder from "../../components/common/FollowerAdder";
 import AddChecklistItem from "../../components/Ticket/AddChecklistItem";
 import ChecklistItem from "../../components/Ticket/ChecklistItem";
 import StatusSelector from "../../components/common/StatusSelector";
+import StatusTag from "../../components/common/StatusTag";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -161,7 +162,7 @@ const ViewTicket = () => {
                 title={
                   <>
                     {ticketData?.ownerId === agent.id && (
-                      <div>Ticket Owner</div>
+                      <div style={{ opacity: 0.5 }}>Ticket Owner</div>
                     )}
                     <div style={{ display: "flex", alignItems: "center" }}>
                       {agent.fullName} ({agent.rcno})
@@ -238,7 +239,9 @@ const ViewTicket = () => {
                 title={
                   <div style={{ display: "flex", alignItems: "center" }}>
                     {follower.fullName} ({follower.rcno})
-                    {(follower.id === user?.id || isAdminOrAssigned) && (
+                    {(follower.id === user?.id ||
+                      isAdminOrAssigned ||
+                      user?.id === ticketData?.createdBy.id) && (
                       <CloseCircleOutlined
                         style={{ cursor: "pointer", marginLeft: 3 }}
                         onClick={() => {
@@ -341,7 +344,9 @@ const ViewTicket = () => {
                 {isAdminOrAssigned ? (
                   <StatusSelector ticket={ticketData} />
                 ) : (
-                  <>{renderInfoRightSide(`${ticketData?.status}`)}</>
+                  <>
+                    <StatusTag status={ticketData?.status} />
+                  </>
                 )}
               </div>
               <div
@@ -414,7 +419,8 @@ const ViewTicket = () => {
                   <>{renderFollowers()}</>
                 )}
               </div>
-              {isAdminOrAssigned && renderFollowers()}
+              {(isAdminOrAssigned || user?.id === ticketData?.createdBy.id) &&
+                renderFollowers()}
             </div>
             {ticketData?.checklistItems.length > 0 ? (
               <div

@@ -4,6 +4,7 @@ import { SET_TICKET_STATUS } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { Status } from "../../models/Enums";
 import Ticket from "../../models/Ticket";
+import StatusTag from "./StatusTag";
 
 const StatusSelector = ({ ticket }: { ticket: Ticket }) => {
   const [setTicketPriority, { loading: settingPriority }] = useMutation(
@@ -33,18 +34,20 @@ const StatusSelector = ({ ticket }: { ticket: Ticket }) => {
         loading={settingPriority}
         style={{ width: "100%" }}
         bordered={false}
-        options={(Object.keys(Status) as Array<keyof typeof Status>).map(
-          (p) => ({
-            value: p,
-            label: p,
-          })
-        )}
         placeholder="Select status"
         value={ticket?.status}
         onChange={(status) =>
           setTicketPriority({ variables: { ticketId: ticket.id, status } })
         }
-      />
+      >
+        {(Object.keys(Status) as Array<keyof typeof Status>).map(
+          (status: any) => (
+            <Select.Option key={status} value={status}>
+              <StatusTag status={status} />
+            </Select.Option>
+          )
+        )}
+      </Select>
     </div>
   );
 };

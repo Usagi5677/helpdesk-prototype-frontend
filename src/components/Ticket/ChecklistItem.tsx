@@ -6,7 +6,6 @@ import {
 } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import ChecklistItemModel from "../../models/ChecklistItem";
-import Ticket from "../../models/Ticket";
 import { CloseCircleOutlined } from "@ant-design/icons";
 
 const ChecklistItem = ({
@@ -55,20 +54,22 @@ const ChecklistItem = ({
         {(deleting || toggling) && (
           <Spin style={{ marginRight: 5 }} size="small" />
         )}
-        <CloseCircleOutlined
-          style={{
-            cursor: "pointer",
-            marginLeft: 3,
-            color: "rgb(65, 65, 65, 0.5)",
-          }}
-          onClick={() => {
-            deleteChecklistItem({
-              variables: {
-                id: item.id,
-              },
-            });
-          }}
-        />
+        {isAdminOrAssigned && (
+          <CloseCircleOutlined
+            style={{
+              cursor: "pointer",
+              marginLeft: 3,
+              color: "rgb(65, 65, 65, 0.5)",
+            }}
+            onClick={() => {
+              deleteChecklistItem({
+                variables: {
+                  id: item.id,
+                },
+              });
+            }}
+          />
+        )}
       </div>
     </div>
   );

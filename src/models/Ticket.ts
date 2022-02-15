@@ -1,12 +1,13 @@
 import Category from "./Category";
 import ChecklistItem from "./ChecklistItem";
+import { Status } from "./Enums";
 import User from "./User";
 
 export default interface Ticket {
   id: number;
   createdAt: Date;
   createdBy: User;
-  status: String;
+  status: Status;
   title: string;
   body?: string;
   rating: number;
