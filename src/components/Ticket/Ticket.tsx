@@ -6,6 +6,7 @@ import moment from "moment";
 import { Avatar, Progress, Tag, Tooltip } from "antd";
 import { stringToColor } from "../../helpers/style";
 import StatusTag from "../common/StatusTag";
+import PriorityTag from "../common/PriorityTag";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -155,7 +156,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                     classes["my-tickets-wrapper__ticket-details__priority-type"]
                   }
                 >
-                  {ticket.priority}
+                  <PriorityTag priority={ticket.priority} />
                 </div>
               </div>
             </div>

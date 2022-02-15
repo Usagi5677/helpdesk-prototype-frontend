@@ -1,6 +1,6 @@
 import Category from "./Category";
 import ChecklistItem from "./ChecklistItem";
-import { Status } from "./Enums";
+import { Priority, Status } from "./Enums";
 import User from "./User";
 
 export default interface Ticket {
@@ -13,7 +13,7 @@ export default interface Ticket {
   rating: number;
   feedback: string;
   started: boolean;
-  priority?: String;
+  priority?: Priority;
   categories: Category[];
   agents: User[];
   ownerId?: number;

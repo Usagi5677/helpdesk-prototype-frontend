@@ -25,6 +25,7 @@ import AddChecklistItem from "../../components/Ticket/AddChecklistItem";
 import ChecklistItem from "../../components/Ticket/ChecklistItem";
 import StatusSelector from "../../components/common/StatusSelector";
 import StatusTag from "../../components/common/StatusTag";
+import PriorityTag from "../../components/common/PriorityTag";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -360,7 +361,9 @@ const ViewTicket = () => {
                 {isAdminOrAssigned ? (
                   <PrioritySelector ticket={ticketData} />
                 ) : (
-                  <>{renderInfoRightSide(`${ticketData?.priority}`)}</>
+                  <>
+                    <PriorityTag priority={ticketData?.priority} />
+                  </>
                 )}
               </div>
               {renderInfoRow("Rating", `Not Rated`)}
