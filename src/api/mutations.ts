@@ -137,3 +137,9 @@ export const SET_TICKET_STATUS = gql`
     setTicketStatus(ticketId: $ticketId, status: $status)
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation ($ticketId: Int!, $body: String!, $isPublic: Boolean) {
+    addComment(ticketId: $ticketId, body: $body, isPublic: $isPublic)
+  }
+`;
