@@ -137,3 +137,9 @@ export const SET_TICKET_STATUS = gql`
     setTicketStatus(ticketId: $ticketId, status: $status)
   }
 `;
+
+export const CREATE_KNOWLEDGEBASE = gql`
+  mutation ($title: String!, $body: String!, $mode: String!) {
+    createKnowledgebase(title: $title, body: $body, mode: $mode)
+  }
+`;

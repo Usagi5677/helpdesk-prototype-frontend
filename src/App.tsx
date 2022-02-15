@@ -15,6 +15,8 @@ import UserContext from "./contexts/UserContext";
 import Users from "./containers/Users/Users";
 import Categories from "./containers/Categories/Categories";
 import UserGroups from "./containers/UserGroups/UserGroups";
+import Knowledgebase from "./containers/Knowledgebase/Knowledgebase"
+import KnowledgebaseCreate from "./containers/Knowledgebase/CreateKnowledgebase"
 
 const ME_QUERY = gql`
   query {
@@ -141,6 +143,8 @@ const App = ({ history }: { history: any }) => {
             <Route path="/categories" element={<Categories />} />
             <Route path="/users" element={<Users />} />
             <Route path="/usergroups" element={<UserGroups />} />
+            <Route path="/knowledgebase" element={<Knowledgebase />} />
+            <Route path="/knowledgebase/create" element={<KnowledgebaseCreate />} />
           </Routes>
         </Layout>
       </ApolloProvider>

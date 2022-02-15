@@ -176,3 +176,43 @@ export const SEARCH_USERS_AND_USERGROUPS = gql`
     }
   }
 `;
+
+export const GET_ALL_KNOWLEDGEBASE = gql`
+  query getAllKnowledgebase(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $search: String
+) {
+  getAllKnowledgebase(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    search: $search
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      count
+    }
+    edges {
+      node {
+        id
+        createdAt
+        createdBy {
+          id
+          rcno
+          fullName
+        }
+        title
+        body
+        mode
+      }
+    }
+  }
+}
+`;
