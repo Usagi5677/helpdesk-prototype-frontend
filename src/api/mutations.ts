@@ -131,3 +131,9 @@ export const TOGGLE_CHECKLIST_ITEM = gql`
     toggleChecklistItem(id: $id, complete: $complete)
   }
 `;
+
+export const SET_TICKET_STATUS = gql`
+  mutation ($ticketId: Int!, $status: Status!) {
+    setTicketStatus(ticketId: $ticketId, status: $status)
+  }
+`;

@@ -1,7 +1,22 @@
+import { useMutation } from "@apollo/client";
 import { Select } from "antd";
+import { SET_TICKET_STATUS } from "../../api/mutations";
+import { errorMessage } from "../../helpers/gql";
 import { Status } from "../../models/Enums";
+import Ticket from "../../models/Ticket";
 
-const StatusSelector = ({ onChange }: { onChange?: (val: Status) => void }) => {
+const StatusSelector = ({ ticket }: { ticket: Ticket }) => {
+  const [setTicketPriority, { loading: settingPriority }] = useMutation(
+    SET_TICKET_STATUS,
+    {
+      onCompleted: () => {},
+      onError: (error) => {
+        errorMessage(error, "Unexpected error occured.");
+      },
+      refetchQueries: ["ticket"],
+    }
+  );
+
   return (
     <div
       style={{
@@ -9,24 +24,26 @@ const StatusSelector = ({ onChange }: { onChange?: (val: Status) => void }) => {
         border: "1px solid #ccc",
         borderRadius: 20,
         padding: "1px 5px 1px 5px",
-        marginLeft: "1rem",
         alignItems: "center",
+        width: 150,
       }}
     >
       <Select
         showArrow
-        style={{ minWidth: 179 }}
+        loading={settingPriority}
+        style={{ width: "100%" }}
         bordered={false}
-        // Mapping the Status enum after changing it to an array
         options={(Object.keys(Status) as Array<keyof typeof Status>).map(
-          (status) => ({
-            value: status,
-            label: status,
+          (p) => ({
+            value: p,
+            label: p,
           })
         )}
-        placeholder="Filter status"
-        onChange={onChange}
-        allowClear={true}
+        placeholder="Select status"
+        value={ticket?.status}
+        onChange={(status) =>
+          setTicketPriority({ variables: { ticketId: ticket.id, status } })
+        }
       />
     </div>
   );

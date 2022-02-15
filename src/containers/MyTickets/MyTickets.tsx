@@ -9,11 +9,11 @@ import { errorMessage } from "../../helpers/gql";
 import TicketModel from "../../models/Ticket";
 import PaginationArgs from "../../models/PaginationArgs";
 import { PAGE_LIMIT } from "../../helpers/constants";
-import { Button, Spin } from "antd";
+import { Spin } from "antd";
 import CategorySelector from "../../components/common/CategorySelector";
 import Search from "../../components/common/Search";
 import { Status } from "../../models/Enums";
-import StatusSelector from "../../components/common/StatusSelector";
+import StatusFilter from "../../components/common/StatusFilter";
 import PaginationButtons from "../../components/common/PaginationButtons";
 
 const MyTickets = () => {
@@ -109,7 +109,7 @@ const MyTickets = () => {
             minWidth={179}
             marginLeft="1rem"
           />
-          <StatusSelector
+          <StatusFilter
             onChange={(status) => setFilter({ ...filter, status })}
           />
         </div>

@@ -330,15 +330,27 @@ const ViewTicket = () => {
                 Ticket Information
               </div>
               {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
-              {/* <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 5,
+                }}
+              >
                 {renderInfoLeftSide("Status")}
                 {isAdminOrAssigned ? (
-                  <StatusSelector />
+                  <StatusSelector ticket={ticketData} />
                 ) : (
-                  <>{renderInfoRightSide(`${ticketData?.priority}`)}</>
+                  <>{renderInfoRightSide(`${ticketData?.status}`)}</>
                 )}
-              </div> */}
-              <div style={{ display: "flex", alignItems: "center" }}>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: 5,
+                }}
+              >
                 {renderInfoLeftSide("Priority")}
                 {isAdminOrAssigned ? (
                   <PrioritySelector ticket={ticketData} />
@@ -396,7 +408,7 @@ const ViewTicket = () => {
                 }}
               >
                 {renderInfoLeftSide("Followers")}
-                {isAdminOrAssigned || user?.id === ticketData.createdBy.id ? (
+                {isAdminOrAssigned || user?.id === ticketData?.createdBy.id ? (
                   <FollowerAdder ticket={ticketData} />
                 ) : (
                   <>{renderFollowers()}</>
