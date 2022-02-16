@@ -143,3 +143,8 @@ export const ADD_COMMENT = gql`
     addComment(ticketId: $ticketId, body: $body, isPublic: $isPublic)
   }
 `;
+export const CREATE_KNOWLEDGEBASE = gql`
+  mutation ($title: String!, $body: String!, $mode: String!) {
+    createKnowledgebase(title: $title, body: $body, mode: $mode)
+  }
+`;

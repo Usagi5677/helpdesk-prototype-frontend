@@ -26,7 +26,6 @@ interface SidebarItem {
 
 const Sidebar = (props: any) => {
   const { user, logout } = useContext(UserContext);
-
   let data: SidebarItem[] = [
     {
       name: "Dashboard",
@@ -51,8 +50,8 @@ const Sidebar = (props: any) => {
       ],
     },
     {
-      name: "Information",
-      path: "/information",
+      name: "Knowledge base",
+      path: "/knowledgebase",
       icon: <FaBook />,
     },
   ];
