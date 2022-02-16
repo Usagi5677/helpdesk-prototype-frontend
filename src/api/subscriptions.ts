@@ -7,6 +7,7 @@ export const COMMENT_CREATED = gql`
     commentCreated(ticketId: $ticketId) {
       id
       body
+      mode
       createdAt
       user {
         ...UserFields

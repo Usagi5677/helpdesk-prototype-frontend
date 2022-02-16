@@ -6,6 +6,8 @@ import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
 import Comment from "../../models/Comment";
 import { COMMENT_CREATED } from "../../api/subscriptions";
+import CommentBubble from "./CommentBubble";
+import CommentGroup from "../../models/CommentGroup";
 
 const Comments = ({ ticket }: { ticket: Ticket }) => {
   const [getComments, { data, loading, subscribeToMore }] = useLazyQuery(
@@ -33,6 +35,26 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
     }
   }, [ticket]);
 
+  const groupedComments = () => {
+    let grouped: CommentGroup[] = [];
+    let lastGroup: any = { user: null, comments: [] };
+    data?.comments.forEach((comment: Comment, index: number) => {
+      const commentWithoutUser = { ...comment, user: undefined };
+      if (lastGroup.user === null) {
+        lastGroup.user = comment.user;
+      } else if (comment.user.id !== lastGroup.user?.id) {
+        grouped.push(lastGroup);
+        lastGroup = { user: null, comments: [] };
+        lastGroup.user = comment.user;
+      }
+      lastGroup.comments.push(commentWithoutUser);
+      if (index + 1 === data?.comments.length) {
+        grouped.push(lastGroup);
+      }
+    });
+    return grouped;
+  };
+
   return (
     <>
       {loading && (
@@ -56,8 +78,8 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
         }}
       >
         <div>
-          {data?.comments.map((comment: Comment) => (
-            <div key={comment.id}>{comment.body}</div>
+          {groupedComments().map((group: CommentGroup, index) => (
+            <CommentBubble group={group} key={index} />
           ))}
         </div>
       </div>

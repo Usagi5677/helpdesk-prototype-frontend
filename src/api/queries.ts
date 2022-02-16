@@ -187,6 +187,7 @@ export const GET_COMMENTS = gql`
         ...UserFields
       }
       body
+      mode
     }
   }
 `;
