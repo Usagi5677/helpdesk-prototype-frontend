@@ -3,21 +3,24 @@ import { SendOutlined, UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { useState } from "react";
+import { createRef, Ref, useContext, useRef, useState } from "react";
 import Ticket from "../../models/Ticket";
+import UserContext from "../../contexts/UserContext";
 
 const ChatInput = ({ ticket }: { ticket: Ticket }) => {
+  const { user } = useContext(UserContext);
   const [value, setValue] = useState("");
   const [isPublic, setIsPublic] = useState(true);
+  const inputRef = useRef<any>(null);
   const [addComment, { loading }] = useMutation(ADD_COMMENT, {
     onCompleted: () => {
       setValue("");
       setIsPublic(true);
+      inputRef.current.focus();
     },
     onError: (error) => {
       errorMessage(error, "Unexpected error while occured.");
     },
-    refetchQueries: ["ticket"],
   });
 
   const send = () => {
@@ -43,7 +46,11 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
           placeholder="Enter message"
           disabled={loading}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          autoFocus
+          ref={inputRef}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
           onPressEnter={() => send()}
           style={{
             resize: "none",
@@ -62,14 +69,16 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
           alignItems: "center",
         }}
       >
-        <div style={{ marginBottom: 5 }}>
-          <Switch
-            checkedChildren="Public"
-            unCheckedChildren="Private"
-            checked={isPublic}
-            onChange={setIsPublic}
-          />
-        </div>
+        {(user?.isAdmin || user?.isAgent) && (
+          <div style={{ marginBottom: 5 }}>
+            <Switch
+              checkedChildren="Public"
+              unCheckedChildren="Private"
+              checked={isPublic}
+              onChange={setIsPublic}
+            />
+          </div>
+        )}
         <Tooltip title="Send">
           <Button
             icon={<SendOutlined />}
@@ -84,8 +93,8 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
             icon={<UploadOutlined />}
             shape="round"
             style={{ width: "100%" }}
-            loading={loading}
-            onClick={() => send()}
+            disabled={loading}
+            // onClick={() => send()}
           />
         </Tooltip>
       </div>

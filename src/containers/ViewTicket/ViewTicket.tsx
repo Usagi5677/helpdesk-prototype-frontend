@@ -27,6 +27,7 @@ import StatusSelector from "../../components/common/StatusSelector";
 import StatusTag from "../../components/common/StatusTag";
 import PriorityTag from "../../components/common/PriorityTag";
 import ChatInput from "../../components/Ticket/ChatInput";
+import Comments from "../../components/Ticket/Comments";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -323,7 +324,9 @@ const ViewTicket = () => {
                 height: "100%",
               }}
             >
-              <div style={{ height: "80%" }}></div>
+              <div style={{ height: "80%" }}>
+                <Comments ticket={ticketData} />
+              </div>
               <div style={{ height: "20%" }}>
                 <ChatInput ticket={ticketData} />
               </div>

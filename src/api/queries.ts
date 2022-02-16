@@ -176,3 +176,17 @@ export const SEARCH_USERS_AND_USERGROUPS = gql`
     }
   }
 `;
+
+export const GET_COMMENTS = gql`
+  ${USER_FRAGMENT}
+  query ticketComments($ticketId: Int!) {
+    comments(ticketId: $ticketId) {
+      id
+      createdAt
+      user {
+        ...UserFields
+      }
+      body
+    }
+  }
+`;
