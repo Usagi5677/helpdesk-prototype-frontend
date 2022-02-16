@@ -148,12 +148,9 @@ export const CREATE_KNOWLEDGEBASE = gql`
     createKnowledgebase(title: $title, body: $body, mode: $mode)
   }
 `;
-<<<<<<< HEAD
 
 export const DELETE_KNOWLEDGEBASE = gql`
   mutation ($knowledgebaseId: Int!) {
     removeKnowledgebase(knowledgebaseId: $knowledgebaseId)
   }
 `;
-=======
->>>>>>> cd47c697b4341e964a7699447ae7ce811cc13754
