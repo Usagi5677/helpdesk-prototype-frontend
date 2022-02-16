@@ -1,0 +1,90 @@
+import { useLazyQuery } from "@apollo/client";
+import { Spin } from "antd";
+import { useEffect } from "react";
+import { GET_COMMENTS } from "../../api/queries";
+import { errorMessage } from "../../helpers/gql";
+import Ticket from "../../models/Ticket";
+import Comment from "../../models/Comment";
+import { COMMENT_CREATED } from "../../api/subscriptions";
+import CommentBubble from "./CommentBubble";
+import CommentGroup from "../../models/CommentGroup";
+
+const Comments = ({ ticket }: { ticket: Ticket }) => {
+  const [getComments, { data, loading, subscribeToMore }] = useLazyQuery(
+    GET_COMMENTS,
+    {
+      onError: (err) => {
+        errorMessage(err, "Error loading request.");
+      },
+    }
+  );
+  useEffect(() => {
+    if (ticket) {
+      getComments({ variables: { ticketId: ticket.id } });
+      subscribeToMore({
+        document: COMMENT_CREATED,
+        variables: { ticketId: ticket?.id },
+        updateQuery: (prev, { subscriptionData }) => {
+          const updated = [
+            ...prev.comments,
+            subscriptionData.data.commentCreated,
+          ];
+          return { comments: updated };
+        },
+      });
+    }
+  }, [ticket]);
+
+  const groupedComments = () => {
+    let grouped: CommentGroup[] = [];
+    let lastGroup: any = { user: null, comments: [] };
+    data?.comments.forEach((comment: Comment, index: number) => {
+      const commentWithoutUser = { ...comment, user: undefined };
+      if (lastGroup.user === null) {
+        lastGroup.user = comment.user;
+      } else if (comment.user.id !== lastGroup.user?.id) {
+        grouped.push(lastGroup);
+        lastGroup = { user: null, comments: [] };
+        lastGroup.user = comment.user;
+      }
+      lastGroup.comments.push(commentWithoutUser);
+      if (index + 1 === data?.comments.length) {
+        grouped.push(lastGroup);
+      }
+    });
+    return grouped;
+  };
+
+  return (
+    <>
+      {loading && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+          }}
+        >
+          <Spin />
+        </div>
+      )}
+      <div
+        style={{
+          overflowY: "auto",
+          height: 380,
+          display: "flex",
+          flexDirection: "column-reverse",
+        }}
+      >
+        <div>
+          {groupedComments().map((group: CommentGroup, index) => (
+            <CommentBubble group={group} key={index} />
+          ))}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Comments;

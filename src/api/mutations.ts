@@ -138,14 +138,22 @@ export const SET_TICKET_STATUS = gql`
   }
 `;
 
+export const ADD_COMMENT = gql`
+  mutation ($ticketId: Int!, $body: String!, $isPublic: Boolean) {
+    addComment(ticketId: $ticketId, body: $body, isPublic: $isPublic)
+  }
+`;
 export const CREATE_KNOWLEDGEBASE = gql`
   mutation ($title: String!, $body: String!, $mode: String!) {
     createKnowledgebase(title: $title, body: $body, mode: $mode)
   }
 `;
+<<<<<<< HEAD
 
 export const DELETE_KNOWLEDGEBASE = gql`
   mutation ($knowledgebaseId: Int!) {
     removeKnowledgebase(knowledgebaseId: $knowledgebaseId)
   }
 `;
+=======
+>>>>>>> cd47c697b4341e964a7699447ae7ce811cc13754
