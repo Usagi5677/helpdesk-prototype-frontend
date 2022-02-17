@@ -75,28 +75,6 @@
   justify-content: space-between;
 }
 
-.view-ticket-container .view-ticket-wrapper__back-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 30px;
-  text-align: center;
-  border-radius: 6px;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  transition: all var(--speed) ease;
-}
-
-.view-ticket-container .view-ticket-wrapper__back-btn:hover {
-  background-color: var(--primary);
-  color: white;
-}
-
-.view-ticket-container .view-ticket-wrapper__back-btn > span {
-  margin-left: 5px;
-}
-
 .view-ticket-container .view-ticket-wrapper__title {
   color: rgb(85, 84, 84);
   font-weight: 700;

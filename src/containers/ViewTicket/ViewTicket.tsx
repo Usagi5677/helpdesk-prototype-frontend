@@ -1,8 +1,7 @@
-import { FaArrowLeft } from "react-icons/fa";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import classes from "./ViewTicket.module.css";
 import { useContext, useEffect } from "react";
-import { Avatar, Tooltip, Tag, Spin, Alert, Progress } from "antd";
+import { Avatar, Tooltip, Tag, Spin, Alert, Progress, Button } from "antd";
 import { stringToColor } from "../../helpers/style";
 import UserContext from "../../contexts/UserContext";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -19,7 +18,11 @@ import {
 } from "../../api/mutations";
 import PrioritySelector from "../../components/common/PrioritySelector";
 import AgentAdder from "../../components/common/AgentAdder";
-import { CloseCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import {
+  CloseCircleOutlined,
+  UpCircleOutlined,
+  LeftOutlined,
+} from "@ant-design/icons";
 import FollowerAdder from "../../components/common/FollowerAdder";
 import AddChecklistItem from "../../components/Ticket/AddChecklistItem";
 import ChecklistItem from "../../components/Ticket/ChecklistItem";
@@ -32,6 +35,7 @@ import Comments from "../../components/Ticket/Comments";
 const ViewTicket = () => {
   const { id }: any = useParams();
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [hasAccess, { data: access, loading: loadingAccess }] = useLazyQuery(
     HAS_TICKET_ACCESS,
@@ -295,9 +299,14 @@ const ViewTicket = () => {
             className={classes["view-ticket-container__view-ticket-wrapper"]}
           >
             <div className={classes["view-ticket-wrapper__header"]}>
-              <button className={classes["view-ticket-wrapper__back-btn"]}>
-                <FaArrowLeft /> <span>Back</span>
-              </button>
+              <Button
+                type="ghost"
+                style={{ borderRadius: 20 }}
+                onClick={() => navigate(-1)}
+                icon={<LeftOutlined />}
+              >
+                Back
+              </Button>
               <div className={classes["view-ticket-wrapper__title"]}>
                 {ticketData?.title}
               </div>
