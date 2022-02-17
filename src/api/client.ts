@@ -14,24 +14,16 @@ function createApolloClient(uri: string | undefined) {
     credentials: "same-origin",
   });
 
+  const token = localStorage.getItem("helpdesk_token");
   const wsLink = new WebSocketLink({
     uri: `ws://${uri?.split("//")[1]}` ?? "ws://localhost:4000/grapql",
     options: {
       reconnect: true,
+      connectionParams: {
+        authToken: token ? `Bearer ${token}` : "",
+      },
     },
   });
-
-  const splitLink = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query);
-      return (
-        definition.kind === "OperationDefinition" &&
-        definition.operation === "subscription"
-      );
-    },
-    wsLink,
-    httpLink
-  );
 
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("helpdesk_token");
@@ -43,8 +35,20 @@ function createApolloClient(uri: string | undefined) {
     };
   });
 
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === "OperationDefinition" &&
+        definition.operation === "subscription"
+      );
+    },
+    wsLink,
+    authLink.concat(httpLink)
+  );
+
   return new ApolloClient({
-    link: authLink.concat(splitLink),
+    link: splitLink,
     cache: new InMemoryCache(),
   });
 }
