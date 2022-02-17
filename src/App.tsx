@@ -17,6 +17,7 @@ import Categories from "./containers/Categories/Categories";
 import UserGroups from "./containers/UserGroups/UserGroups";
 import Knowledgebase from "./containers/Knowledgebase/Knowledgebase"
 import KnowledgebaseCreate from "./containers/Knowledgebase/CreateKnowledgebase"
+import ViewKnowledgebase from "./containers/ViewKnowledgebase/ViewKnowledgebase"
 
 const ME_QUERY = gql`
   query {
@@ -144,6 +145,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/users" element={<Users />} />
             <Route path="/usergroups" element={<UserGroups />} />
             <Route path="/knowledgebase" element={<Knowledgebase />} />
+            <Route path="/knowledgebase/:id" element={<ViewKnowledgebase />} />
             <Route path="/knowledgebase/create" element={<KnowledgebaseCreate />} />
           </Routes>
         </Layout>

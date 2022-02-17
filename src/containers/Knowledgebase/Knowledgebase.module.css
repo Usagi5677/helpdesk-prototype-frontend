@@ -1,8 +1,27 @@
+.knowledgebase-options-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 80px;
+}
 
 .knowledgebase-card-wrapper {
+  margin-top: 20px;
+  margin-left: 20px;
+  display: grid;
+  grid-column-gap: 100px;
+  grid-row-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+}
+
+@media only screen and (min-width: 600px) {
+  .knowledgebase-card-wrapper {
     margin-top: 40px;
     margin-left: 30px;
-    display: grid;
-    grid-gap: 40px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .knowledgebase-options-wrapper {
+    flex-direction: row;
+    min-height: 0;
+  }
 }

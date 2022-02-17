@@ -26,20 +26,8 @@ export const SEARCH_APS_QUERY = gql`
 
 export const CATEGORIES_QUERY = gql`
   ${CATEGORIES_FRAGMENT}
-  query categories(
-    $after: String
-    $before: String
-    $first: Int
-    $last: Int
-    $name: String
-  ) {
-    categories(
-      after: $after
-      before: $before
-      first: $first
-      last: $last
-      name: $name
-    ) {
+  query categories($after: String, $before: String, $first: Int, $last: Int, $name: String) {
+    categories(after: $after, before: $before, first: $first, last: $last, name: $name) {
       pageInfo {
         endCursor
         hasNextPage
@@ -57,20 +45,8 @@ export const CATEGORIES_QUERY = gql`
 `;
 
 export const USER_GROUPS_QUERY = gql`
-  query userGroups(
-    $after: String
-    $before: String
-    $first: Int
-    $last: Int
-    $name: String
-  ) {
-    userGroups(
-      after: $after
-      before: $before
-      first: $first
-      last: $last
-      name: $name
-    ) {
+  query userGroups($after: String, $before: String, $first: Int, $last: Int, $name: String) {
+    userGroups(after: $after, before: $before, first: $first, last: $last, name: $name) {
       pageInfo {
         endCursor
         hasNextPage
@@ -227,6 +203,23 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
           body
           mode
         }
+      }
+    }
+  }
+`;
+
+export const SINGLEKNOWLEDGEBASE = gql`
+  query singleKnowledgebase($knowledgebaseId: Int!) {
+    singleKnowledgebase(knowledgebaseId: $knowledgebaseId) {
+      id
+      title
+      body
+      mode
+      createdBy {
+        id
+        rcno
+        fullName
+        email
       }
     }
   }

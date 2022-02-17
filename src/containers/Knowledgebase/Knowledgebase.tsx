@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import AddKnowledgebase from "../../components/Knowledgebase/AddKnowledgebase";
 import { useLazyQuery } from "@apollo/client";
@@ -11,7 +10,7 @@ import { Spin, Button } from "antd";
 
 import Search from "../../components/common/Search";
 
-import PaginationButtons from "../../components/common/PaginationButtons";
+import KnowledgebasePaginationButtons from "../../components/common/KnowledgebasePaginationButtons";
 import KnowledgebaseCard from "../../components/Knowledgebase/KnowledgebaseCard";
 import classes from "./Knowledgebase.module.css";
 import { useNavigate } from "react-router-dom";
@@ -101,11 +100,7 @@ const Knowledgebase = () => {
       }}
     >
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+        className={classes["knowledgebase-options-wrapper"]}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <Search
@@ -133,7 +128,7 @@ const Knowledgebase = () => {
         })}
       </div>
 
-      <PaginationButtons pageInfo={pageInfo} page={page} next={next} back={back} />
+      <KnowledgebasePaginationButtons pageInfo={pageInfo} page={page} next={next} back={back} />
     </div>
   );
 };

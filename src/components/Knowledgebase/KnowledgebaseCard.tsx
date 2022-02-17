@@ -1,7 +1,7 @@
 import { Card, Avatar, Popconfirm, Button, message, Tooltip } from "antd";
 import Knowledgebase from "../../models/Knowledgebase";
-import { FaPen, FaTrash } from "react-icons/fa";
-import classes from "./Knowledge.module.css";
+import { FaPen, FaTrash, FaEye } from "react-icons/fa";
+import classes from "./KnowledgebaseCard.module.css";
 import sanitizeHtml from "sanitize-html";
 import { avatarColor } from "../../helpers/avatarColor";
 import { useContext } from "react";
@@ -9,6 +9,7 @@ import UserContext from "../../contexts/UserContext";
 import { useMutation } from "@apollo/client";
 import { errorMessage } from "../../helpers/gql";
 import { DELETE_KNOWLEDGEBASE } from "../../api/mutations";
+import { Link } from "react-router-dom";
 const { Meta } = Card;
 
 const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) => {
@@ -33,13 +34,76 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
   const dirty = knowledgebase.body;
   const clean = sanitizeHtml(dirty, {
     allowedTags: [
-      "address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
-      "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
-      "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
-      "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
-      "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
-      "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-      "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr"
+      "address",
+      "article",
+      "aside",
+      "footer",
+      "header",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "hgroup",
+      "main",
+      "nav",
+      "section",
+      "blockquote",
+      "dd",
+      "div",
+      "dl",
+      "dt",
+      "figcaption",
+      "figure",
+      "hr",
+      "li",
+      "main",
+      "ol",
+      "p",
+      "pre",
+      "ul",
+      "a",
+      "abbr",
+      "b",
+      "bdi",
+      "bdo",
+      "br",
+      "cite",
+      "code",
+      "data",
+      "dfn",
+      "em",
+      "i",
+      "kbd",
+      "mark",
+      "q",
+      "rb",
+      "rp",
+      "rt",
+      "rtc",
+      "ruby",
+      "s",
+      "samp",
+      "small",
+      "span",
+      "strong",
+      "sub",
+      "sup",
+      "time",
+      "u",
+      "var",
+      "wbr",
+      "caption",
+      "col",
+      "colgroup",
+      "table",
+      "tbody",
+      "td",
+      "tfoot",
+      "th",
+      "thead",
+      "tr",
     ],
     allowedAttributes: {
       a: ["href"],
@@ -51,15 +115,7 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
 
   return user?.isAdmin ? (
     <Card
-      style={{
-        width: 300,
-        maxHeight: 300,
-        border: "1px solid #ccc",
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        position: "relative",
-      }}
+      className={classes["knowledgebase-card"]}
       bodyStyle={{
         padding: 10,
       }}
@@ -86,6 +142,20 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
             loading={deleting}
           />
         </Popconfirm>,
+        <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
+          <Button
+            key="view"
+            htmlType="button"
+            size="middle"
+            icon={<FaEye />}
+            shape="round"
+            style={{
+              color: "#aaa",
+              marginLeft: "1rem",
+              border: "none",
+            }}
+          />
+        </Link>,
         <Button
           key="edit"
           htmlType="button"
@@ -148,6 +218,20 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
         padding: 10,
       }}
       actions={[
+        <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
+          <Button
+            key="view"
+            htmlType="button"
+            size="middle"
+            icon={<FaEye />}
+            shape="round"
+            style={{
+              color: "#aaa",
+              marginLeft: "1rem",
+              border: "none",
+            }}
+          />
+        </Link>,
         <Button
           key="edit"
           htmlType="button"
