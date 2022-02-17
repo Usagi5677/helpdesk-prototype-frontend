@@ -115,16 +115,9 @@ const Knowledgebase = () => {
           />
         </div>
         <div>
-          <Button
-            htmlType="button"
-            size="middle"
-            onClick={routeChange}
-            style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
-            loading={loading}
-          >
-            Create knowledge base
-          </Button>
+          <AddKnowledgebase/>
         </div>
+        
       </div>
       {loading && (
         <div>
@@ -135,9 +128,7 @@ const Knowledgebase = () => {
         {data?.getAllKnowledgebase.edges.map((rec: { node: KnowledgebaseModel }) => {
           const knowledgebase = rec.node;
           return (
-            <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
-              <KnowledgebaseCard knowledgebase={knowledgebase} />
-            </Link>
+            <KnowledgebaseCard knowledgebase={knowledgebase} key={knowledgebase.id}/>
           );
         })}
       </div>
