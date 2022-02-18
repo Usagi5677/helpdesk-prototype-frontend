@@ -52,20 +52,19 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
 
   // Modify what comment shows based on content
   const parseComment = (comment: string) => {
-    let parsed = <div>{comment}</div>;
-    const docRegEx = /(attachment:[0-9])+/g;
-    const matches = Array.from(comment.matchAll(docRegEx));
+    const attachmentRegEx = /(attachment:[0-9])+/g;
+    const attachmentMatches = Array.from(comment.matchAll(attachmentRegEx));
     // If comment contains attachment: followed by a number, show the attachment
-    if (matches && matches.length > 0) {
-      parsed = (
+    if (attachmentMatches && attachmentMatches.length > 0) {
+      return (
         <ParsedAttachment
           comment={comment}
-          match={matches[0][0]}
+          match={attachmentMatches[0][0]}
           isSelf={isSelf}
         />
       );
     }
-    return parsed;
+    return <div>{comment}</div>;
   };
 
   return (
