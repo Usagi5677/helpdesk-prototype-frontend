@@ -231,3 +231,16 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
     }
   }
 `;
+
+export const ATTACHMENT = gql`
+  query ticketAttachment($id: Int!) {
+    ticketAttachment(id: $id) {
+      id
+      createdAt
+      mimeType
+      originalName
+      description
+      mode
+    }
+  }
+`;
