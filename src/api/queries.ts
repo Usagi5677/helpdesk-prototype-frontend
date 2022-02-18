@@ -232,6 +232,23 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
   }
 `;
 
+export const SINGLEKNOWLEDGEBASE = gql`
+  query singleKnowledgebase($knowledgebaseId: Int!) {
+    singleKnowledgebase(knowledgebaseId: $knowledgebaseId) {
+      id
+      title
+      body
+      mode
+      createdBy {
+        id
+        rcno
+        fullName
+        email
+      }
+    }
+  }
+`;
+
 export const ATTACHMENT = gql`
   query ticketAttachment($id: Int!) {
     ticketAttachment(id: $id) {

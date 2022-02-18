@@ -37,17 +37,7 @@ const DefaultAvatarWrapper = styled.div<any>`
 `;
 
 const DefaultAvatar = (props: any) => {
-  //const [randomValue, setRandomValue] = useState(0);
   let colorValue;
-
-  /*
-  useEffect(() => {
-    const min = 0;
-    const max = 2;
-    setRandomValue(Math.floor(Math.random() * (max - min + 1) + min));
-  }, []);
-  */
-
   const colors = [
     { backgroundColor: "rgb(170, 71, 188)", color: "rgb(255, 255, 255)" }, //0
     { backgroundColor: "rgb(122, 31, 162)", color: "rgb(255, 255, 255)" }, //1

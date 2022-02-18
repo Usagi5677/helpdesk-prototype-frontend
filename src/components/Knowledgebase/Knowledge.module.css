@@ -1,8 +1,0 @@
-.knowledgebase-card-description > * {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-p {
-  margin-bottom: 0 !important;
-}
