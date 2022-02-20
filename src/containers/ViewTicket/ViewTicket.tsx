@@ -418,7 +418,7 @@ const ViewTicket = () => {
                 margin: isSmallDevice ? "20px 0" : "0 0 0 20px",
               }}
             >
-              <div
+              {/* <div
                 style={{
                   fontSize: "1rem",
                   fontWeight: 700,
@@ -426,7 +426,7 @@ const ViewTicket = () => {
                 }}
               >
                 Ticket Information
-              </div>
+              </div> */}
               {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
               <div
                 style={{
