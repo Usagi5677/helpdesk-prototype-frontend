@@ -1,4 +1,4 @@
-import { Button, Input, Switch, Tooltip } from "antd";
+import { Button, Input, message, Switch, Tooltip, Upload } from "antd";
 import { SendOutlined, UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../../api/mutations";
@@ -6,9 +6,13 @@ import { errorMessage } from "../../helpers/gql";
 import { createRef, Ref, useContext, useRef, useState } from "react";
 import Ticket from "../../models/Ticket";
 import UserContext from "../../contexts/UserContext";
+import { RcFile, UploadChangeParam } from "antd/lib/upload";
+import axios from "axios";
 
 const ChatInput = ({ ticket }: { ticket: Ticket }) => {
   const { user } = useContext(UserContext);
+  const [fileList, setFileList] = useState<RcFile[]>([]);
+  const [uploading, setUploading] = useState(false);
   const [value, setValue] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const inputRef = useRef<any>(null);
@@ -30,8 +34,48 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
     });
   };
 
+  // Whenever file is selected, upload
+  const handleFile = (file: any) => {
+    if (file.file.status === "removed") return;
+    // Max allowed file size in bytes.
+    const maxFileSize = 2 * 1000000;
+    if (file.file.size > maxFileSize) {
+      message.error("File size cannot be greater than 2 MB.");
+      return;
+    }
+    setUploading(true);
+    // Send request as form data as files cannot be sent through graphql
+    const data: any = new FormData();
+    data.append("ticketId", `${ticket.id}`);
+    data.append("description", value.trim());
+    data.append("attachment", file.file);
+    const token = localStorage.getItem("helpdesk_token");
+    const url = `${
+      process.env.REACT_APP_API_URL?.split("graphql")[0]
+    }attachment/upload`;
+    axios({
+      method: "post",
+      url,
+      data,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    })
+      .then(function () {
+        setValue("");
+        inputRef.current.focus();
+      })
+      .catch(function (error) {
+        message.error(error.response.data.message);
+      })
+      .finally(function () {
+        setUploading(false);
+      });
+  };
+
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex", height: 100 }}>
       <div
         style={{
           height: "100%",
@@ -89,13 +133,25 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
           />
         </Tooltip>
         <Tooltip title="Upload attachment">
-          <Button
-            icon={<UploadOutlined />}
-            shape="round"
-            style={{ width: "100%" }}
-            disabled={loading}
-            // onClick={() => send()}
-          />
+          <Upload
+            onRemove={() => {
+              setFileList([]);
+            }}
+            beforeUpload={(file) => {
+              setFileList([file]);
+              return false;
+            }}
+            fileList={fileList}
+            onChange={(val: UploadChangeParam) => handleFile(val)}
+            showUploadList={false}
+          >
+            <Button
+              icon={<UploadOutlined style={{ width: 36 }} />}
+              shape="round"
+              style={{ width: "100%" }}
+              loading={uploading}
+            />
+          </Upload>
         </Tooltip>
       </div>
     </div>

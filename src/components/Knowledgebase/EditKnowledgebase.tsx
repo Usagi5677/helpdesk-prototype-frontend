@@ -28,7 +28,6 @@ const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseMode
       refetchQueries: ["getAllKnowledgebase"],
     }
   );
-  console.log("works");
 
   const handleCancel = () => {
     setVisible(false);

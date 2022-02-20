@@ -4,6 +4,7 @@ import CommentGroup from "../../models/CommentGroup";
 import moment from "moment";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import ParsedAttachment from "./ParsedAttachment";
 
 const CommentBubble = ({ group }: { group: CommentGroup }) => {
   const { user } = useContext(UserContext);
@@ -38,6 +39,34 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
     </Tooltip>
   );
 
+  // Determine bubble color based on comment mode or whether it is current user
+  let bubbleColor = (mode: string): string => {
+    let color = "white";
+    if (mode === "Private") color = "#e5e5e5";
+    else if (mode === "Public") {
+      if (isSelf) color = "#e6fef5";
+      else color = "#e6f9ff";
+    }
+    return color;
+  };
+
+  // Modify what comment shows based on content
+  const parseComment = (comment: string) => {
+    const attachmentRegEx = /(attachment:[0-9])+/g;
+    const attachmentMatches = Array.from(comment.matchAll(attachmentRegEx));
+    // If comment contains attachment: followed by a number, show the attachment
+    if (attachmentMatches && attachmentMatches.length > 0) {
+      return (
+        <ParsedAttachment
+          comment={comment}
+          match={attachmentMatches[0][0]}
+          isSelf={isSelf}
+        />
+      );
+    }
+    return <div>{comment}</div>;
+  };
+
   return (
     <div
       style={{
@@ -60,22 +89,22 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
         {group.comments.map((comment, index) => (
           <div
             style={{
-              backgroundColor:
-                comment.mode === "Private"
-                  ? "#e5e5e5"
-                  : isSelf
-                  ? "#e6fef5"
-                  : "#e6f9ff",
+              backgroundColor: bubbleColor(comment.mode),
               borderRadius: 20,
               padding: 10,
               margin: "5px 10px 0 10px",
               display: "flex",
               flexDirection: "column",
               alignItems: isSelf ? "flex-end" : "flex-start",
+              border:
+                comment.mode === "Body"
+                  ? "1px solid rgb(150, 150, 150)"
+                  : "none",
+              fontSize: comment.mode === "Body" ? "110%" : "100%",
             }}
             key={comment.id}
           >
-            {!isSelf && index === 0 && (
+            {((!isSelf && index === 0) || comment.mode === "Body") && (
               <div
                 style={{
                   color: stringToColor(group.user.fullName),
@@ -85,7 +114,7 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
                 {group.user.fullName}
               </div>
             )}
-            <div>{comment.body}</div>
+            {parseComment(comment.body)}
             <div style={{ fontSize: "90%", opacity: 0.5 }}>
               {moment(comment.createdAt).format("DD MMMM YYYY HH:mm:ss")}
             </div>
