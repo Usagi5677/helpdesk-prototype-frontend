@@ -10,6 +10,8 @@ import { useMutation } from "@apollo/client";
 import { errorMessage } from "../../helpers/gql";
 import { DELETE_KNOWLEDGEBASE } from "../../api/mutations";
 import { Link } from "react-router-dom";
+import EditKnowledgebase from "./EditKnowledgebase";
+import ReactQuill from "react-quill";
 const { Meta } = Card;
 
 const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) => {
@@ -117,7 +119,7 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
     <Card
       className={classes["knowledgebase-card"]}
       bodyStyle={{
-        padding: 10,
+        padding: 0,
       }}
       actions={[
         <Popconfirm
@@ -129,50 +131,34 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
           cancelText="No"
           placement="topRight"
         >
-          <Button
-            htmlType="button"
-            size="middle"
-            icon={<FaTrash />}
-            shape="round"
-            style={{
-              color: "var(--error)",
-              marginLeft: "1rem",
-              border: "none",
-            }}
-            loading={deleting}
-          />
+          <Tooltip title={"Delete"} placement="top">
+            <Button
+              htmlType="button"
+              size="middle"
+              icon={<FaTrash />}
+              shape="round"
+              className={classes["btn-delete"]}
+              loading={deleting}
+            />
+          </Tooltip>
         </Popconfirm>,
         <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
-          <Button
-            key="view"
-            htmlType="button"
-            size="middle"
-            icon={<FaEye />}
-            shape="round"
-            style={{
-              color: "#aaa",
-              marginLeft: "1rem",
-              border: "none",
-            }}
-          />
+          <Tooltip title={"Show"} placement="top">
+            <Button
+              key="view"
+              htmlType="button"
+              size="middle"
+              icon={<FaEye />}
+              className={classes["btn-secondary"]}
+            />
+          </Tooltip>
         </Link>,
-        <Button
-          key="edit"
-          htmlType="button"
-          size="middle"
-          icon={<FaPen />}
-          shape="round"
-          style={{
-            color: "#aaa",
-            marginLeft: "1rem",
-            border: "none",
-          }}
-        />,
+        <EditKnowledgebase knowledgebase={knowledgebase} />,
       ]}
     >
       <Meta
         title={
-          <>
+          <div className={classes["title-wrapper"]}>
             <Tooltip title={knowledgebase.createdBy.fullName} placement="top">
               <Avatar
                 style={{
@@ -186,22 +172,23 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
                 {initials}
               </Avatar>
             </Tooltip>
-
             {knowledgebase.title}
-          </>
+          </div>
         }
       />
+      <div className={classes["divider"]}></div>
       <div
         className={classes["knowledgebase-card-description"]}
         style={{
           height: 80,
           overflow: "hidden",
           textOverflow: "ellipsis",
-
           padding: 10,
         }}
-        dangerouslySetInnerHTML={{ __html: clean }}
-      ></div>
+        //dangerouslySetInnerHTML={{ __html: clean }}
+      >
+        <ReactQuill readOnly={true} theme={"bubble"} value={clean} />
+      </div>
     </Card>
   ) : (
     <Card
@@ -219,31 +206,16 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
       }}
       actions={[
         <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
-          <Button
-            key="view"
-            htmlType="button"
-            size="middle"
-            icon={<FaEye />}
-            shape="round"
-            style={{
-              color: "#aaa",
-              marginLeft: "1rem",
-              border: "none",
-            }}
-          />
+          <Tooltip title={"Show"} placement="top">
+            <Button
+              key="view"
+              htmlType="button"
+              size="middle"
+              icon={<FaEye />}
+              className={classes["btn-secondary"]}
+            />
+          </Tooltip>
         </Link>,
-        <Button
-          key="edit"
-          htmlType="button"
-          size="middle"
-          icon={<FaPen />}
-          shape="round"
-          style={{
-            color: "#aaa",
-            marginLeft: "1rem",
-            border: "none",
-          }}
-        />,
       ]}
     >
       <Meta
@@ -276,8 +248,9 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
 
           padding: 10,
         }}
-        dangerouslySetInnerHTML={{ __html: clean }}
-      ></div>
+      >
+        <ReactQuill readOnly={true} theme={"bubble"} value={clean} />
+      </div>
     </Card>
   );
 };

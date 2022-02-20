@@ -123,3 +123,10 @@ a {
   padding-right: 10px;
   padding-left: 10px;
 }
+
+.ant-card-actions {
+  border-top: 1px solid #ccc !important;
+}
+.ant-card-actions > li:not(:last-child) {
+  border-right: 1px solid #ccc !important;
+}

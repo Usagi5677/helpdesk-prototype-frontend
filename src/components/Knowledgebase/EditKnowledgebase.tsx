@@ -1,35 +1,36 @@
 import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, message, Modal, Radio, Row } from "antd";
+import { Button, Col, Form, Input, message, Modal, Radio, Row, Tooltip } from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
-import { CREATE_KNOWLEDGEBASE } from "../../api/mutations";
+import { EDIT_KNOWLEDGEBASE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import ReactQuill from "react-quill";
-import sanitizeHtml from "sanitize-html";
-import "react-quill/dist/quill.snow.css";
+import UserGroup from "../../models/UserGroup";
+import { FaPen, FaTrash, FaEye } from "react-icons/fa";
 import classes from "./KnowledgebaseCard.module.css";
+import KnowledgebaseModel from "../../models/Knowledgebase";
+import ReactQuill from "react-quill";
 
-const AddKnowledgebase = () => {
+const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseModel }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
   const [value, setValue] = useState("");
 
-  const [createKnowledgebase, { loading: loadingKnowledgebase }] = useMutation(
-    CREATE_KNOWLEDGEBASE,
+  const [editKnowledgebase, { loading: loadingEditKnowledgebase }] = useMutation(
+    EDIT_KNOWLEDGEBASE,
     {
       onCompleted: () => {
-        message.success("Successfully created knowledge base.");
+        message.success("Successfully updated knowledge base.");
         handleCancel();
       },
       onError: (error) => {
-        errorMessage(error, "Unexpected error while creating knowledge base.");
+        errorMessage(error, "Unexpected error while updating knowledge base.");
       },
       refetchQueries: ["getAllKnowledgebase"],
     }
   );
+  console.log("works");
 
   const handleCancel = () => {
-    form.resetFields();
     setVisible(false);
   };
 
@@ -43,90 +44,15 @@ const AddKnowledgebase = () => {
       message.error("Please enter a description.");
       return;
     }
-
-    const dirty = body;
-    const sanitizedBody = sanitizeHtml(dirty, {
-      allowedTags: [
-        "address",
-        "article",
-        "aside",
-        "footer",
-        "header",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-        "h5",
-        "h6",
-        "hgroup",
-        "main",
-        "nav",
-        "section",
-        "blockquote",
-        "dd",
-        "div",
-        "dl",
-        "dt",
-        "figcaption",
-        "figure",
-        "hr",
-        "li",
-        "main",
-        "ol",
-        "p",
-        "pre",
-        "ul",
-        "a",
-        "abbr",
-        "b",
-        "bdi",
-        "bdo",
-        "br",
-        "cite",
-        "code",
-        "data",
-        "dfn",
-        "em",
-        "i",
-        "kbd",
-        "mark",
-        "q",
-        "rb",
-        "rp",
-        "rt",
-        "rtc",
-        "ruby",
-        "s",
-        "samp",
-        "small",
-        "span",
-        "strong",
-        "sub",
-        "sup",
-        "time",
-        "u",
-        "var",
-        "wbr",
-        "caption",
-        "col",
-        "colgroup",
-        "table",
-        "tbody",
-        "td",
-        "tfoot",
-        "th",
-        "thead",
-        "tr",
-      ],
-      allowedAttributes: {
-        a: ["href"],
-      },
-    });
-
-    createKnowledgebase({
+    if (mode !== "Public" && mode !== "Private") {
+      message.error("Invalid mode.");
+      return;
+    }
+    editKnowledgebase({
       variables: {
+        id: knowledgebase.id,
         title,
-        body: sanitizedBody,
+        body,
         mode,
       },
     });
@@ -134,15 +60,17 @@ const AddKnowledgebase = () => {
 
   return (
     <>
-      <Button
-        htmlType="button"
-        size="middle"
-        onClick={() => setVisible(true)}
-        loading={loadingKnowledgebase}
-        className={classes["btn-primary"]}
-      >
-        Create knowledge base
-      </Button>
+      <Tooltip title={"Edit"} placement="top">
+        <Button
+          key="edit"
+          htmlType="button"
+          size="middle"
+          icon={<FaPen />}
+          onClick={() => setVisible(true)}
+          className={classes["btn-secondary"]}
+        />
+      </Tooltip>
+
       <Modal visible={visible} onCancel={handleCancel} footer={null} width="90vw">
         <Form
           form={form}
@@ -150,7 +78,11 @@ const AddKnowledgebase = () => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
-          initialValues={{ mode: "Public" }}
+          initialValues={{
+            title: knowledgebase.title,
+            body: knowledgebase.body,
+            mode: knowledgebase.mode,
+          }}
         >
           <Form.Item
             label="Title"
@@ -205,10 +137,10 @@ const AddKnowledgebase = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={loadingKnowledgebase}
+                  loading={loadingEditKnowledgebase}
                   style={{ borderRadius: 20 }}
                 >
-                  Add
+                  Update
                 </Button>
               </Form.Item>
             </Col>
@@ -219,4 +151,4 @@ const AddKnowledgebase = () => {
   );
 };
 
-export default AddKnowledgebase;
+export default EditKnowledgebase;

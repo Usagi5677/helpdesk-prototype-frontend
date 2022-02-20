@@ -154,3 +154,9 @@ export const DELETE_KNOWLEDGEBASE = gql`
     removeKnowledgebase(knowledgebaseId: $knowledgebaseId)
   }
 `;
+
+export const EDIT_KNOWLEDGEBASE = gql`
+  mutation ($id: Int!, $title: String!, $body: String!, $mode: String!) {
+    editKnowledgebase(id: $id, title: $title, body: $body, mode: $mode)
+  }
+`;

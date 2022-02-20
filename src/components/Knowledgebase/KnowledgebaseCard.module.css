@@ -17,6 +17,64 @@ p {
   margin-bottom: 0 !important;
 }
 
+.btn-secondary {
+  border-radius: 50% !important;
+  line-height: 0 !important;
+  color: #aaa !important;
+  border: none !important;
+  transition: color 0.3s ease !important;
+}
+.btn-delete {
+  border-radius: 50% !important;
+  line-height: 0 !important;
+  color: var(--error) !important;
+  border: none !important;
+}
+
+.btn-secondary:hover {
+  color: var(--primary) !important;
+}
+.btn-secondary:focus {
+  color: var(--primary) !important;
+}
+.btn-delete:hover {
+  color: rgb(185, 3, 3) !important;
+}
+.btn-delete:focus {
+  color: rgb(185, 3, 3) !important;
+}
+
+.title-wrapper {
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.divider {
+  border-bottom: 1px solid #ccc;
+}
+/*
+AddKnowledgebase.tsx css
+-------------------------
+*/
+
+.btn-primary {
+  border-radius: 26px !important;
+  color: white !important;
+  background-color: var(--primary) !important;
+  border: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+.btn-primary:hover {
+  background-color: #164c70 !important;
+  color: white !important;
+}
+.btn-primary:focus {
+  background-color: #164c70 !important;
+  color: white !important;
+}
+/*
+--------------------------
+*/
 @media only screen and (min-width: 600px) {
   .knowledgebase-card {
     width: 300px;

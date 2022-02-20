@@ -8,34 +8,38 @@
 
 .knowledgebase-content-wrapper {
   width: 100%;
+
   background-color: white;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 10px 10px;
   min-height: 600px;
+  
 }
 
 .knowledgebase-content-wrapper .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 }
 
 .knowledgebase-content-wrapper .back-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 70px;
+  min-width: 70px;
   height: 30px;
   text-align: center;
   border-radius: 6px;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-  transition: all var(--speed) ease;
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+  transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
+  margin-right: 10px;
 }
 .knowledgebase-content-wrapper .back-btn:hover {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   color: white;
 }
 
@@ -47,6 +51,8 @@
   color: rgb(85, 84, 84);
   font-weight: 700;
   font-size: 0.875rem;
+  line-break: normal;
+  word-break: break-all;
 }
 
 .knowledgebase-content-wrapper .content {
@@ -55,6 +61,8 @@
   min-height: 600px;
   border-radius: 20px;
   border: 2px solid #ccc;
+  word-break: break-all;
+  line-break: normal;
 }
 
 .knowledgebase-information-wrapper {
