@@ -323,6 +323,7 @@ const ViewTicket = () => {
               display: "flex",
               flexDirection: "column",
               height: "calc(100vh - 100px)",
+              width: "100%",
             }}
             className={classes["view-ticket-container__view-ticket-wrapper"]}
           >
@@ -346,12 +347,13 @@ const ViewTicket = () => {
                   settingOwner) && <Spin />}
               </div>
             </div>
-            <Tabs defaultActiveKey="Conversation">
-              <Tabs.TabPane
-                tab="Conversation"
-                key="Conversation"
-                style={{ height: "100%" }}
-              >
+            <Tabs
+              defaultActiveKey="Conversation"
+              style={{
+                flex: 1,
+              }}
+            >
+              <Tabs.TabPane tab="Conversation" key="Conversation">
                 <div
                   style={{
                     display: "flex",
