@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import { Spin } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GET_COMMENTS } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import Ticket from "../../models/Ticket";
@@ -10,9 +10,14 @@ import CommentBubble from "./CommentBubble";
 import CommentGroup from "../../models/CommentGroup";
 
 const Comments = ({ ticket }: { ticket: Ticket }) => {
+  const [subscribed, setSubscribed] = useState(false);
+
   const [getComments, { data, loading, subscribeToMore }] = useLazyQuery(
     GET_COMMENTS,
     {
+      onCompleted: () => {
+        subscribe();
+      },
       onError: (err) => {
         errorMessage(err, "Error loading request.");
       },
@@ -21,19 +26,25 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
   useEffect(() => {
     if (ticket) {
       getComments({ variables: { ticketId: ticket.id } });
-      subscribeToMore({
-        document: COMMENT_CREATED,
-        variables: { ticketId: ticket?.id },
-        updateQuery: (prev, { subscriptionData }) => {
-          const updated = [
-            ...prev.comments,
-            subscriptionData.data.commentCreated,
-          ];
-          return { comments: updated };
-        },
-      });
     }
   }, [ticket]);
+
+  const subscribe = () => {
+    // Ensure subscription is done once and not every render
+    if (subscribed) return;
+    subscribeToMore({
+      document: COMMENT_CREATED,
+      variables: { ticketId: ticket?.id },
+      updateQuery: (prev, { subscriptionData }) => {
+        const updated = [
+          ...prev.comments,
+          subscriptionData.data.commentCreated,
+        ];
+        return { comments: updated };
+      },
+    });
+    setSubscribed(true);
+  };
 
   const groupedComments = () => {
     let grouped: CommentGroup[] = [];
@@ -79,8 +90,8 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
         }}
       >
         <div>
-          {groupedComments().map((group: CommentGroup, index) => (
-            <CommentBubble group={group} key={index} />
+          {groupedComments().map((group: CommentGroup) => (
+            <CommentBubble group={group} key={group.comments[0].id} />
           ))}
         </div>
       </div>
