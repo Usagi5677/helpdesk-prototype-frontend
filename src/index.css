@@ -124,14 +124,9 @@ a {
   padding-left: 10px;
 }
 
-<<<<<<< HEAD
 .ant-card-actions {
   border-top: 1px solid #ccc !important;
 }
 .ant-card-actions > li:not(:last-child) {
   border-right: 1px solid #ccc !important;
-=======
-.ant-tabs-content-top {
-  height: 100%;
->>>>>>> 6135eb810be036ba8d6530eebd7dc21ac8e108ec
 }
