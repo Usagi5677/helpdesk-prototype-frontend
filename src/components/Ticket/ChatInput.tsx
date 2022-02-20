@@ -75,7 +75,7 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
   };
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex", height: 100 }}>
       <div
         style={{
           height: "100%",

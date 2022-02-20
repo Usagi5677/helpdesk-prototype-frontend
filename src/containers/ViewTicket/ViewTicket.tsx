@@ -1,7 +1,16 @@
 import { useNavigate, useParams } from "react-router";
 import classes from "./ViewTicket.module.css";
 import { useContext, useEffect } from "react";
-import { Avatar, Tooltip, Tag, Spin, Alert, Progress, Button } from "antd";
+import {
+  Avatar,
+  Tooltip,
+  Tag,
+  Spin,
+  Alert,
+  Progress,
+  Button,
+  Tabs,
+} from "antd";
 import { stringToColor } from "../../helpers/style";
 import UserContext from "../../contexts/UserContext";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -31,6 +40,7 @@ import StatusTag from "../../components/common/StatusTag";
 import PriorityTag from "../../components/common/PriorityTag";
 import ChatInput from "../../components/Ticket/ChatInput";
 import Comments from "../../components/Ticket/Comments";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -285,6 +295,8 @@ const ViewTicket = () => {
     );
   };
 
+  const isSmallDevice = useIsSmallDevice();
+
   return (
     <>
       {loadingAccess && "Loading..."}
@@ -294,8 +306,24 @@ const ViewTicket = () => {
           message="This ticket does not exist or you do not have access to this ticket."
         />
       ) : (
-        <div className={classes["view-ticket-container"]}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isSmallDevice ? "column" : "row",
+          }}
+          className={classes["view-ticket-container"]}
+        >
           <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: 20,
+              boxShadow: "rgba(0, 0, 0, 0.24) 0 3px 8px",
+              padding: 20,
+              fontSize: "0.75rem",
+              display: "flex",
+              flexDirection: "column",
+              height: "calc(100vh - 100px)",
+            }}
             className={classes["view-ticket-container__view-ticket-wrapper"]}
           >
             <div className={classes["view-ticket-wrapper__header"]}>
@@ -318,43 +346,82 @@ const ViewTicket = () => {
                   settingOwner) && <Spin />}
               </div>
             </div>
-            <div className={classes["view-ticket-wrapper__tab-wrapper"]}>
-              <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
-                Conversation
-              </div>
-              <div className={classes["view-ticket-wrapper__tab-wrapper_tab"]}>
-                Attachment
-              </div>
-            </div>
+            <Tabs defaultActiveKey="Conversation">
+              <Tabs.TabPane
+                tab="Conversation"
+                key="Conversation"
+                style={{ height: "100%" }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    fontSize: 12,
+                  }}
+                >
+                  <Comments ticket={ticketData} />
+                  <ChatInput ticket={ticketData} />
+                </div>
+              </Tabs.TabPane>
+              {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
+                <Tabs.TabPane tab="Checklist" key="Checklist">
+                  <div
+                    style={{
+                      overflowY: "auto",
+                      minHeight: 500,
+                    }}
+                  >
+                    {ticketData?.checklistItems.length > 0 && (
+                      <Progress
+                        percent={progressPercentage}
+                        strokeWidth={5}
+                        style={{ marginBottom: 10, paddingRight: 10 }}
+                      />
+                    )}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: 20,
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {isAdminOrAssigned && (
+                        <AddChecklistItem ticket={ticketData} />
+                      )}
+                    </div>
+                    {ticketData?.checklistItems.map((item) => (
+                      <ChecklistItem
+                        key={item.id}
+                        ticketId={ticketData.id}
+                        item={item}
+                        isAdminOrAssigned={isAdminOrAssigned}
+                      />
+                    ))}
+                  </div>
+                </Tabs.TabPane>
+              )}
+            </Tabs>
+          </div>
+          <div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
+                minWidth: 280,
+                backgroundColor: "white",
+                borderRadius: 20,
+                boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                padding: "20px 20px",
+                fontSize: "0.75rem",
+                margin: isSmallDevice ? "20px 0" : "0 0 0 20px",
               }}
             >
-              <div style={{ height: "80%" }}>
-                <Comments ticket={ticketData} />
-              </div>
-              <div style={{ height: "20%" }}>
-                <ChatInput ticket={ticketData} />
-              </div>
-            </div>
-          </div>
-          <div
-            className={
-              classes["view-ticket-container__view-ticket-details-wrapper"]
-            }
-          >
-            <div
-              className={
-                classes[
-                  "view-ticket-container__view-ticket-information-wrapper"
-                ]
-              }
-            >
               <div
-                className={classes["view-ticket-information-wrapper__title"]}
+                style={{
+                  fontSize: "1rem",
+                  fontWeight: 700,
+                  marginBottom: "20px",
+                }}
               >
                 Ticket Information
               </div>
@@ -450,59 +517,6 @@ const ViewTicket = () => {
               {(isAdminOrAssigned || user?.id === ticketData?.createdBy.id) &&
                 renderFollowers()}
             </div>
-            {ticketData?.checklistItems.length > 0 ? (
-              <div
-                style={{
-                  width: "100%",
-                  minWidth: 280,
-                  backgroundColor: "white",
-                  borderRadius: 20,
-                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-                  padding: "20px 20px",
-                  fontSize: "0.75rem",
-                  overflowY: "auto",
-                  margin: "0 10px 0 20px",
-                }}
-              >
-                <Progress
-                  percent={progressPercentage}
-                  strokeWidth={5}
-                  style={{ marginBottom: 10 }}
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 20,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: 700,
-                      width: 80,
-                    }}
-                  >
-                    Checklist
-                  </div>
-                  {isAdminOrAssigned && (
-                    <AddChecklistItem ticket={ticketData} />
-                  )}
-                </div>
-                {ticketData?.checklistItems.map((item) => (
-                  <ChecklistItem
-                    key={item.id}
-                    ticketId={ticketData.id}
-                    item={item}
-                    isAdminOrAssigned={isAdminOrAssigned}
-                  />
-                ))}
-              </div>
-            ) : (
-              <>
-                {isAdminOrAssigned && <AddChecklistItem ticket={ticketData} />}
-              </>
-            )}
           </div>
         </div>
       )}

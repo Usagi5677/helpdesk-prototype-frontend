@@ -123,3 +123,7 @@ a {
   padding-right: 10px;
   padding-left: 10px;
 }
+
+.ant-tabs-content-top {
+  height: 100%;
+}

@@ -72,9 +72,10 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
       <div
         style={{
           overflowY: "auto",
-          height: 380,
+          height: "100%",
           display: "flex",
           flexDirection: "column-reverse",
+          paddingBottom: 10,
         }}
       >
         <div>

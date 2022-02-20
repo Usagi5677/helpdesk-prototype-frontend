@@ -41,7 +41,7 @@ const AddChecklistItem = ({ ticket }: { ticket: Ticket }) => {
         htmlType="button"
         size="middle"
         onClick={() => setVisible(true)}
-        style={{ color: "var(--primary)", borderRadius: 20, marginLeft: 20 }}
+        style={{ color: "var(--primary)", borderRadius: 20 }}
         loading={loading}
       >
         Add Checklist Item

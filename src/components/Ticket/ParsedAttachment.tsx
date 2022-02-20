@@ -114,7 +114,10 @@ const ParsedAttachment = ({
     >
       {commentRemaining.length > 0 && <div>{commentRemaining}</div>}
       <div>
-        <FileOutlined /> {(loadingAttachment || fileLoading) && <Spin />}
+        <FileOutlined />{" "}
+        {(loadingAttachment || fileLoading) && (
+          <Spin size="small" style={{ marginRight: 5, marginLeft: 5 }} />
+        )}
         {attachment && (
           <span>{shortFileName(attachment.ticketAttachment.originalName)}</span>
         )}
