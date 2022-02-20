@@ -130,3 +130,7 @@ a {
 .ant-card-actions > li:not(:last-child) {
   border-right: 1px solid #ccc !important;
 }
+
+.ant-tabs-content-top {
+  height: 100%;
+}
