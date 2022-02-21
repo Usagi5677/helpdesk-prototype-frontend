@@ -138,3 +138,7 @@ a {
 #AddChecklistItemInput::placeholder {
   color: rgb(191, 191, 191, 1);
 }
+
+#SearchInput::placeholder {
+  color: rgb(191, 191, 191, 1);
+}
