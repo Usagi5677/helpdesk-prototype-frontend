@@ -366,44 +366,7 @@ const ViewTicket = () => {
                   <ChatInput ticket={ticketData} />
                 </div>
               </Tabs.TabPane>
-              {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
-                <Tabs.TabPane tab="Checklist" key="Checklist">
-                  <div
-                    style={{
-                      overflowY: "auto",
-                      minHeight: 500,
-                    }}
-                  >
-                    {ticketData?.checklistItems.length > 0 && (
-                      <Progress
-                        percent={progressPercentage}
-                        strokeWidth={5}
-                        style={{ marginBottom: 10, paddingRight: 10 }}
-                      />
-                    )}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: 20,
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      {isAdminOrAssigned && (
-                        <AddChecklistItem ticket={ticketData} />
-                      )}
-                    </div>
-                    {ticketData?.checklistItems.map((item) => (
-                      <ChecklistItem
-                        key={item.id}
-                        ticketId={ticketData.id}
-                        item={item}
-                        isAdminOrAssigned={isAdminOrAssigned}
-                      />
-                    ))}
-                  </div>
-                </Tabs.TabPane>
-              )}
+              {/* <Tabs.TabPane tab="Attachments" key="Attachments"></Tabs.TabPane> */}
             </Tabs>
           </div>
           <div>
@@ -519,6 +482,48 @@ const ViewTicket = () => {
               {(isAdminOrAssigned || user?.id === ticketData?.createdBy.id) &&
                 renderFollowers()}
             </div>
+            {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
+              <div
+                style={{
+                  minWidth: 280,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+                  padding: "20px 20px",
+                  fontSize: "0.75rem",
+                  margin: isSmallDevice ? "20px 0" : "20px 0 0 20px",
+                }}
+              >
+                {ticketData?.checklistItems.length > 0 && (
+                  <Progress
+                    percent={progressPercentage}
+                    strokeWidth={5}
+                    style={{ marginBottom: 10, paddingRight: 10 }}
+                  />
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom:
+                      ticketData?.checklistItems.length > 0 ? 20 : 0,
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {isAdminOrAssigned && (
+                    <AddChecklistItem ticket={ticketData} />
+                  )}
+                </div>
+                {ticketData?.checklistItems.map((item) => (
+                  <ChecklistItem
+                    key={item.id}
+                    ticketId={ticketData.id}
+                    item={item}
+                    isAdminOrAssigned={isAdminOrAssigned}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

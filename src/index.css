@@ -134,3 +134,7 @@ a {
 .ant-tabs-content-top {
   height: 100%;
 }
+
+#AddChecklistItemInput::placeholder {
+  color: rgb(191, 191, 191, 1);
+}

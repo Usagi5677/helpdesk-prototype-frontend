@@ -54,7 +54,7 @@ const ChecklistItem = ({
         {(deleting || toggling) && (
           <Spin style={{ marginRight: 5 }} size="small" />
         )}
-        {isAdminOrAssigned && (
+        {isAdminOrAssigned && !deleting && (
           <CloseCircleOutlined
             style={{
               cursor: "pointer",
