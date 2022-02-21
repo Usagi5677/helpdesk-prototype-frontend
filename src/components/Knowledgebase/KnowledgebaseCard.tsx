@@ -172,7 +172,13 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
                 {initials}
               </Avatar>
             </Tooltip>
-            {knowledgebase.title}
+            <Link
+              className={classes["title"]}
+              to={"/knowledgebase/" + knowledgebase.id}
+              key={knowledgebase.id}
+            >
+              {knowledgebase.title}
+            </Link>
           </div>
         }
       />
@@ -220,7 +226,7 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
     >
       <Meta
         title={
-          <>
+          <div className={classes["title-wrapper"]}>
             <Tooltip title={knowledgebase.createdBy.fullName} placement="top">
               <Avatar
                 style={{
@@ -234,9 +240,14 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
                 {initials}
               </Avatar>
             </Tooltip>
-
-            {knowledgebase.title}
-          </>
+            <Link
+              className={classes["title"]}
+              to={"/knowledgebase/" + knowledgebase.id}
+              key={knowledgebase.id}
+            >
+              {knowledgebase.title}
+            </Link>
+          </div>
         }
       />
       <div
@@ -245,7 +256,6 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
           height: 80,
           overflow: "hidden",
           textOverflow: "ellipsis",
-
           padding: 10,
         }}
       >

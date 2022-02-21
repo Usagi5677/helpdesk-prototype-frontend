@@ -30,7 +30,7 @@
 .navbar__icon {
   color: white;
   cursor: pointer;
-  margin: 0 5px;
+  margin: 0 10px;
 }
 
 @media only screen and (min-width: 600px) {
@@ -42,7 +42,7 @@
   }
   .navbar__icon {
     font-size: 1.25rem;
-    margin: 0 10px;
+    margin: 0 20px;
   }
   .navbar-wrapper {
     padding: 20px;

@@ -16,19 +16,24 @@ const Layout = (props: any) => {
     setSubmenuOpen(!submenuOpen);
   };
 
-  const sidebarToggleHandler = () => {
-    setSidebarIsVisible(!sidebarIsVisible);
+  const sidebarOpenHandler = () => {
+    setSidebarIsVisible(true);
   };
 
+  const sidebarCloseHandler = () => {
+    setSidebarIsVisible(false);
+  };
   return (
     <>
       <Navbar
-        sideBarToggleClicked={sidebarToggleHandler}
-        openSidebar={sidebarIsVisible}
+        sidebarVisible={sidebarIsVisible}
+        openSidebar={sidebarOpenHandler}
+        closeSidebar={sidebarCloseHandler}
       />
       <Sidebar
-        openSidebar={sidebarIsVisible}
-        closeBackdrop={sidebarToggleHandler}
+        sidebarVisible={sidebarIsVisible}
+        openSidebar={sidebarOpenHandler}
+        closeSidebar={sidebarCloseHandler}
         dropdownClick={openDropdownHandler}
         dropdownOpen={dropdownOpen}
         submenuClick={openSubmenuHandler}

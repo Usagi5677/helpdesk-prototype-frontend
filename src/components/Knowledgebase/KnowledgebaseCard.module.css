@@ -48,6 +48,10 @@ p {
   padding: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: blue;
+}
+.title {
+  color: blue !important;
 }
 .divider {
   border-bottom: 1px solid #ccc;

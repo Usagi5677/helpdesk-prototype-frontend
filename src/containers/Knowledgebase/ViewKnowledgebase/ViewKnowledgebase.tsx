@@ -121,7 +121,7 @@ const ViewKnowledgebase = () => {
           <div style={{ width: 28 }}>{loadingKnowledgebase && <Spin />}</div>
         </div>
         <div className={classes["content"]}>
-          <ReactQuill readOnly={true} theme={"bubble"}  value={clean}/>
+          <ReactQuill readOnly={true} theme={"bubble"} value={clean}/>
         </div>
       </div>
       <div className={classes["knowledgebase-information-wrapper"]}>
@@ -130,6 +130,10 @@ const ViewKnowledgebase = () => {
           <div className={classes["heading__row"]}>
             <div className={classes["heading__row__left"]}>ID:</div>
             <div className={classes["heading__row__right"]}>{knowledgebaseData?.id}</div>
+          </div>
+          <div className={classes["heading__row"]}>
+            <div className={classes["heading__row__left"]}>Mode:</div>
+            <div className={classes["heading__row__right"]}>{knowledgebaseData?.mode}</div>
           </div>
           <div className={classes["heading__row"]}>
             <div className={classes["heading__row__left"]}>Created At:</div>

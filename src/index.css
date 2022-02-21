@@ -58,8 +58,8 @@ textarea {
 
 html {
   background-color: var(--html-bg-color) !important;
-  scrollbar-color: var(--primary) #ccc;
-  scrollbar-width: thin;
+  scrollbar-width: thin !important;
+
 }
 
 html::-webkit-scrollbar-track {
@@ -130,3 +130,22 @@ a {
 .ant-card-actions > li:not(:last-child) {
   border-right: 1px solid #ccc !important;
 }
+
+.ql-container.ql-disabled .ql-tooltip {
+  display: none !important;
+}
+
+.ant-drawer-header {
+  padding: 0 !important;
+  border-bottom: none !important;
+  height: 50px !important;
+}
+
+.ant-drawer-title {
+  height: 50px !important;
+}
+
+.ant-drawer-body {
+  padding: 5px !important;
+}
+

@@ -13,7 +13,7 @@
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 10px 10px;
-  min-height: 600px;
+  height: 600px;
   
 }
 
@@ -58,13 +58,17 @@
 .knowledgebase-content-wrapper .content {
   padding: 30px;
   margin-top: 20px;
-  min-height: 600px;
+  height: calc(100% - 50px);
   border-radius: 20px;
   border: 2px solid #ccc;
   word-break: break-all;
   line-break: normal;
+  overflow-y: auto;
 }
 
+.ql-container.ql-disabled .ql-tooltip {
+  display: none !important;
+}
 .knowledgebase-information-wrapper {
   width: 100%;
   height: 400px;

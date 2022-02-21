@@ -13,7 +13,6 @@
   letter-spacing: .6px;
   color: #6c756e;
 }
-
 .sidebar a {
   color: #6c756e !important;
 }
@@ -26,16 +25,17 @@
   left: -300px;
   
 }
-.sidebar-wrapper__logo-wrapper {
+.logo-wrapper{
   width: 100%;
   height: 50px;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   background-color: var(--primary);
+  padding: 5px;
 
 }
-.sidebar__logo {
+.logo {
   height: 100%;
   width: 100%;
   object-fit: contain;
@@ -287,6 +287,25 @@ a[class="active"] .sidebar__sidebar-items-wrapper {
 }
 
 
+
+.sidebar-bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
+
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+ 
+}
+.profile-item {
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+}
 @media only screen and (min-width: 600px) {
   .sidebar {
     font-size: 16px;

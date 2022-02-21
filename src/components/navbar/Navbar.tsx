@@ -10,19 +10,20 @@ const Navbar = (props: any) => {
           <NavLink to={"/"}>
             <div
               className={`${classes["navbar__title"]} ${
-                props.openSidebar ? classes["active"] : ""
+                props.sidebarVisible ? classes["active"] : ""
               }`}
             >
               Help Desk Ticketing System
             </div>
           </NavLink>
+          <FaBars
+            onClick={props.openSidebar}
+            className={classes["navbar__icon"]}
+          />
         </div>
         <div className={classes["navbar__right-side-wrapper"]}>
           <FaBell className={classes["navbar__icon"]}></FaBell>
-          <FaBars
-            onClick={props.sideBarToggleClicked}
-            className={classes["navbar__icon"]}
-          />
+          
         </div>
       </div>
     </nav>
