@@ -149,3 +149,14 @@ a {
   padding: 5px !important;
 }
 
+.ant-tabs-content-top {
+  height: 100%;
+}
+
+#AddChecklistItemInput::placeholder {
+  color: rgb(191, 191, 191, 1);
+}
+
+#SearchInput::placeholder {
+  color: rgb(191, 191, 191, 1);
+}

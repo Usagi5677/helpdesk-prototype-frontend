@@ -15,6 +15,7 @@ import Search from "../../components/common/Search";
 import { Status } from "../../models/Enums";
 import StatusFilter from "../../components/common/StatusFilter";
 import PaginationButtons from "../../components/common/PaginationButtons";
+import DefaultPaginationArgs from "../../models/DefaultPaginationArgs";
 
 const MyTickets = () => {
   const [page, setPage] = useState(1);
@@ -29,7 +30,7 @@ const MyTickets = () => {
       status: Status | null;
     }
   >({
-    first: PAGE_LIMIT,
+    ...DefaultPaginationArgs,
     search: "",
     categoryIds: [],
     status: null,
@@ -60,8 +61,13 @@ const MyTickets = () => {
   }, [search]);
   const searchDebounced = (value: string) => {
     if (timerId) clearTimeout(timerId);
-    //@ts-ignore
-    setTimerId(setTimeout(() => setFilter({ ...filter, search: value }), 500));
+    setTimerId(
+      //@ts-ignore
+      setTimeout(() => {
+        setFilter({ ...filter, search: value, ...DefaultPaginationArgs });
+        setPage(1);
+      }, 500)
+    );
   };
 
   // Pagination functions
@@ -105,12 +111,18 @@ const MyTickets = () => {
             onClick={() => setSearch("")}
           />
           <CategorySelector
-            onChange={(categoryIds) => setFilter({ ...filter, categoryIds })}
+            onChange={(categoryIds) => {
+              setFilter({ ...filter, categoryIds, ...DefaultPaginationArgs });
+              setPage(1);
+            }}
             minWidth={179}
             marginLeft="1rem"
           />
           <StatusFilter
-            onChange={(status) => setFilter({ ...filter, status })}
+            onChange={(status) => {
+              setFilter({ ...filter, status, ...DefaultPaginationArgs });
+              setPage(1);
+            }}
           />
         </div>
         <div>
@@ -119,7 +131,7 @@ const MyTickets = () => {
       </div>
       {loading && (
         <div>
-          <Spin style={{ width: "100%", margin: "0 auto" }} />
+          <Spin size="large" style={{ width: "100%", margin: "100px auto" }} />
         </div>
       )}
       {data?.myTickets.edges.map((rec: { node: TicketModel }) => {

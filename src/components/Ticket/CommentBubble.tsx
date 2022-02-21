@@ -28,6 +28,7 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
       <Avatar
         style={{
           backgroundColor: stringToColor(group.user.fullName),
+          marginBottom: 12,
         }}
       >
         {group.user.fullName
@@ -115,8 +116,11 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
               </div>
             )}
             {parseComment(comment.body)}
-            <div style={{ fontSize: "90%", opacity: 0.5 }}>
-              {moment(comment.createdAt).format("DD MMMM YYYY HH:mm:ss")}
+            <div
+              style={{ fontSize: "90%", opacity: 0.5 }}
+              title={moment(comment.createdAt).format("DD MMMM YYYY HH:mm:ss")}
+            >
+              {moment(comment.createdAt).format("DD MMM HH:mm")}
             </div>
           </div>
         ))}

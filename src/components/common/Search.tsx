@@ -24,7 +24,7 @@ const Search = ({
       <input
         type="text"
         name=""
-        id=""
+        id="SearchInput"
         placeholder="Search"
         value={searchValue}
         onChange={onChange}
