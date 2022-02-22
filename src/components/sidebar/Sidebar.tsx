@@ -1,6 +1,7 @@
 import {
   FaBook,
   FaHome,
+  FaListAlt,
   FaSignOutAlt,
   FaTh,
   FaTicketAlt,
@@ -10,7 +11,7 @@ import {
 import classes from "./Sidebar.module.css";
 import Backdrop from "../UI/Backdrop/Backdrop";
 import { NavLink, useLocation } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Menu, Drawer } from "antd";
 import { Avatar, Tooltip } from "antd";
@@ -30,9 +31,9 @@ interface SidebarItem {
 const Sidebar = (props: any) => {
   const { user, logout } = useContext(UserContext);
   const { pathname } = useLocation();
-  let newSelect:any;
+  let newSelect: any;
 
-  switch (pathname){
+  switch (pathname) {
     case "/":
       newSelect = "dashboard";
       break;
@@ -53,7 +54,6 @@ const Sidebar = (props: any) => {
       break;
   }
 
- 
   let data: SidebarItem[] = [
     {
       key: "dashboard",
@@ -66,7 +66,9 @@ const Sidebar = (props: any) => {
       name: "Tickets",
       path: "/",
       icon: <FaTicketAlt />,
-      dropdowns: [{ key:"mytickets", name: "My tickets", path: "/my-tickets" }],
+      dropdowns: [
+        { key: "mytickets", name: "My tickets", path: "/my-tickets" },
+      ],
     },
     {
       key: "knowledgebase",
@@ -76,10 +78,15 @@ const Sidebar = (props: any) => {
     },
   ];
 
-
-   // Items only shown to admins and agents
-   if (user?.isAdmin || user?.isAgent) {
+  // Items only shown to admins and agents
+  if (user?.isAdmin || user?.isAgent) {
     data.push(
+      {
+        key: "all-tickets",
+        name: "All-Tickets",
+        path: "/all-tickets",
+        icon: <FaListAlt />,
+      },
       {
         key: "categories",
         name: "Categories",
@@ -104,7 +111,7 @@ const Sidebar = (props: any) => {
       icon: <FaUserLock />,
     });
   }
- 
+
   const SidebarData = data;
 
   return (
@@ -124,76 +131,83 @@ const Sidebar = (props: any) => {
         width={300}
         key={"left"}
       >
-        
-        <Menu mode="inline" defaultOpenKeys={newSelect === "mytickets" ? ['tickets'] : []} selectedKeys={[newSelect]}>
-            {SidebarData.map((sbData: any, index: number) => {
-              return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-                <SubMenu key={sbData.key} icon={sbData.icon} title={sbData.name}>
-                  {sbData.dropdowns.map((dropdown: any, index2: number) => (
-                    <Menu.Item key={dropdown.key}>
-                      <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
-                    </Menu.Item>
-                  ))}
-                </SubMenu>
-              ) : (
-                <Menu.Item key={sbData.key} icon={sbData.icon} className={classes["newMenuItem"]}>
-                  <NavLink to={sbData.path}>{sbData.name}</NavLink>
-                </Menu.Item>
-              );
-            })}
-            <Divider
-              style={{
-                position: "absolute",
-                bottom: 5,
-                zIndex: 1,
-                padding: 10,
-                width: 290,
-                height: 60,
-              }}
-            />
-            <Menu.Item
-              key={"signout"}
-              style={{
-                position: "absolute",
-                bottom: 0,
-                zIndex: 1,
-                padding: 10,
-                width: 290,
-                height: 60,
-              }}
-              icon={
-                <Avatar
-                  style={{
-                    backgroundColor: avatarColor(user?.fullName).backgroundColor,
-                    color: avatarColor(user?.fullName).color,
-                  }}
-                >
-                  {user?.fullName
-                    .match(/^\w|\b\w(?=\S+$)/g)
-                    ?.join()
-                    .replace(",", "")
-                    .toUpperCase()}
-                </Avatar>
-              }
-            >
-              <div className={classes["sidebar-bottom-wrapper"]}>
-                <div className={classes["profile"]}>
-                  <div className={classes["profile-item"]}>{user?.fullName}</div>
-                  <div className={classes["profile-item"]}>Profile</div>
-                </div>
-                <Tooltip title={"Logout"} placement="top">
-                  <FaSignOutAlt
-                    onClick={logout}
-                    style={{
-                      width: 30,
-                      height: 30,
-                      lineHeight: 0,
-                    }}
-                  />
-                </Tooltip>
+        <Menu
+          mode="inline"
+          defaultOpenKeys={newSelect === "mytickets" ? ["tickets"] : []}
+          selectedKeys={[newSelect]}
+        >
+          {SidebarData.map((sbData: any, index: number) => {
+            return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
+              <SubMenu key={sbData.key} icon={sbData.icon} title={sbData.name}>
+                {sbData.dropdowns.map((dropdown: any, index2: number) => (
+                  <Menu.Item key={dropdown.key}>
+                    <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+            ) : (
+              <Menu.Item
+                key={sbData.key}
+                icon={sbData.icon}
+                className={classes["newMenuItem"]}
+              >
+                <NavLink to={sbData.path}>{sbData.name}</NavLink>
+              </Menu.Item>
+            );
+          })}
+          <Divider
+            style={{
+              position: "absolute",
+              bottom: 5,
+              zIndex: 1,
+              padding: 10,
+              width: 290,
+              height: 60,
+            }}
+          />
+          <Menu.Item
+            key={"signout"}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              zIndex: 1,
+              padding: 10,
+              width: 290,
+              height: 60,
+            }}
+            icon={
+              <Avatar
+                style={{
+                  backgroundColor: avatarColor(user?.fullName).backgroundColor,
+                  color: avatarColor(user?.fullName).color,
+                }}
+              >
+                {user?.fullName
+                  .match(/^\w|\b\w(?=\S+$)/g)
+                  ?.join()
+                  .replace(",", "")
+                  .toUpperCase()}
+              </Avatar>
+            }
+          >
+            <div className={classes["sidebar-bottom-wrapper"]}>
+              <div className={classes["profile"]}>
+                <div className={classes["profile-item"]}>{user?.fullName}</div>
+                <div className={classes["profile-item"]}>Profile</div>
               </div>
-            </Menu.Item>
-          </Menu>
+              <Tooltip title={"Logout"} placement="top">
+                <FaSignOutAlt
+                  onClick={logout}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    lineHeight: 0,
+                  }}
+                />
+              </Tooltip>
+            </div>
+          </Menu.Item>
+        </Menu>
       </Drawer>
     </>
   );
