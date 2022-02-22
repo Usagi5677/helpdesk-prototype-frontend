@@ -23,9 +23,9 @@ const KnowledgebasePaginationButtons = ({
           }}
         >
           <div>
-            <h1>
+            <h3>
               Page {page} of {Math.ceil(pageInfo.count / KNOWLEDGEBASE_PAGE_LIMIT)}
-            </h1>
+            </h3>
           </div>
           <div style={{ display: "flex" }}>
             {pageInfo.hasPreviousPage && (

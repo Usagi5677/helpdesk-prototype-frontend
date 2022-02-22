@@ -23,9 +23,9 @@ const PaginationButtons = ({
           }}
         >
           <div>
-            <h1>
+            <h3>
               Page {page} of {Math.ceil(pageInfo.count / PAGE_LIMIT)}
-            </h1>
+            </h3>
           </div>
           <div style={{ display: "flex" }}>
             {pageInfo.hasPreviousPage && (
