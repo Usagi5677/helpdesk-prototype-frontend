@@ -209,7 +209,6 @@ em {
 }
 .ant-menu-item-selected > * {
   transform: translateX(10px) !important;
-  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
 }
 
 .ant-menu-light .ant-menu-item:hover,

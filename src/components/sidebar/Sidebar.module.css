@@ -307,7 +307,10 @@ a[class="active"] .sidebar__sidebar-items-wrapper {
   flex-direction: column;
 }
 
-.newMenuItem:hover{
+.newMenuItem > * {
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+}
+.newMenuItem:hover > * {
   transform: translateX(10px) !important;
 }
 

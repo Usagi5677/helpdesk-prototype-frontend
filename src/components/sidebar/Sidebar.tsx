@@ -32,7 +32,7 @@ const Sidebar = (props: any) => {
   const { user, logout } = useContext(UserContext);
   const { pathname } = useLocation();
   let newSelect: any;
-
+  console.log(pathname);
   switch (pathname) {
     case "/":
       newSelect = "dashboard";
@@ -51,6 +51,9 @@ const Sidebar = (props: any) => {
       break;
     case "/users":
       newSelect = "users";
+      break;
+    case "/all-tickets":
+      newSelect = "alltickets";
       break;
   }
 
@@ -82,7 +85,7 @@ const Sidebar = (props: any) => {
   if (user?.isAdmin || user?.isAgent) {
     data.push(
       {
-        key: "all-tickets",
+        key: "alltickets",
         name: "All-Tickets",
         path: "/all-tickets",
         icon: <FaListAlt />,
@@ -214,8 +217,3 @@ const Sidebar = (props: any) => {
 };
 
 export default Sidebar;
-
-/*
-
-
-*/
