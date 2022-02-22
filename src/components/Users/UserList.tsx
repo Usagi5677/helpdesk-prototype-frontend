@@ -1,12 +1,12 @@
 import classes from "./UserList.module.css";
-import DefaultAvatar from "../UI/DefaultAvatar/DefaultAvatar";
 import User from "../../models/User";
-import { message, Popconfirm, Tag } from "antd";
+import { Avatar, message, Popconfirm, Tag } from "antd";
 import { useMutation } from "@apollo/client";
 import { REMOVE_USER_ROLE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import { stringToColor } from "../../helpers/style";
 
 const UserList = ({ user }: { user: User }) => {
   const { user: self } = useContext(UserContext);
@@ -43,12 +43,17 @@ const UserList = ({ user }: { user: User }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <DefaultAvatar
-            fullname={user.fullName}
-            userAvatarWidth={"36px"}
-            userAvatarHeight={"36px"}
-            showAgentList={false}
-          />
+          <Avatar
+            style={{
+              backgroundColor: stringToColor(user.fullName),
+            }}
+          >
+            {user.fullName
+              .match(/^\w|\b\w(?=\S+$)/g)
+              ?.join()
+              .replace(",", "")
+              .toUpperCase()}
+          </Avatar>
           <div style={{ marginLeft: ".5rem" }}>
             {user.fullName} ({user.rcno})
           </div>

@@ -1,6 +1,5 @@
 import classes from "../Users/UserList.module.css";
-import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
-import { Button, message, Popconfirm } from "antd";
+import { Avatar, Button, message, Popconfirm } from "antd";
 import { useMutation } from "@apollo/client";
 import { DELETE_USER_GROUP } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
@@ -10,6 +9,7 @@ import UserGroup from "../../models/UserGroup";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import ViewUserGroupUsers from "./ViewUserGroupUsers";
+import { stringToColor } from "../../helpers/style";
 
 const UserGroupList = ({ userGroup }: { userGroup: UserGroup }) => {
   const { user } = useContext(UserContext);
@@ -43,12 +43,17 @@ const UserGroupList = ({ userGroup }: { userGroup: UserGroup }) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <DefaultAvatar
-            fullname={userGroup.name}
-            userAvatarWidth={"36px"}
-            userAvatarHeight={"36px"}
-            showAgentList={false}
-          />
+          <Avatar
+            style={{
+              backgroundColor: stringToColor(userGroup.name),
+            }}
+          >
+            {userGroup.name
+              .match(/^\w|\b\w(?=\S+$)/g)
+              ?.join()
+              .replace(",", "")
+              .toUpperCase()}
+          </Avatar>
           <div style={{ marginLeft: ".5rem" }}>{userGroup.name}</div>
           {userGroup.mode === "Private" && (
             <FaLock style={{ marginLeft: ".5rem" }} />
