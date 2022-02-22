@@ -1,4 +1,4 @@
-import { FaGlobe, FaRegEnvelope } from "react-icons/fa";
+import { FaRegClock } from "react-icons/fa";
 import classes from "./Ticket.module.css";
 import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import Ticket from "../../models/Ticket";
@@ -33,27 +33,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
             <div
               className={classes["my-tickets-wrapper__user-details__fullname"]}
             >
-              {ticket.createdBy.fullName}
-            </div>
-            <div
-              className={
-                classes["my-tickets-wrapper__user-details__email-wrapper"]
-              }
-            >
-              <div
-                className={
-                  classes["my-tickets-wrapper__user-details__email__icon"]
-                }
-              >
-                <FaRegEnvelope />
-              </div>
-              <div
-                className={
-                  classes["my-tickets-wrapper__user-details__email__text"]
-                }
-              >
-                {ticket.createdBy.email}
-              </div>
+              {ticket.createdBy.fullName} ({ticket.createdBy.rcno})
             </div>
             <div
               className={
@@ -69,7 +49,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                   ]
                 }
               >
-                <FaGlobe />
+                <FaRegClock />
               </div>
               <div
                 className={
@@ -78,7 +58,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                   ]
                 }
               >
-                {moment(ticket.createdAt).format("DD MMMM YYYY")}
+                {moment(ticket.createdAt).format("DD MMMM YYYY HH:mm:ss")}
               </div>
             </div>
           </div>
@@ -228,19 +208,19 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         </div>
         <div style={{ minWidth: 100 }}>
           <div
-            className={
-              classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
-            }
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
           >
             {ticket?.checklistItems.length > 0 && (
-              <Progress
-                // style={{ marginLeft: 20 }}
-                percent={progressPercentage}
-                size="small"
-              />
+              <Progress percent={progressPercentage} size="small" />
             )}
-
-            <StatusTag status={ticket.status} />
+            <div style={{ paddingRight: 24 }}>
+              <StatusTag status={ticket.status} />
+            </div>
           </div>
         </div>
       </div>

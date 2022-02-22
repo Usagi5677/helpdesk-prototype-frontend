@@ -428,10 +428,6 @@ const ViewTicket = () => {
                 "Created on",
                 moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
               )}
-              {renderInfoRow(
-                "Last message",
-                moment().format("DD MMMM YYYY HH:mm")
-              )}
               <div
                 style={{
                   display: "flex",
@@ -485,13 +481,13 @@ const ViewTicket = () => {
             {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
               <div
                 style={{
-                  minWidth: 280,
                   backgroundColor: "white",
                   borderRadius: 20,
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                   padding: "20px 20px",
                   fontSize: "0.75rem",
                   margin: isSmallDevice ? "20px 0" : "20px 0 0 20px",
+                  width: isSmallDevice ? undefined : 280,
                 }}
               >
                 {ticketData?.checklistItems.length > 0 && (
@@ -517,7 +513,6 @@ const ViewTicket = () => {
                 {ticketData?.checklistItems.map((item) => (
                   <ChecklistItem
                     key={item.id}
-                    ticketId={ticketData.id}
                     item={item}
                     isAdminOrAssigned={isAdminOrAssigned}
                   />

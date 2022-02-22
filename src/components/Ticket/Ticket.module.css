@@ -35,18 +35,6 @@
   justify-content: space-between;
 }
 
-.my-tickets-wrapper__user-details__email-wrapper {
-  display: flex;
-  margin-left: 10px;
-  align-items: center;
-}
-.my-tickets-wrapper__user-details__email__icon {
-  line-height: 0;
-}
-.my-tickets-wrapper__user-details__email__text {
-  margin-left: 5px;
-}
-
 .my-tickets-wrapper__user-details__fullname {
   margin-left: 10px;
 }
@@ -100,11 +88,6 @@
   color: rgb(75, 74, 74);
 }
 
-.my-tickets-wrapper__ticket-activity__started-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .my-tickets-wrapper__ticket-activity__response-wrapper {
   display: flex;
 }
@@ -215,9 +198,6 @@
     line-height: 2;
   }
 
-  .my-tickets-wrapper__ticket-activity__started-wrapper {
-    flex-direction: column;
-  }
   .my-tickets-wrapper__icon-wrapper {
     width: 40px;
     display: flex;

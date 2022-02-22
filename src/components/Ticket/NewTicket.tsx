@@ -4,15 +4,18 @@ import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { CREATE_TICKET } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
+import { useNavigate } from "react-router";
 
 const NewTicket = () => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
+  const navigate = useNavigate();
 
   const [createTicket, { loading }] = useMutation(CREATE_TICKET, {
-    onCompleted: () => {
+    onCompleted: (data) => {
       message.success("Successfully created ticket.");
       handleCancel();
+      navigate(`/ticket/${data.createTicket}`);
     },
     onError: (error) => {
       errorMessage(error, "Unexpected error while creating ticket.");

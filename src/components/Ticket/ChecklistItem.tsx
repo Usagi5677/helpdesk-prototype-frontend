@@ -7,13 +7,12 @@ import {
 import { errorMessage } from "../../helpers/gql";
 import ChecklistItemModel from "../../models/ChecklistItem";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const ChecklistItem = ({
-  ticketId,
   item,
   isAdminOrAssigned,
 }: {
-  ticketId: number;
   item: ChecklistItemModel;
   isAdminOrAssigned: boolean | undefined;
 }) => {
@@ -47,8 +46,17 @@ const ChecklistItem = ({
             variables: { id: item.id, complete: e.target.checked },
           })
         }
+        style={{ wordBreak: "break-all" }}
       >
-        {item.description}
+        {item.description}{" "}
+        {item.completedAt && (
+          <span
+            style={{ fontSize: 10, opacity: 0.5, display: "inline-block" }}
+            title={moment(item.completedAt).format("DD MMMM YYYY HH:mm:ss")}
+          >
+            {moment(item.completedAt).format("DD MMM HH:mm")}
+          </span>
+        )}
       </Checkbox>
       <div style={{ display: "flex", marginRight: 15 }}>
         {(deleting || toggling) && (
