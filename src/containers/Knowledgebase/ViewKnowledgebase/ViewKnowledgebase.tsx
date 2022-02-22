@@ -111,6 +111,7 @@ const ViewKnowledgebase = () => {
   });
 
   return (
+    
     <div className={classes["knowledgebase-container"]}>
       <div className={classes["knowledgebase-content-wrapper"]}>
         <div className={classes["header"]}>
@@ -121,7 +122,7 @@ const ViewKnowledgebase = () => {
           <div style={{ width: 28 }}>{loadingKnowledgebase && <Spin />}</div>
         </div>
         <div className={classes["content"]}>
-          <ReactQuill readOnly={true} theme={"bubble"} value={clean}/>
+          <ReactQuill readOnly={true} theme={"bubble"} value={dirty}/>
         </div>
       </div>
       <div className={classes["knowledgebase-information-wrapper"]}>

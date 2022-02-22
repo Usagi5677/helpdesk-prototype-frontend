@@ -152,6 +152,16 @@ const AddKnowledgebase = () => {
           id="myForm"
           initialValues={{ mode: "Public" }}
         >
+          <Form.Item label="Mode" name="mode">
+            <Radio.Group buttonStyle="solid" optionType="button">
+              <Radio.Button value="Public">Public</Radio.Button>
+              <Radio.Button value="Private">Private</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
+            <div>Public knowledge base are visible to all users.</div>
+            <div>Private knowledge base are only visible to admins and agents.</div>
+          </div>
           <Form.Item
             label="Title"
             name="title"
@@ -178,16 +188,7 @@ const AddKnowledgebase = () => {
           >
             <ReactQuill theme="snow" value={value} onChange={setValue} />
           </Form.Item>
-          <Form.Item label="Mode" name="mode">
-            <Radio.Group buttonStyle="solid" optionType="button">
-              <Radio.Button value="Public">Public</Radio.Button>
-              <Radio.Button value="Private">Private</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
-          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
-            <div>Public knowledge base are visible to all users.</div>
-            <div>Private knowledge base are only visible to admins and agents.</div>
-          </div>
+          
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>
