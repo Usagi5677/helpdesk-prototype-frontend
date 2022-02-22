@@ -6,7 +6,7 @@ import { useLazyQuery } from "@apollo/client";
 import { SINGLEKNOWLEDGEBASE } from "../../../api/queries";
 import KnowledgebaseModel from "../../../models/Knowledgebase";
 import sanitizeHtml from "sanitize-html";
-import classes from "./ViewKnowledgebase.module.css";
+import classes from "./ViewKnowledgebase.module.css"
 import { FaArrowLeft } from "react-icons/fa";
 import moment from "moment";
 import ReactQuill from "react-quill";
@@ -31,6 +31,7 @@ const ViewKnowledgebase = () => {
 
   const knowledgebaseData: KnowledgebaseModel = knowledgebase?.singleKnowledgebase;
 
+  //sanitize tags
   const dirty = knowledgebaseData?.body;
   const clean = sanitizeHtml(dirty, {
     allowedTags: [
@@ -111,7 +112,6 @@ const ViewKnowledgebase = () => {
   });
 
   return (
-    
     <div className={classes["knowledgebase-container"]}>
       <div className={classes["knowledgebase-content-wrapper"]}>
         <div className={classes["header"]}>
@@ -122,7 +122,7 @@ const ViewKnowledgebase = () => {
           <div style={{ width: 28 }}>{loadingKnowledgebase && <Spin />}</div>
         </div>
         <div className={classes["content"]}>
-          <ReactQuill readOnly={true} theme={"bubble"} value={dirty}/>
+          <ReactQuill readOnly={true} theme={"bubble"} value={clean}/>
         </div>
       </div>
       <div className={classes["knowledgebase-information-wrapper"]}>

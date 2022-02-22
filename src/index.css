@@ -59,7 +59,6 @@ textarea {
 html {
   background-color: var(--html-bg-color) !important;
   scrollbar-width: thin !important;
-
 }
 
 html::-webkit-scrollbar-track {
@@ -198,3 +197,53 @@ u {
 em {
   font-style: italic;
 }
+
+
+.ant-menu-inline {
+  width: 280px !important;
+  border-right: none !important;
+}
+.ant-menu-item-selected {
+  color: var(--primary) !important;
+  
+}
+.ant-menu-item-selected > * {
+  transform: translateX(10px) !important;
+  transition: transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+}
+
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover {
+  color: var(--primary) !important;
+  
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 3px solid var(--primary) !important;
+}
+
+.ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-expand-icon,
+.ant-menu-submenu:hover > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
+  color: var(--primary) !important;
+}
+
+.ant-menu-item-divider {
+  border-color: #ccc !important;
+}
+
+.ant-menu-inline.ant-menu-root .ant-menu-item,
+.ant-menu-inline.ant-menu-root .ant-menu-submenu-title {
+  transition: transform 0.3s, border-color 0.3s, background 0.3s,
+    padding 0.1s cubic-bezier(0.215, 0.61, 0.355, 1) !important;
+}
+
+.ant-menu-submenu-selected {
+  color: var(--primary) !important;
+}
+

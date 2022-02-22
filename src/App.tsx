@@ -16,7 +16,6 @@ import Users from "./containers/Users/Users";
 import Categories from "./containers/Categories/Categories";
 import UserGroups from "./containers/UserGroups/UserGroups";
 import Knowledgebase from "./containers/Knowledgebase/Knowledgebase"
-import KnowledgebaseEdit from "./components/Knowledgebase/EditKnowledgebase"
 import ViewKnowledgebase from "./containers/Knowledgebase/ViewKnowledgebase/ViewKnowledgebase"
 
 const ME_QUERY = gql`

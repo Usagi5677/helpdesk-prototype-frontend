@@ -44,6 +44,7 @@ const AddKnowledgebase = () => {
       return;
     }
 
+    //sanitize tags
     const dirty = body;
     const sanitizedBody = sanitizeHtml(dirty, {
       allowedTags: [

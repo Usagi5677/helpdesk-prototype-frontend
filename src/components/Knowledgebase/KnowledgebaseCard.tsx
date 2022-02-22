@@ -33,6 +33,7 @@ const KnowledgebaseCard = ({ knowledgebase }: { knowledgebase: Knowledgebase }) 
     });
   };
 
+  //sanitize tags
   const dirty = knowledgebase.body;
   const clean = sanitizeHtml(dirty, {
     allowedTags: [
