@@ -228,19 +228,19 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
         </div>
         <div style={{ minWidth: 100 }}>
           <div
-            className={
-              classes["my-tickets-wrapper__ticket-activity__started-wrapper"]
-            }
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
           >
             {ticket?.checklistItems.length > 0 && (
-              <Progress
-                // style={{ marginLeft: 20 }}
-                percent={progressPercentage}
-                size="small"
-              />
+              <Progress percent={progressPercentage} size="small" />
             )}
-
-            <StatusTag status={ticket.status} />
+            <div style={{ paddingRight: 24 }}>
+              <StatusTag status={ticket.status} />
+            </div>
           </div>
         </div>
       </div>

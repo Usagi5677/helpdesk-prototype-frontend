@@ -100,11 +100,6 @@
   color: rgb(75, 74, 74);
 }
 
-.my-tickets-wrapper__ticket-activity__started-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .my-tickets-wrapper__ticket-activity__response-wrapper {
   display: flex;
 }
@@ -215,9 +210,6 @@
     line-height: 2;
   }
 
-  .my-tickets-wrapper__ticket-activity__started-wrapper {
-    flex-direction: column;
-  }
   .my-tickets-wrapper__icon-wrapper {
     width: 40px;
     display: flex;
