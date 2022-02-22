@@ -20,12 +20,12 @@ const KnowledgebasePaginationButtons = ({
             display: "flex",
             justifyContent: "space-between",
             marginTop: "20px",
+            alignItems: "center",
           }}
         >
           <div>
-            <h3>
-              Page {page} of {Math.ceil(pageInfo.count / KNOWLEDGEBASE_PAGE_LIMIT)}
-            </h3>
+            Page {page} of{" "}
+            {Math.ceil(pageInfo.count / KNOWLEDGEBASE_PAGE_LIMIT)}
           </div>
           <div style={{ display: "flex" }}>
             {pageInfo.hasPreviousPage && (
