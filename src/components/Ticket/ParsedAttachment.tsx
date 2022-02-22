@@ -34,16 +34,18 @@ const ParsedAttachment = ({
   const [isImage, setIsImage] = useState(false);
 
   // This query only loads the attachment's info from the db, not the file
-  const [getAttachment, { data: attachment, loading: loadingAttachment }] =
-    useLazyQuery(ATTACHMENT, {
-      onCompleted: () => {
-        // After attachment's info is retrieved, then fetch the file
-        getFile();
-      },
-      onError: () => {
-        setIsError(true);
-      },
-    });
+  const [
+    getAttachment,
+    { data: attachment, loading: loadingAttachment, error },
+  ] = useLazyQuery(ATTACHMENT, {
+    onCompleted: () => {
+      // After attachment's info is retrieved, then fetch the file
+      getFile();
+    },
+    onError: () => {
+      setIsError(true);
+    },
+  });
 
   // Load attachment only if the comment bubble is in view to prevent
   // unnecessary API calls
@@ -104,44 +106,52 @@ const ParsedAttachment = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: isSelf ? "flex-end" : "flex-start",
-      }}
-      ref={ref}
-    >
-      {commentRemaining.length > 0 && <div>{commentRemaining}</div>}
-      <div>
-        <FileOutlined />{" "}
-        {(loadingAttachment || fileLoading) && (
-          <Spin size="small" style={{ marginRight: 5, marginLeft: 5 }} />
-        )}
-        {attachment && (
-          <span>{shortFileName(attachment.ticketAttachment.originalName)}</span>
-        )}
-        {file && (
-          <Button
-            icon={<DownloadOutlined />}
-            onClick={download}
-            shape="circle"
-            style={{ marginLeft: 10 }}
-          />
-        )}
-      </div>
-      {file && isImage && (
-        <div style={{ marginTop: 10 }}>
-          <Image height={75} width={75} src={file} />
+    <>
+      {error ? (
+        <div>{comment}</div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: isSelf ? "flex-end" : "flex-start",
+          }}
+          ref={ref}
+        >
+          {commentRemaining.length > 0 && <div>{commentRemaining}</div>}
+          <div>
+            <FileOutlined />{" "}
+            {(loadingAttachment || fileLoading) && (
+              <Spin size="small" style={{ marginRight: 5, marginLeft: 5 }} />
+            )}
+            {attachment && (
+              <span>
+                {shortFileName(attachment.ticketAttachment.originalName)}
+              </span>
+            )}
+            {file && (
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={download}
+                shape="circle"
+                style={{ marginLeft: 10 }}
+              />
+            )}
+          </div>
+          {file && isImage && (
+            <div style={{ marginTop: 10 }}>
+              <Image height={75} width={75} src={file} />
+            </div>
+          )}
+          {isError && (
+            <div style={{ color: "orange" }}>
+              <WarningOutlined style={{ marginRight: 5 }} />
+              Error loading attachment.
+            </div>
+          )}
         </div>
       )}
-      {isError && (
-        <div style={{ color: "orange" }}>
-          <WarningOutlined style={{ marginRight: 5 }} />
-          Error loading attachment.
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 
