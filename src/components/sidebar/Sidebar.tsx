@@ -1,6 +1,7 @@
 import {
   FaBook,
   FaHome,
+  FaListAlt,
   FaSignOutAlt,
   FaTh,
   FaTicketAlt,
@@ -46,6 +47,11 @@ const Sidebar = (props: any) => {
       ],
     },
     {
+      name: "All Tickets",
+      path: "/all-tickets",
+      icon: <FaListAlt />,
+    },
+    {
       name: "Categories",
       path: "/categories",
       icon: <FaTh />,
@@ -74,13 +80,18 @@ const Sidebar = (props: any) => {
       icon: <FaHome />,
     },
     {
-      name: "Tickets",
+      name: "All Tickets",
       path: "/",
       icon: <FaTicketAlt />,
       dropdowns: [
         { name: "My tickets", path: "/my-tickets" },
         { name: "Create ticket", path: "/create-ticket" },
       ],
+    },
+    {
+      name: "Tickets",
+      path: "/all-tickets",
+      icon: <FaListAlt />,
     },
     {
       name: "Categories",
@@ -270,7 +281,11 @@ const Sidebar = (props: any) => {
           <Menu mode="inline">
             {SidebarAdminData.map((sbData: any, index: number) => {
               return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-                <SubMenu key={sbData.name + index} icon={sbData.icon} title={sbData.name}>
+                <SubMenu
+                  key={sbData.name + index}
+                  icon={sbData.icon}
+                  title={sbData.name}
+                >
                   {sbData.dropdowns.map((dropdown: any, index2: number) => (
                     <Menu.Item key={dropdown.name + index2}>
                       <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
@@ -304,7 +319,8 @@ const Sidebar = (props: any) => {
               icon={
                 <Avatar
                   style={{
-                    backgroundColor: avatarColor(user?.fullName).backgroundColor,
+                    backgroundColor: avatarColor(user?.fullName)
+                      .backgroundColor,
                     color: avatarColor(user?.fullName).color,
                   }}
                 >
@@ -318,7 +334,9 @@ const Sidebar = (props: any) => {
             >
               <div className={classes["sidebar-bottom-wrapper"]}>
                 <div className={classes["profile"]}>
-                  <div className={classes["profile-item"]}>{user?.fullName}</div>
+                  <div className={classes["profile-item"]}>
+                    {user?.fullName}
+                  </div>
                   <div className={classes["profile-item"]}>Profile</div>
                 </div>
 
@@ -337,7 +355,11 @@ const Sidebar = (props: any) => {
           <Menu mode="inline">
             {SidebarAgentData.map((sbData: any, index: number) => {
               return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-                <SubMenu key={sbData.name + index} icon={sbData.icon} title={sbData.name}>
+                <SubMenu
+                  key={sbData.name + index}
+                  icon={sbData.icon}
+                  title={sbData.name}
+                >
                   {sbData.dropdowns.map((dropdown: any, index2: number) => (
                     <Menu.Item key={dropdown.name + index2}>
                       <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
@@ -355,7 +377,11 @@ const Sidebar = (props: any) => {
           <Menu mode="inline">
             {SidebarUserData.map((sbData: any, index: number) => {
               return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-                <SubMenu key={sbData.name + index} icon={sbData.icon} title={sbData.name}>
+                <SubMenu
+                  key={sbData.name + index}
+                  icon={sbData.icon}
+                  title={sbData.name}
+                >
                   {sbData.dropdowns.map((dropdown: any, index2: number) => (
                     <Menu.Item key={dropdown.name + index2}>
                       <NavLink to={dropdown.path}>{dropdown.name}</NavLink>

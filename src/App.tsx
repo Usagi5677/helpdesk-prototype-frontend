@@ -15,9 +15,10 @@ import UserContext from "./contexts/UserContext";
 import Users from "./containers/Users/Users";
 import Categories from "./containers/Categories/Categories";
 import UserGroups from "./containers/UserGroups/UserGroups";
-import Knowledgebase from "./containers/Knowledgebase/Knowledgebase"
-import KnowledgebaseEdit from "./components/Knowledgebase/EditKnowledgebase"
-import ViewKnowledgebase from "./containers/Knowledgebase/ViewKnowledgebase/ViewKnowledgebase"
+import Knowledgebase from "./containers/Knowledgebase/Knowledgebase";
+import KnowledgebaseEdit from "./components/Knowledgebase/EditKnowledgebase";
+import ViewKnowledgebase from "./containers/Knowledgebase/ViewKnowledgebase/ViewKnowledgebase";
+import AllTickets from "./containers/AllTickets";
 
 const ME_QUERY = gql`
   query {
@@ -139,6 +140,7 @@ const App = ({ history }: { history: any }) => {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/my-tickets" element={<MyTickets />} />
+            <Route path="/all-tickets" element={<AllTickets />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
             <Route path="/ticket/:id" element={<ViewTicket />} />
             <Route path="/categories" element={<Categories />} />
@@ -146,7 +148,6 @@ const App = ({ history }: { history: any }) => {
             <Route path="/usergroups" element={<UserGroups />} />
             <Route path="/knowledgebase" element={<Knowledgebase />} />
             <Route path="/knowledgebase/:id" element={<ViewKnowledgebase />} />
-         
           </Routes>
         </Layout>
       </ApolloProvider>

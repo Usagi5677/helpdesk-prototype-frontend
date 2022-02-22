@@ -54,16 +54,6 @@
 .my-tickets-container .my-tickets-options-wrapper__filter > span {
   margin-left: 5px;
 }
-/*
-.my-tickets-container .my-tickets-list-wrapper {
-  width: 100%;
-  height: calc(100% - 160px);
-  margin-top: 10px;
-  border-radius: 20px;
-  border: 2px solid grey;
-  border-radius: 20px;
-}
-*/
 
 @media only screen and (min-width: 600px) {
   .my-tickets-container .my-tickets-options-wrapper {
