@@ -182,8 +182,3 @@ const Sidebar = (props: any) => {
 };
 
 export default Sidebar;
-
-/*
-
-
-*/
