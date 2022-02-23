@@ -41,6 +41,8 @@ import PriorityTag from "../../components/common/PriorityTag";
 import ChatInput from "../../components/Ticket/ChatInput";
 import Comments from "../../components/Ticket/Comments";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import GiveFeedback from "../../components/Ticket/GiveFeedback";
+import RatingStars from "../../components/Ticket/RatingStars";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -124,15 +126,22 @@ const ViewTicket = () => {
   );
 
   const renderInfoLeftSide = (label: string) => (
-    <div style={{ width: 100 }}>{label}</div>
+    <div style={{ flex: "0 0 100px" }}>{label}</div>
   );
-  const renderInfoRightSide = (label: string) => (
-    <div style={{ fontWeight: 700 }}>{label}</div>
+  const renderInfoRightSide = (label: string, noBold?: boolean) => (
+    <div
+      style={{
+        fontWeight: noBold === true ? undefined : 700,
+        wordBreak: "break-all",
+      }}
+    >
+      {label}
+    </div>
   );
-  const renderInfoRow = (left: string, right: string) => (
+  const renderInfoRow = (left: string, right: string, noBold?: boolean) => (
     <div style={{ display: "flex", marginBottom: 5, marginTop: 5 }}>
       {renderInfoLeftSide(left)}
-      {renderInfoRightSide(right)}
+      {renderInfoRightSide(right, noBold)}
     </div>
   );
 
@@ -313,6 +322,7 @@ const ViewTicket = () => {
           }}
           className={classes["view-ticket-container"]}
         >
+          <GiveFeedback ticket={ticketData} />
           <div
             style={{
               backgroundColor: "white",
@@ -372,24 +382,15 @@ const ViewTicket = () => {
           <div>
             <div
               style={{
-                minWidth: 280,
                 backgroundColor: "white",
                 borderRadius: 20,
                 boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
                 padding: "20px 20px",
                 fontSize: "0.75rem",
                 margin: isSmallDevice ? "20px 0" : "0 0 0 20px",
+                width: isSmallDevice ? undefined : 280,
               }}
             >
-              {/* <div
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  marginBottom: "20px",
-                }}
-              >
-                Ticket Information
-              </div> */}
               {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
               <div
                 style={{
@@ -423,7 +424,6 @@ const ViewTicket = () => {
                   </>
                 )}
               </div>
-              {renderInfoRow("Rating", `Not Rated`)}
               {renderInfoRow(
                 "Created on",
                 moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
@@ -433,7 +433,6 @@ const ViewTicket = () => {
                   display: "flex",
                   alignItems: "center",
                   marginBottom: 5,
-                  flexWrap: "wrap",
                 }}
               >
                 {renderInfoLeftSide("Categories")}
@@ -449,7 +448,6 @@ const ViewTicket = () => {
                   display: "flex",
                   alignItems: "center",
                   marginBottom: 5,
-                  flexWrap: "wrap",
                 }}
               >
                 {renderInfoLeftSide("Agents")}
@@ -465,7 +463,6 @@ const ViewTicket = () => {
                   display: "flex",
                   alignItems: "center",
                   marginBottom: 5,
-                  flexWrap: "wrap",
                 }}
               >
                 {renderInfoLeftSide("Followers")}
@@ -477,6 +474,20 @@ const ViewTicket = () => {
               </div>
               {(isAdminOrAssigned || user?.id === ticketData?.createdBy.id) &&
                 renderFollowers()}
+              {ticketData?.rating && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 5,
+                  }}
+                >
+                  {renderInfoLeftSide("Rating")}
+                  <RatingStars rating={ticketData?.rating} fontSize={15} />
+                </div>
+              )}
+              {ticketData?.feedback &&
+                renderInfoRow("Feedback", ticketData?.feedback, true)}
             </div>
             {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
               <div

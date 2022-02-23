@@ -160,3 +160,9 @@ export const EDIT_KNOWLEDGEBASE = gql`
     editKnowledgebase(id: $id, title: $title, body: $body, mode: $mode)
   }
 `;
+
+export const GIVE_FEEDBACK = gql`
+  mutation ($ticketId: Int!, $rating: Int!, $feedback: String!) {
+    giveFeedback(ticketId: $ticketId, rating: $rating, feedback: $feedback)
+  }
+`;

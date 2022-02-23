@@ -5,6 +5,7 @@ import moment from "moment";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import ParsedAttachment from "./ParsedAttachment";
+import ParsedRating from "./ParsedRating";
 
 const CommentBubble = ({ group }: { group: CommentGroup }) => {
   const { user } = useContext(UserContext);
@@ -53,6 +54,18 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
 
   // Modify what comment shows based on content
   const parseComment = (comment: string) => {
+    const ratingRegEx = /(rating:[0-9]+)+/g;
+    const ratingMatches = Array.from(comment.matchAll(ratingRegEx));
+    // If comment contains rating: followed by a number, show the rating stars
+    if (ratingMatches && ratingMatches.length > 0) {
+      return (
+        <ParsedRating
+          comment={comment}
+          match={ratingMatches[0][0]}
+          isSelf={isSelf}
+        />
+      );
+    }
     const attachmentRegEx = /(attachment:[0-9]+)+/g;
     const attachmentMatches = Array.from(comment.matchAll(attachmentRegEx));
     // If comment contains attachment: followed by a number, show the attachment

@@ -7,6 +7,7 @@ import { Avatar, Progress, Tag, Tooltip } from "antd";
 import { stringToColor } from "../../helpers/style";
 import StatusTag from "../common/StatusTag";
 import PriorityTag from "../common/PriorityTag";
+import RatingStars from "./RatingStars";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -219,8 +220,13 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
               <Progress percent={progressPercentage} size="small" />
             )}
             <div style={{ paddingRight: 24 }}>
-              <StatusTag status={ticket.status} />
+              <StatusTag status={ticket?.status} />
             </div>
+            {ticket?.rating && (
+              <div style={{ paddingRight: 24 }}>
+                <RatingStars rating={ticket?.rating} fontSize={15} />
+              </div>
+            )}
           </div>
         </div>
       </div>

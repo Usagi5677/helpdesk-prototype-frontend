@@ -19,7 +19,7 @@ export const SEARCH_APS_QUERY = gql`
   ${APS_USER_FRAGMENT}
   query search($query: String!) {
     searchAPSUsers(query: $query) {
-      ...UserFields
+      ...UserFieldsAPS
     }
   }
 `;

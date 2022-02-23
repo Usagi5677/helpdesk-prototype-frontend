@@ -20,7 +20,7 @@ export const USER_FRAGMENT = gql`
 `;
 
 export const APS_USER_FRAGMENT = gql`
-  fragment UserFields on User {
+  fragment UserFieldsAPS on User {
     id
     userId
     fullName
@@ -61,5 +61,7 @@ export const TICKET_FRAGMENT = gql`
       description
       completedAt
     }
+    rating
+    feedback
   }
 `;

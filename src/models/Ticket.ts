@@ -10,8 +10,8 @@ export default interface Ticket {
   status: Status;
   title: string;
   body?: string;
-  rating: number;
-  feedback: string;
+  rating?: number;
+  feedback?: string;
   started: boolean;
   priority?: Priority;
   categories: Category[];
