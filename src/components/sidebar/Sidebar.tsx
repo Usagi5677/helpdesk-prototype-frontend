@@ -31,48 +31,20 @@ interface SidebarItem {
 const Sidebar = (props: any) => {
   const { user, logout } = useContext(UserContext);
   const { pathname } = useLocation();
-  let newSelect: any;
 
-  switch (pathname) {
-    case "/":
-      newSelect = "dashboard";
-      break;
-    case "/my-tickets":
-      newSelect = "mytickets";
-      break;
-    case "/knowledgebase":
-      newSelect = "knowledgebase";
-      break;
-    case "/categories":
-      newSelect = "categories";
-      break;
-    case "/usergroups":
-      newSelect = "usergroups";
-      break;
-    case "/users":
-      newSelect = "users";
-      break;
-  }
-
-  let data: SidebarItem[] = [
+  let SidebarData: SidebarItem[] = [
     {
-      key: "dashboard",
       name: "Dashboard",
       path: "/",
       icon: <FaHome />,
     },
     {
-      key: "tickets",
-      name: "Tickets",
-      path: "/",
+      name: "My Tickets",
+      path: "/my-tickets",
       icon: <FaTicketAlt />,
-      dropdowns: [
-        { key: "mytickets", name: "My tickets", path: "/my-tickets" },
-      ],
     },
     {
-      key: "knowledgebase",
-      name: "Knowledge base",
+      name: "Knowledge Base",
       path: "/knowledgebase",
       icon: <FaBook />,
     },
@@ -80,21 +52,20 @@ const Sidebar = (props: any) => {
 
   // Items only shown to admins and agents
   if (user?.isAdmin || user?.isAgent) {
-    data.push(
+    // Insert at second position
+    SidebarData.splice(2, 0, {
+      name: "All Tickets",
+      path: "/all-tickets",
+      icon: <FaListAlt />,
+    });
+    // Insert at the end
+    SidebarData.push(
       {
-        key: "all-tickets",
-        name: "All-Tickets",
-        path: "/all-tickets",
-        icon: <FaListAlt />,
-      },
-      {
-        key: "categories",
         name: "Categories",
         path: "/categories",
         icon: <FaTh />,
       },
       {
-        key: "usergroups",
         name: "User Groups",
         path: "/usergroups",
         icon: <FaUsers />,
@@ -104,15 +75,12 @@ const Sidebar = (props: any) => {
 
   // Items only shown to admins
   if (user?.isAdmin) {
-    data.push({
-      key: "users",
+    SidebarData.push({
       name: "Users",
       path: "/users",
       icon: <FaUserLock />,
     });
   }
-
-  const SidebarData = data;
 
   return (
     <>
@@ -133,12 +101,12 @@ const Sidebar = (props: any) => {
       >
         <Menu
           mode="inline"
-          defaultOpenKeys={newSelect === "mytickets" ? ["tickets"] : []}
-          selectedKeys={[newSelect]}
+          defaultOpenKeys={pathname === "my-tickets" ? ["my-tickets"] : []}
+          selectedKeys={[pathname]}
         >
           {SidebarData.map((sbData: any, index: number) => {
             return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-              <SubMenu key={sbData.key} icon={sbData.icon} title={sbData.name}>
+              <SubMenu key={sbData.path} icon={sbData.icon} title={sbData.name}>
                 {sbData.dropdowns.map((dropdown: any, index2: number) => (
                   <Menu.Item key={dropdown.key}>
                     <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
@@ -147,7 +115,7 @@ const Sidebar = (props: any) => {
               </SubMenu>
             ) : (
               <Menu.Item
-                key={sbData.key}
+                key={sbData.path}
                 icon={sbData.icon}
                 className={classes["newMenuItem"]}
               >
