@@ -16,7 +16,7 @@ function createApolloClient(uri: string | undefined) {
 
   const token = localStorage.getItem("helpdesk_token");
   const wsLink = new WebSocketLink({
-    uri: `ws://${uri?.split("//")[1]}` ?? "ws://localhost:4000/grapql",
+    uri: `wss://${uri?.split("//")[1]}` ?? "ws://localhost:4000/grapql",
     options: {
       reconnect: true,
       connectionParams: {
