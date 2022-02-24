@@ -181,6 +181,50 @@ export const ALL_TICKETS = gql`
   }
 `;
 
+export const ASSIGNED_TICKETS = gql`
+  ${TICKET_FRAGMENT}
+  query assignedTickets(
+    $after: String
+    $before: String
+    $first: Int
+    $last: Int
+    $search: String
+    $status: Status
+    $categoryIds: [Int!]
+    $createdByUserId: String
+    $priority: Priority
+    $from: Date
+    $to: Date
+  ) {
+    assignedTickets(
+      after: $after
+      before: $before
+      first: $first
+      last: $last
+      search: $search
+      categoryIds: $categoryIds
+      createdByUserId: $createdByUserId
+      priority: $priority
+      status: $status
+      from: $from
+      to: $to
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        count
+      }
+      edges {
+        node {
+          ...TicketFields
+        }
+      }
+    }
+  }
+`;
+
 export const HAS_TICKET_ACCESS = gql`
   query hasTicketAccess($ticketId: Int!) {
     hasTicketAccess(ticketId: $ticketId)
