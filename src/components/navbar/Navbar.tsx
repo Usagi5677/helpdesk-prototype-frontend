@@ -1,5 +1,6 @@
 import { FaBars, FaBell } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import NewTicket from "../Ticket/NewTicket";
 import classes from "./Navbar.module.css";
 
 const Navbar = (props: any) => {
@@ -7,23 +8,23 @@ const Navbar = (props: any) => {
     <nav className={classes["navbar"]}>
       <div className={classes["navbar-wrapper"]}>
         <div className={classes["navbar__left-side-wrapper"]}>
+          <FaBars
+            onClick={props.openSidebar}
+            className={classes["navbar__icon"]}
+          />
           <NavLink to={"/"}>
             <div
               className={`${classes["navbar__title"]} ${
                 props.sidebarVisible ? classes["active"] : ""
               }`}
             >
-              Help Desk Ticketing System
+              Helpdesk Ticketing System
             </div>
           </NavLink>
-          <FaBars
-            onClick={props.openSidebar}
-            className={classes["navbar__icon"]}
-          />
         </div>
-        <div className={classes["navbar__right-side-wrapper"]}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <NewTicket iconButton={true} />
           <FaBell className={classes["navbar__icon"]}></FaBell>
-          
         </div>
       </div>
     </nav>

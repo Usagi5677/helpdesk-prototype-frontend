@@ -3,7 +3,7 @@ import { SendOutlined, UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { createRef, Ref, useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Ticket from "../../models/Ticket";
 import UserContext from "../../contexts/UserContext";
 import { RcFile, UploadChangeParam } from "antd/lib/upload";

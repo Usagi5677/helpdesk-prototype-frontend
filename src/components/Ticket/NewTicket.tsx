@@ -1,21 +1,19 @@
 import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, message, Modal, Row } from "antd";
+import { Button, Col, Form, Input, message, Modal, Row, Tooltip } from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { CREATE_TICKET } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { useNavigate } from "react-router";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
-const NewTicket = () => {
+const NewTicket = ({ iconButton }: { iconButton?: boolean }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
-  const navigate = useNavigate();
 
   const [createTicket, { loading }] = useMutation(CREATE_TICKET, {
     onCompleted: (data) => {
       message.success("Successfully created ticket.");
-      handleCancel();
-      navigate(`/ticket/${data.createTicket}`);
+      window.location.href = `/ticket/${data.createTicket}`;
     },
     onError: (error) => {
       errorMessage(error, "Unexpected error while creating ticket.");
@@ -40,15 +38,27 @@ const NewTicket = () => {
 
   return (
     <>
-      <Button
-        htmlType="button"
-        size="middle"
-        onClick={() => setVisible(true)}
-        style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
-        loading={loading}
-      >
-        New Ticket
-      </Button>
+      {iconButton ? (
+        <Tooltip title="New Ticket">
+          <Button
+            icon={<PlusCircleOutlined style={{ fontSize: 20 }} />}
+            shape="circle"
+            type="link"
+            style={{ color: "white" }}
+            onClick={() => setVisible(true)}
+          />
+        </Tooltip>
+      ) : (
+        <Button
+          htmlType="button"
+          size="middle"
+          onClick={() => setVisible(true)}
+          style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
+          loading={loading}
+        >
+          New Ticket
+        </Button>
+      )}
       <Modal visible={visible} closable={false} footer={null}>
         <Form
           form={form}
