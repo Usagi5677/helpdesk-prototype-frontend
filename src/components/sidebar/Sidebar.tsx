@@ -48,6 +48,11 @@ const Sidebar = (props: any) => {
       icon: <FaTicketAlt />,
     },
     {
+      name: "Following Tickets",
+      path: "/following-tickets",
+      icon: <FaTicketAlt />,
+    },
+    {
       name: "Divider",
       path: "divider2",
     },

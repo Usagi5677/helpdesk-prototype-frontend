@@ -19,6 +19,7 @@ import Knowledgebase from "./containers/Knowledgebase/Knowledgebase";
 import ViewKnowledgebase from "./containers/Knowledgebase/ViewKnowledgebase/ViewKnowledgebase";
 import AllTickets from "./containers/AllTickets";
 import AssignedTickets from "./containers/AssignedTickets";
+import FollowingTickets from "./containers/FollowingTickets";
 
 const ME_QUERY = gql`
   query {
@@ -142,6 +143,7 @@ const App = ({ history }: { history: any }) => {
             <Route path="/my-tickets" element={<MyTickets />} />
             <Route path="/all-tickets" element={<AllTickets />} />
             <Route path="/assigned-tickets" element={<AssignedTickets />} />
+            <Route path="/following-tickets" element={<FollowingTickets />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
             <Route path="/ticket/:id" element={<ViewTicket />} />
             <Route path="/categories" element={<Categories />} />
