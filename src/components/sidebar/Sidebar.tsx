@@ -39,9 +39,17 @@ const Sidebar = (props: any) => {
       icon: <FaHome />,
     },
     {
+      name: "Divider",
+      path: "divider1",
+    },
+    {
       name: "My Tickets",
       path: "/my-tickets",
       icon: <FaTicketAlt />,
+    },
+    {
+      name: "Divider",
+      path: "divider2",
     },
     {
       name: "Knowledge Base",
@@ -53,7 +61,7 @@ const Sidebar = (props: any) => {
   // Items only shown to admins and agents
   if (user?.isAdmin || user?.isAgent) {
     // Insert at second position
-    SidebarData.splice(2, 0, {
+    SidebarData.splice(3, 0, {
       name: "All Tickets",
       path: "/all-tickets",
       icon: <FaListAlt />,
@@ -82,6 +90,16 @@ const Sidebar = (props: any) => {
     });
   }
 
+  // Items only shown to agents
+  if (user?.isAgent) {
+    // Insert at third position
+    SidebarData.splice(4, 0, {
+      name: "Assigned Tickets",
+      path: "/assigned-tickets",
+      icon: <FaListAlt />,
+    });
+  }
+
   return (
     <>
       <Backdrop show={props.sidebarVisible} clicked={props.closeSidebar} />
@@ -105,6 +123,7 @@ const Sidebar = (props: any) => {
           selectedKeys={[pathname]}
         >
           {SidebarData.map((sbData: any, index: number) => {
+            if (sbData.name === "Divider") return <Divider key={sbData.path} />;
             return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
               <SubMenu key={sbData.path} icon={sbData.icon} title={sbData.name}>
                 {sbData.dropdowns.map((dropdown: any, index2: number) => (
