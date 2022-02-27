@@ -118,7 +118,7 @@ const ParsedAttachment = ({
           }}
           ref={ref}
         >
-          {commentRemaining.length > 0 && <div>{commentRemaining}</div>}
+          {commentRemaining.trim() !== "" && <div>{commentRemaining}</div>}
           <div>
             <FileOutlined />{" "}
             {(loadingAttachment || fileLoading) && (
@@ -140,7 +140,7 @@ const ParsedAttachment = ({
           </div>
           {file && isImage && (
             <div style={{ marginTop: 10 }}>
-              <Image height={75} width={75} src={file} />
+              <Image height={50} width={75} src={file} />
             </div>
           )}
           {isError && (
