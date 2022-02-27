@@ -122,7 +122,7 @@ const Dashboard = () => {
               (status) => (
                 <StatusCard
                   key={status}
-                  title={status}
+                  status={status}
                   amount={
                     statusCounts?.ticketStatusCount.find(
                       (s: any) => s.status === status

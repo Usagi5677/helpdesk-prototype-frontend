@@ -6,9 +6,12 @@ import {
   FaCheck,
   FaBan,
 } from "react-icons/fa";
+import { useContext } from "react";
+import UserContext from "../../../contexts/UserContext";
+import { useNavigate } from "react-router";
 
 const StatusCardWrapper = styled.div`
-  width: 260px;
+  width: 200px;
   min-height: 100px;
   background-color: white;
   border-radius: 20px;
@@ -18,6 +21,7 @@ const StatusCardWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 `;
 const StatusCardIcon = styled.div<any>`
   display: flex;
@@ -44,11 +48,13 @@ const StatusCardStatusName = styled.div`
   font-size: 1rem;
   text-align: right;
 `;
-const StatusCard = ({ title, amount }: { title: string; amount: number }) => {
+const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   let icon = null;
   let color = "grey";
   let bgColor = "white";
-  const status = title;
   if (status === "Pending") {
     icon = <FaSpinner />;
     bgColor = "#e6fffb";
@@ -71,12 +77,20 @@ const StatusCard = ({ title, amount }: { title: string; amount: number }) => {
     color = "#1d39c4";
   }
   return (
-    <StatusCardWrapper>
+    <StatusCardWrapper
+      onClick={() =>
+        navigate(
+          `/${
+            user?.isAdmin || user?.isAgent ? "all-tickets" : "my-tickets"
+          }?status=${status}`
+        )
+      }
+    >
       <StatusCardIcon iconBackgroundColor={bgColor} iconColor={color}>
         {icon}
       </StatusCardIcon>
       <StatusCardInfoWrapper>
-        <StatusCardStatusName>{title}</StatusCardStatusName>
+        <StatusCardStatusName>{status}</StatusCardStatusName>
         <StatusCardAmount>{amount}</StatusCardAmount>
       </StatusCardInfoWrapper>
     </StatusCardWrapper>

@@ -1,9 +1,9 @@
 import classes from "../MyTickets/MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
-import { Link } from "react-router-dom";
-import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { ASSIGNED_TICKETS, FOLLOWING_TICKETS } from "../../api/queries";
+import { FOLLOWING_TICKETS } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import TicketModel from "../../models/Ticket";
 import PaginationArgs from "../../models/PaginationArgs";
@@ -21,22 +21,32 @@ const FollowingTickets = () => {
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
+  const [params, setParams] = useSearchParams();
 
   // Filter has an intersection type as it has PaginationArgs + other args
   const [filter, setFilter] = useState<
     PaginationArgs & {
       search: string;
       categoryIds: number[];
-      status: Status | null;
+      status: any;
       createdByUserId: string | null;
     }
   >({
     ...DefaultPaginationArgs,
     search: "",
     categoryIds: [],
-    status: null,
+    status: params.get("status"),
     createdByUserId: null,
   });
+
+  // Update url search param on filter change
+  useEffect(() => {
+    if (filter.status) setParams({ status: filter.status });
+    else {
+      params.delete("status");
+      setParams(params);
+    }
+  }, [filter.status]);
 
   const [getFollowingTickets, { data, loading }] = useLazyQuery(
     FOLLOWING_TICKETS,
@@ -138,6 +148,7 @@ const FollowingTickets = () => {
               setFilter({ ...filter, status, ...DefaultPaginationArgs });
               setPage(1);
             }}
+            value={filter.status}
           />
         </div>
       </div>

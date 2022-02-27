@@ -1,6 +1,6 @@
 import classes from "./MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import NewTicket from "../../components/Ticket/NewTicket";
 import { useLazyQuery } from "@apollo/client";
@@ -21,20 +21,30 @@ const MyTickets = () => {
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
+  const [params, setParams] = useSearchParams();
 
   // Filter has an intersection type as it has PaginationArgs + other args
   const [filter, setFilter] = useState<
     PaginationArgs & {
       search: string;
       categoryIds: number[];
-      status: Status | null;
+      status: any;
     }
   >({
     ...DefaultPaginationArgs,
     search: "",
     categoryIds: [],
-    status: null,
+    status: params.get("status"),
   });
+
+  // Update url search param on filter change
+  useEffect(() => {
+    if (filter.status) setParams({ status: filter.status });
+    else {
+      params.delete("status");
+      setParams(params);
+    }
+  }, [filter.status]);
 
   const [getMyTickets, { data, loading }] = useLazyQuery(MY_TICKETS, {
     onError: (err) => {
@@ -123,6 +133,7 @@ const MyTickets = () => {
               setFilter({ ...filter, status, ...DefaultPaginationArgs });
               setPage(1);
             }}
+            value={filter.status}
           />
         </div>
         <div>

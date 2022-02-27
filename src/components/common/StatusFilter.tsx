@@ -2,7 +2,13 @@ import { Select } from "antd";
 import { Status } from "../../models/Enums";
 import StatusTag from "./StatusTag";
 
-const StatusFilter = ({ onChange }: { onChange?: (val: Status) => void }) => {
+const StatusFilter = ({
+  onChange,
+  value,
+}: {
+  onChange?: (val: Status) => void;
+  value: Status | null;
+}) => {
   return (
     <div
       style={{
@@ -21,6 +27,7 @@ const StatusFilter = ({ onChange }: { onChange?: (val: Status) => void }) => {
         placeholder="Filter status"
         onChange={onChange}
         allowClear={true}
+        value={value}
       >
         {(Object.keys(Status) as Array<keyof typeof Status>).map(
           (status: any) => (

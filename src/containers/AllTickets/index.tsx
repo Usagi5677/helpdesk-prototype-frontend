@@ -1,6 +1,6 @@
 import classes from "../MyTickets/MyTickets.module.css";
 import Ticket from "../../components/Ticket/Ticket";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { ALL_TICKETS } from "../../api/queries";
@@ -25,6 +25,7 @@ const AllTickets = () => {
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
+  const [params, setParams] = useSearchParams();
 
   // Redirect to home if not an admin or agent
   if (!user?.isAdmin && !user?.isAgent) {
@@ -36,16 +37,25 @@ const AllTickets = () => {
     PaginationArgs & {
       search: string;
       categoryIds: number[];
-      status: Status | null;
+      status: any;
       createdByUserId: string | null;
     }
   >({
     ...DefaultPaginationArgs,
     search: "",
     categoryIds: [],
-    status: null,
+    status: params.get("status"),
     createdByUserId: null,
   });
+
+  // Update url search param on filter change
+  useEffect(() => {
+    if (filter.status) setParams({ status: filter.status });
+    else {
+      params.delete("status");
+      setParams(params);
+    }
+  }, [filter.status]);
 
   const [getAllTickets, { data, loading }] = useLazyQuery(ALL_TICKETS, {
     onError: (err) => {
@@ -144,6 +154,7 @@ const AllTickets = () => {
               setFilter({ ...filter, status, ...DefaultPaginationArgs });
               setPage(1);
             }}
+            value={filter.status}
           />
         </div>
       </div>
