@@ -115,6 +115,7 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
                   ? "1px solid rgb(150, 150, 150)"
                   : "none",
               fontSize: comment.mode === "Body" ? "110%" : "100%",
+              whiteSpace: "pre-wrap",
             }}
             key={comment.id}
           >
