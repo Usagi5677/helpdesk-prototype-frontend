@@ -1,15 +1,14 @@
-import {
-  FaBoxOpen,
-  FaSpinner,
-  FaCheck,
-  FaBan,
-  FaUserAltSlash,
-} from "react-icons/fa";
 import StatusCard from "../../components/UI/StatusCard/StatusCard";
 import classes from "./Dashboard.module.css";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import Timeline from "../../components/Timeline/Timeline";
+import { useLazyQuery } from "@apollo/client";
+import { STATUS_COUNT } from "../../api/queries";
+import { errorMessage } from "../../helpers/gql";
+import { useEffect } from "react";
+import { Status } from "../../models/Enums";
+import { Spin } from "antd";
 Chart.register(...registerables);
 
 const data = {
@@ -85,59 +84,73 @@ const options = {
 };
 
 const Dashboard = () => {
+  const [
+    getStatusCount,
+    {
+      data: statusCounts,
+      loading: loadingStatusCount,
+      refetch: refetchStatusCount,
+    },
+  ] = useLazyQuery(STATUS_COUNT, {
+    onError: (err) => {
+      errorMessage(err, "Error loading ticket status count.");
+    },
+  });
+
+  useEffect(() => {
+    getStatusCount();
+  }, []);
+
+  // Refetch ticket status count every 10 seconds
+  useEffect(() => {
+    var handle = setInterval(refetchStatusCount, 10000);
+    return () => {
+      clearInterval(handle);
+    };
+  });
+
   return (
     <div className={classes["ticket-dashboard-container"]}>
       <div
         className={classes["ticket-dashboard-container__status-card-wrapper"]}
       >
-        <StatusCard
-          icon={<FaBoxOpen />}
-          title={"Open"}
-          amount={10}
-          iconBackgroundColor={"rgba(0, 183, 255, 0.2)"}
-          iconColor={"rgb(0, 183, 255)"}
-        />
-        <StatusCard
-          icon={<FaSpinner />}
-          title={"Pending"}
-          amount={10}
-          iconBackgroundColor={"rgba(247, 173, 3, 0.2)"}
-          iconColor={"rgb(247, 173, 3)"}
-        />
-        <StatusCard
-          icon={<FaCheck />}
-          title={"Solved"}
-          amount={10}
-          iconBackgroundColor={"rgba(83, 233, 0, 0.2)"}
-          iconColor={"rgb(83, 233, 0)"}
-        />
-        <StatusCard
-          icon={<FaBan />}
-          title={"Closed"}
-          amount={10}
-          iconBackgroundColor={"rgba(140, 146, 149, 0.2)"}
-          iconColor={"rgb(140, 146, 149)"}
-        />
-        <StatusCard
-          icon={<FaUserAltSlash />}
-          title={"Unassigned"}
-          amount={10}
-          iconBackgroundColor={"rgba(255, 0, 0, 0.2)"}
-          iconColor={"rgb(255, 0, 0)"}
-        />
+        {loadingStatusCount ? (
+          <Spin size="large" />
+        ) : (
+          <>
+            {(Object.keys(Status) as Array<keyof typeof Status>).map(
+              (status) => (
+                <StatusCard
+                  key={status}
+                  title={status}
+                  amount={
+                    statusCounts?.ticketStatusCount.find(
+                      (s: any) => s.status === status
+                    )?.count ?? 0
+                  }
+                />
+              )
+            )}
+          </>
+        )}
       </div>
-      <div className={classes['ticket-dashboard-container__barchart_wrapper']}>
+      <div className={classes["ticket-dashboard-container__barchart_wrapper"]}>
         <Bar data={data} height={400} width={600} options={options} />
       </div>
-      <div className={classes['ticket-dashboard-container__card-wrapper']}>
-        <div className={classes['ticket-dashboard-container__my-activities-wrapper']}>
-          <Timeline/>
+      <div className={classes["ticket-dashboard-container__card-wrapper"]}>
+        <div
+          className={
+            classes["ticket-dashboard-container__my-activities-wrapper"]
+          }
+        >
+          <Timeline />
         </div>
-        <div className={classes['ticket-dashboard-container__piechart_wrapper']}>
+        <div
+          className={classes["ticket-dashboard-container__piechart_wrapper"]}
+        >
           <Pie data={pieData} />
         </div>
       </div>
-      
     </div>
   );
 };

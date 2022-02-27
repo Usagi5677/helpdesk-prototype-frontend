@@ -393,3 +393,12 @@ export const ATTACHMENT = gql`
     }
   }
 `;
+
+export const STATUS_COUNT = gql`
+  query ticketStatusCount {
+    ticketStatusCount {
+      status
+      count
+    }
+  }
+`;

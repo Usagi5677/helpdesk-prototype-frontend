@@ -1,4 +1,11 @@
 import styled from "styled-components";
+import {
+  FaEnvelopeOpen,
+  FaEnvelopeOpenText,
+  FaSpinner,
+  FaCheck,
+  FaBan,
+} from "react-icons/fa";
 
 const StatusCardWrapper = styled.div`
   width: 260px;
@@ -20,7 +27,9 @@ const StatusCardIcon = styled.div<any>`
   height: 50px;
   border-radius: 50%;
   background-color: ${(props) =>
-    props.iconBackgroundColor ? props.iconBackgroundColor : "rgba(0, 183, 255, 0.2)"};
+    props.iconBackgroundColor
+      ? props.iconBackgroundColor
+      : "rgba(0, 183, 255, 0.2)"};
   color: ${(props) => (props.iconColor ? props.iconColor : "rgb(0, 183, 255)")};
   font-size: 1.5rem;
 `;
@@ -35,18 +44,40 @@ const StatusCardStatusName = styled.div`
   font-size: 1rem;
   text-align: right;
 `;
-const StatusCard = (props: any) => {
+const StatusCard = ({ title, amount }: { title: string; amount: number }) => {
+  let icon = null;
+  let color = "grey";
+  let bgColor = "white";
+  const status = title;
+  if (status === "Pending") {
+    icon = <FaSpinner />;
+    bgColor = "#e6fffb";
+    color = "#08979c";
+  } else if (status === "Open") {
+    icon = <FaEnvelopeOpen />;
+    bgColor = "#e6f7ff";
+    color = "#096dd9";
+  } else if (status === "Closed") {
+    icon = <FaBan />;
+    bgColor = "#fff7e6";
+    color = "#d46b08";
+  } else if (status === "Solved") {
+    icon = <FaCheck />;
+    bgColor = "#f6ffed";
+    color = "#389e0d";
+  } else if (status === "Reopened") {
+    icon = <FaEnvelopeOpenText />;
+    bgColor = "#f0f5ff";
+    color = "#1d39c4";
+  }
   return (
     <StatusCardWrapper>
-      <StatusCardIcon
-        iconBackgroundColor={props.iconBackgroundColor}
-        iconColor={props.iconColor}
-      >
-        {props.icon}
+      <StatusCardIcon iconBackgroundColor={bgColor} iconColor={color}>
+        {icon}
       </StatusCardIcon>
       <StatusCardInfoWrapper>
-        <StatusCardStatusName>{props.title}</StatusCardStatusName>
-        <StatusCardAmount>{props.amount}</StatusCardAmount>
+        <StatusCardStatusName>{title}</StatusCardStatusName>
+        <StatusCardAmount>{amount}</StatusCardAmount>
       </StatusCardInfoWrapper>
     </StatusCardWrapper>
   );
