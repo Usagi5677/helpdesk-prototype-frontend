@@ -24,7 +24,7 @@ const AddKnowledgebase = () => {
       onError: (error) => {
         errorMessage(error, "Unexpected error while creating knowledge base.");
       },
-      refetchQueries: ["getAllKnowledgebase"],
+      refetchQueries: ["getAllKnowledgebase", "notifications"],
     }
   );
 

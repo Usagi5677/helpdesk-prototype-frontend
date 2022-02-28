@@ -402,3 +402,14 @@ export const STATUS_COUNT = gql`
     }
   }
 `;
+
+export const NOTIFICATIONS = gql`
+  query notifications {
+    notifications {
+      body
+      createdAt
+      id
+      readAt
+    }
+  }
+`;
