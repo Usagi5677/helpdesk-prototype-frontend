@@ -12,7 +12,6 @@ import { PAGE_LIMIT } from "../../helpers/constants";
 import { Spin } from "antd";
 import CategorySelector from "../../components/common/CategorySelector";
 import Search from "../../components/common/Search";
-import { Status } from "../../models/Enums";
 import StatusFilter from "../../components/common/StatusFilter";
 import PaginationButtons from "../../components/common/PaginationButtons";
 import DefaultPaginationArgs from "../../models/DefaultPaginationArgs";

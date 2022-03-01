@@ -6,51 +6,12 @@ import Timeline from "../../components/Timeline/Timeline";
 import { useLazyQuery } from "@apollo/client";
 import { STATUS_COUNT } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Status } from "../../models/Enums";
 import { Spin } from "antd";
+import TicketStatusHistory from "../../components/Dashboard/TicketStatusHistory";
+import UserContext from "../../contexts/UserContext";
 Chart.register(...registerables);
-
-const data = {
-  labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  datasets: [
-    {
-      label: "Open",
-      backgroundColor: "rgba(0, 183, 255, 0.2)",
-      borderColor: "rgb(0, 183, 255)",
-      borderWidth: 1,
-      data: [3, 3, 3, 3, 3, 3, 3],
-    },
-    {
-      label: "Pending",
-      backgroundColor: "rgba(247, 173, 3, 0.2)",
-      borderColor: "rgb(247, 173, 3)",
-      borderWidth: 1,
-      data: [6, 6, 6, 6, 6, 6, 6],
-    },
-    {
-      label: "Solved",
-      backgroundColor: "rgba(83, 233, 0, 0.2)",
-      borderColor: "rgb(83, 233, 0)",
-      borderWidth: 1,
-      data: [5, 5, 5, 5, 5, 5, 5],
-    },
-    {
-      label: "Closed",
-      backgroundColor: "rgba(140, 146, 149, 0.2)",
-      borderColor: "rgb(140, 146, 149)",
-      borderWidth: 1,
-      data: [4, 4, 4, 4, 4, 4, 4],
-    },
-    {
-      label: "Unassigned",
-      backgroundColor: "rgba(255, 0, 0, 0.2)",
-      borderColor: "rgb(255, 0, 0)",
-      borderWidth: 1,
-      data: [1, 1, 1, 1, 1, 1],
-    },
-  ],
-};
 
 const pieData = {
   labels: ["Urgent", "High", "Medium", "Low"],
@@ -74,16 +35,8 @@ const pieData = {
   ],
 };
 
-const options = {
-  maintainAspectRatio: false,
-  scales: {
-    y: {
-      beginAtZero: true,
-    },
-  },
-};
-
 const Dashboard = () => {
+  const { user } = useContext(UserContext);
   const [
     getStatusCount,
     {
@@ -134,9 +87,9 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      <div className={classes["ticket-dashboard-container__barchart_wrapper"]}>
-        <Bar data={data} height={400} width={600} options={options} />
-      </div>
+      {(user?.isAdmin || user?.isAgent) && statusCounts && (
+        <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
+      )}
       <div className={classes["ticket-dashboard-container__card-wrapper"]}>
         <div
           className={

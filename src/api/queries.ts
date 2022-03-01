@@ -403,6 +403,22 @@ export const STATUS_COUNT = gql`
   }
 `;
 
+export const STATUS_COUNT_HISTORY = gql`
+  query ticketStatusCountHistory(
+    $statuses: [Status!]
+    $from: Date!
+    $to: Date!
+  ) {
+    ticketStatusCountHistory(statuses: $statuses, from: $from, to: $to) {
+      date
+      statusCounts {
+        status
+        count
+      }
+    }
+  }
+`;
+
 export const NOTIFICATIONS = gql`
   query notifications {
     notifications {

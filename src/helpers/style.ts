@@ -5,3 +5,25 @@ export const stringToColor = (str: string) => {
   }
   return `hsl(${hash % 360}, 30%, 40%)`;
 };
+
+export const statusColors = (status: string) => {
+  let color = "grey";
+  let bgColor = "white";
+  if (status === "Pending") {
+    bgColor = "#e6fffb";
+    color = "#08979c";
+  } else if (status === "Open") {
+    bgColor = "#e6f7ff";
+    color = "#096dd9";
+  } else if (status === "Closed") {
+    bgColor = "#fff7e6";
+    color = "#d46b08";
+  } else if (status === "Solved") {
+    bgColor = "#f6ffed";
+    color = "#389e0d";
+  } else if (status === "Reopened") {
+    bgColor = "#f0f5ff";
+    color = "#1d39c4";
+  }
+  return [color, bgColor];
+};
