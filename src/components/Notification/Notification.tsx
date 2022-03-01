@@ -15,10 +15,12 @@ import { FaBars, FaBell } from "react-icons/fa";
 import { NOTIFICATION_CREATED } from "../../api/subscriptions";
 import classes from "./Notification.module.css";
 import { READ_ALL_NOTIFICATIONS, READ_ONE_NOTIFICATION } from "../../api/mutations";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
+import { useNavigate } from "react-router";
 
 const Notifications = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [subscribed, setSubscribed] = useState(false);
 
   const [readNotification] = useMutation(READ_ONE_NOTIFICATION, {
@@ -65,7 +67,7 @@ const Notifications = () => {
   };
 
   const notificationsData: any = data?.notifications;
-  //console.log(data)
+  console.log(data);
   const renderLog = (log: any) => {
     return (
       <>
@@ -136,7 +138,11 @@ const Notifications = () => {
                     key={uuid()}
                   >
                     <div
-                      onClick={(e) => readNotification({ variables: { notificationId: log.id } })}
+                      onClick={(e) => {
+                        readNotification({ variables: { notificationId: log.id } });
+                        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                        log.link ? navigate(log.link) : null;
+                      }}
                     >
                       {renderLog(log)}
                     </div>

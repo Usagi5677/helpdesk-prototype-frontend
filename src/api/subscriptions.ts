@@ -23,6 +23,7 @@ export const NOTIFICATION_CREATED = gql`
       body
       createdAt
       readAt
+      link
     }
   }
 `;
