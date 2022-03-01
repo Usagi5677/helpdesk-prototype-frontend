@@ -392,6 +392,10 @@ const ViewTicket = () => {
               }}
             >
               {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
+              {renderInfoRow(
+                "Created on",
+                moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
+              )}
               <div
                 style={{
                   display: "flex",
@@ -424,10 +428,6 @@ const ViewTicket = () => {
                   </>
                 )}
               </div>
-              {renderInfoRow(
-                "Created on",
-                moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
-              )}
               <div
                 style={{
                   display: "flex",

@@ -9,6 +9,7 @@ import {
 import { useContext } from "react";
 import UserContext from "../../../contexts/UserContext";
 import { useNavigate } from "react-router";
+import { statusColors } from "../../../helpers/style";
 
 const StatusCardWrapper = styled.div`
   width: 200px;
@@ -53,28 +54,17 @@ const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
   const navigate = useNavigate();
 
   let icon = null;
-  let color = "grey";
-  let bgColor = "white";
+  const [color, bgColor] = statusColors(status);
   if (status === "Pending") {
     icon = <FaSpinner />;
-    bgColor = "#e6fffb";
-    color = "#08979c";
   } else if (status === "Open") {
     icon = <FaEnvelopeOpen />;
-    bgColor = "#e6f7ff";
-    color = "#096dd9";
   } else if (status === "Closed") {
     icon = <FaBan />;
-    bgColor = "#fff7e6";
-    color = "#d46b08";
   } else if (status === "Solved") {
     icon = <FaCheck />;
-    bgColor = "#f6ffed";
-    color = "#389e0d";
   } else if (status === "Reopened") {
     icon = <FaEnvelopeOpenText />;
-    bgColor = "#f0f5ff";
-    color = "#1d39c4";
   }
   return (
     <StatusCardWrapper
