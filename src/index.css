@@ -248,3 +248,7 @@ em {
 .ant-picker-panel-container {
   border-radius: 20px !important;
 }
+
+.ant-dropdown {
+  position: fixed !important;
+}
