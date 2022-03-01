@@ -24,14 +24,14 @@ const Notifications = () => {
     onError: (error) => {
       errorMessage(error, "Unexpected error while reading notification.");
     },
-    refetchQueries: ["notifications"],
+    refetchQueries: ["notifications","getAllKnowledgebase"],
   });
 
   const [readAllNotification] = useMutation(READ_ALL_NOTIFICATIONS, {
     onError: (error) => {
       errorMessage(error, "Unexpected error while reading all notification.");
     },
-    refetchQueries: ["notifications"],
+    refetchQueries: ["notifications","getAllKnowledgebase"],
   });
 
   const [getAllNotificationOfUser, { data, loading, subscribeToMore }] = useLazyQuery(
