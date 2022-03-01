@@ -65,7 +65,7 @@ const Notifications = () => {
   };
 
   const notificationsData: any = data?.notifications;
-  console.log(data)
+  //console.log(data)
   const renderLog = (log: any) => {
     return (
       <>
