@@ -15,3 +15,14 @@ export const COMMENT_CREATED = gql`
     }
   }
 `;
+
+export const NOTIFICATION_CREATED = gql`
+  subscription notificationCreated {
+    notificationCreated {
+      id
+      body
+      createdAt
+      readAt
+    }
+  }
+`;

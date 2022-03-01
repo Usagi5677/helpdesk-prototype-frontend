@@ -166,3 +166,15 @@ export const GIVE_FEEDBACK = gql`
     giveFeedback(ticketId: $ticketId, rating: $rating, feedback: $feedback)
   }
 `;
+
+export const READ_ONE_NOTIFICATION = gql`
+  mutation readNotification($notificationId: Int!) {
+    readNotification(notificationId: $notificationId)
+  }
+`;
+
+export const READ_ALL_NOTIFICATIONS = gql`
+  mutation readAllNotifications {
+    readAllNotifications
+  }
+`;

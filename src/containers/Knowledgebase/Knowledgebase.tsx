@@ -6,25 +6,19 @@ import { errorMessage } from "../../helpers/gql";
 import KnowledgebaseModel from "../../models/Knowledgebase";
 import PaginationArgs from "../../models/PaginationArgs";
 import { KNOWLEDGEBASE_PAGE_LIMIT } from "../../helpers/constants";
-import { Spin, Button } from "antd";
+import { Spin } from "antd";
 
 import Search from "../../components/common/Search";
 
 import KnowledgebasePaginationButtons from "../../components/common/KnowledgebasePaginationButtons";
 import KnowledgebaseCard from "../../components/Knowledgebase/KnowledgebaseCard";
 import classes from "./Knowledgebase.module.css";
-import { useNavigate } from "react-router-dom";
 
 const Knowledgebase = () => {
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
-  const navigate = useNavigate();
 
-  const routeChange = () => {
-    let path = `create`;
-    navigate(path);
-  };
   // Filter has an intersection type as it has PaginationArgs + other args
   const [filter, setFilter] = useState<
     PaginationArgs & {
