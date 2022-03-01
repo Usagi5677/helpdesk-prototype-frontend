@@ -15,6 +15,7 @@ import { FaBars, FaBell } from "react-icons/fa";
 import { NOTIFICATION_CREATED } from "../../api/subscriptions";
 import classes from "./Notification.module.css";
 import { READ_ALL_NOTIFICATIONS, READ_ONE_NOTIFICATION } from "../../api/mutations";
+import { v4 as uuid } from 'uuid';
 
 const Notifications = () => {
   const { user } = useContext(UserContext);
@@ -132,7 +133,7 @@ const Notifications = () => {
                   <div
                     className={classes["notification-menu-item"]}
                     style={{ padding: "7px 15px" }}
-                    key={log.id}
+                    key={uuid()}
                   >
                     <div
                       onClick={(e) => readNotification({ variables: { notificationId: log.id } })}
