@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import moment from "moment";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -15,8 +15,10 @@ import {
 } from "../../api/mutations";
 import { useNavigate } from "react-router";
 import Notification from "../../models/Notification";
+import UserContext from "../../contexts/UserContext";
 
 const Notifications = () => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [subscribed, setSubscribed] = useState(false);
 
@@ -58,6 +60,9 @@ const Notifications = () => {
           ...prev.notifications,
           subscriptionData.data.notificationCreated,
         ];
+        if (user?.id !== subscriptionData?.data?.notificationCreated?.userId) {
+          return prev;
+        }
         return { notifications: updated };
       },
     });
