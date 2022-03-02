@@ -8,6 +8,7 @@ import { stringToColor } from "../../helpers/style";
 import StatusTag from "../common/StatusTag";
 import PriorityTag from "../common/PriorityTag";
 import RatingStars from "./RatingStars";
+import UserAvatar from "../common/UserAvatar";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -187,17 +188,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                           placement="bottom"
                           key={agent.id}
                         >
-                          <Avatar
-                            style={{
-                              backgroundColor: stringToColor(agent.fullName),
-                            }}
-                          >
-                            {agent.fullName
-                              .match(/^\w|\b\w(?=\S+$)/g)
-                              ?.join()
-                              .replace(",", "")
-                              .toUpperCase()}
-                          </Avatar>
+                          <UserAvatar user={agent} />
                         </Tooltip>
                       );
                     })}

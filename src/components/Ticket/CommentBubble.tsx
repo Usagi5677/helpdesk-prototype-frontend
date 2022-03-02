@@ -1,4 +1,4 @@
-import { Avatar, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { stringToColor } from "../../helpers/style";
 import CommentGroup from "../../models/CommentGroup";
 import moment from "moment";
@@ -6,6 +6,7 @@ import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import ParsedAttachment from "./ParsedAttachment";
 import ParsedRating from "./ParsedRating";
+import UserAvatar from "../common/UserAvatar";
 
 const CommentBubble = ({ group }: { group: CommentGroup }) => {
   const { user } = useContext(UserContext);
@@ -26,18 +27,13 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
       }
       placement="left"
     >
-      <Avatar
+      <div
         style={{
-          backgroundColor: stringToColor(group.user.fullName),
           marginBottom: 12,
         }}
       >
-        {group.user.fullName
-          .match(/^\w|\b\w(?=\S+$)/g)
-          ?.join()
-          .replace(",", "")
-          .toUpperCase()}
-      </Avatar>
+        <UserAvatar user={group.user} />
+      </div>
     </Tooltip>
   );
 
