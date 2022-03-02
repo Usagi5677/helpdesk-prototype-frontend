@@ -140,11 +140,16 @@ const AddKnowledgebase = () => {
         size="middle"
         onClick={() => setVisible(true)}
         loading={loadingKnowledgebase}
-        className={classes["btn-primary"]}
+        style={{ width: "100%", color: "var(--primary)", borderRadius: 20 }}
       >
-        Create knowledge base
+        Create Knowledge Base Entry
       </Button>
-      <Modal visible={visible} onCancel={handleCancel} footer={null} width="90vw">
+      <Modal
+        visible={visible}
+        onCancel={handleCancel}
+        footer={null}
+        width="90vw"
+      >
         <Form
           form={form}
           layout="vertical"
@@ -161,7 +166,9 @@ const AddKnowledgebase = () => {
           </Form.Item>
           <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
             <div>Public knowledge base are visible to all users.</div>
-            <div>Private knowledge base are only visible to admins and agents.</div>
+            <div>
+              Private knowledge base are only visible to admins and agents.
+            </div>
           </div>
           <Form.Item
             label="Title"
@@ -189,7 +196,6 @@ const AddKnowledgebase = () => {
           >
             <ReactQuill theme="snow" value={value} onChange={setValue} />
           </Form.Item>
-          
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>

@@ -29,11 +29,14 @@ const Knowledgebase = () => {
     search: "",
   });
 
-  const [allKnowledgebase, { data, loading }] = useLazyQuery(GET_ALL_KNOWLEDGEBASE, {
-    onError: (err) => {
-      errorMessage(err, "Error loading knowledge base.");
-    },
-  });
+  const [allKnowledgebase, { data, loading }] = useLazyQuery(
+    GET_ALL_KNOWLEDGEBASE,
+    {
+      onError: (err) => {
+        errorMessage(err, "Error loading knowledge base.");
+      },
+    }
+  );
 
   // Fetch knowledgebases when component mounts or when the filter object changes
   useEffect(() => {
@@ -90,12 +93,10 @@ const Knowledgebase = () => {
         backgroundColor: "white",
         borderRadius: "20px",
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-        padding: "10px 10px",
+        padding: "20px",
       }}
     >
-      <div
-        className={classes["knowledgebase-options-wrapper"]}
-      >
+      <div className={classes["knowledgebase-options-wrapper"]}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Search
             searchValue={search}
@@ -104,9 +105,8 @@ const Knowledgebase = () => {
           />
         </div>
         <div>
-          <AddKnowledgebase/>
+          <AddKnowledgebase />
         </div>
-        
       </div>
       {loading && (
         <div>
@@ -114,15 +114,25 @@ const Knowledgebase = () => {
         </div>
       )}
       <div className={classes["knowledgebase-card-wrapper"]}>
-        {data?.getAllKnowledgebase.edges.map((rec: { node: KnowledgebaseModel }) => {
-          const knowledgebase = rec.node;
-          return (
-            <KnowledgebaseCard knowledgebase={knowledgebase} key={knowledgebase.id}/>
-          );
-        })}
+        {data?.getAllKnowledgebase.edges.map(
+          (rec: { node: KnowledgebaseModel }) => {
+            const knowledgebase = rec.node;
+            return (
+              <KnowledgebaseCard
+                knowledgebase={knowledgebase}
+                key={knowledgebase.id}
+              />
+            );
+          }
+        )}
       </div>
 
-      <KnowledgebasePaginationButtons pageInfo={pageInfo} page={page} next={next} back={back} />
+      <KnowledgebasePaginationButtons
+        pageInfo={pageInfo}
+        page={page}
+        next={next}
+        back={back}
+      />
     </div>
   );
 };

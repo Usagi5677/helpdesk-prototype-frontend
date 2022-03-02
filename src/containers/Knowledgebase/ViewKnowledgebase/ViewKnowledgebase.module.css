@@ -8,20 +8,17 @@
 
 .knowledgebase-content-wrapper {
   width: 100%;
-
   background-color: white;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 10px 10px;
-  height: 600px;
-  
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .knowledgebase-content-wrapper .header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  
 }
 
 .knowledgebase-content-wrapper .back-btn {
@@ -56,48 +53,10 @@
 }
 
 .knowledgebase-content-wrapper .content {
-  padding: 30px;
-  margin-top: 20px;
-  height: calc(100% - 50px);
   border-radius: 20px;
-  border: 2px solid #ccc;
   word-break: break-all;
   line-break: normal;
   overflow-y: auto;
-}
-
-.knowledgebase-information-wrapper {
-  width: 100%;
-  height: 400px;
-  background-color: white;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 20px 20px;
-  font-size: 0.75rem;
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.knowledgebase-information-wrapper .heading {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.knowledgebase-information-wrapper .heading__row {
-  display: flex;
-  margin-bottom: 5px;
-  margin-top: 5px;
-}
-
-.knowledgebase-information-wrapper .heading__row__left {
-  width: 100px;
-}
-
-.knowledgebase-information-wrapper .heading__row__right {
-  font-weight: 700;
 }
 
 @media only screen and (min-width: 800px) {
@@ -105,19 +64,5 @@
     display: flex;
     flex-direction: row;
     align-items: initial;
-  }
-  .knowledgebase-content-wrapper {
-    margin-right: 10px;
-    min-width: none;
-  }
-  .knowledgebase-information-wrapper {
-    max-width: 280px;
-    margin: 0;
-  }
-}
-
-@media only screen and (min-width: 1000px) {
-  .knowledgebase-information-wrapper {
-    max-width: 300px;
   }
 }

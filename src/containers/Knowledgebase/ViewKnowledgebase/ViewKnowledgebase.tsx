@@ -1,35 +1,37 @@
 import { errorMessage } from "../../../helpers/gql";
 import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
 import { useLazyQuery } from "@apollo/client";
 import { SINGLEKNOWLEDGEBASE } from "../../../api/queries";
 import KnowledgebaseModel from "../../../models/Knowledgebase";
 import sanitizeHtml from "sanitize-html";
-import classes from "./ViewKnowledgebase.module.css"
-import { FaArrowLeft } from "react-icons/fa";
+import classes from "./ViewKnowledgebase.module.css";
 import moment from "moment";
 import ReactQuill from "react-quill";
+import { LeftOutlined } from "@ant-design/icons";
+import UserAvatar from "../../../components/common/UserAvatar";
 
 const ViewKnowledgebase = () => {
   const { id }: any = useParams();
   const navigate = useNavigate();
 
-  const [getKnowledgebase, { data: knowledgebase, loading: loadingKnowledgebase }] = useLazyQuery(
-    SINGLEKNOWLEDGEBASE,
-    {
-      onError: (err) => {
-        errorMessage(err, "Error loading request.");
-      },
-    }
-  );
+  const [
+    getKnowledgebase,
+    { data: knowledgebase, loading: loadingKnowledgebase },
+  ] = useLazyQuery(SINGLEKNOWLEDGEBASE, {
+    onError: (err) => {
+      errorMessage(err, "Error loading request.");
+    },
+  });
 
   // Fetch knowledgebase when component mount
   useEffect(() => {
     getKnowledgebase({ variables: { knowledgebaseId: parseInt(id) } });
   }, []);
 
-  const knowledgebaseData: KnowledgebaseModel = knowledgebase?.singleKnowledgebase;
+  const knowledgebaseData: KnowledgebaseModel =
+    knowledgebase?.singleKnowledgebase;
 
   //sanitize tags
   const dirty = knowledgebaseData?.body;
@@ -115,39 +117,42 @@ const ViewKnowledgebase = () => {
     <div className={classes["knowledgebase-container"]}>
       <div className={classes["knowledgebase-content-wrapper"]}>
         <div className={classes["header"]}>
-          <button className={classes["back-btn"]} onClick={() => navigate(-1)}>
-            <FaArrowLeft /> <span>Back</span>
-          </button>
+          <Button
+            type="ghost"
+            style={{ borderRadius: 20 }}
+            onClick={() => navigate(-1)}
+            icon={<LeftOutlined />}
+          >
+            Back
+          </Button>
           <div className={classes["title"]}>{knowledgebaseData?.title}</div>
-          <div style={{ width: 28 }}>{loadingKnowledgebase && <Spin />}</div>
+          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  marginRight: 10,
+                }}
+              >
+                <div>{knowledgebaseData?.createdBy.fullName}</div>
+                <div
+                  style={{ fontSize: "80%", opacity: 0.5 }}
+                  title={moment(knowledgebaseData?.createdAt).format(
+                    "DD MMMM YYYY HH:mm:ss"
+                  )}
+                >
+                  {moment(knowledgebaseData?.createdAt).format("DD MMMM YYYY")}
+                </div>
+              </div>
+              <UserAvatar user={knowledgebaseData?.createdBy} />
+            </div>
+            <div style={{ width: 28 }}>{loadingKnowledgebase && <Spin />}</div>
+          </div>
         </div>
         <div className={classes["content"]}>
-          <ReactQuill readOnly={true} theme={"bubble"} value={clean}/>
-        </div>
-      </div>
-      <div className={classes["knowledgebase-information-wrapper"]}>
-        <div className={classes["heading"]}>Knowledgebase Information</div>
-        <div>
-          <div className={classes["heading__row"]}>
-            <div className={classes["heading__row__left"]}>ID:</div>
-            <div className={classes["heading__row__right"]}>{knowledgebaseData?.id}</div>
-          </div>
-          <div className={classes["heading__row"]}>
-            <div className={classes["heading__row__left"]}>Mode:</div>
-            <div className={classes["heading__row__right"]}>{knowledgebaseData?.mode}</div>
-          </div>
-          <div className={classes["heading__row"]}>
-            <div className={classes["heading__row__left"]}>Created At:</div>
-            <div className={classes["heading__row__right"]}>
-              {moment(knowledgebaseData?.createdAt).format("DD MMMM YYYY HH:mm")}
-            </div>
-          </div>
-          <div className={classes["heading__row"]}>
-            <div className={classes["heading__row__left"]}>Created By:</div>
-            <div className={classes["heading__row__right"]}>
-              {knowledgebaseData?.createdBy.fullName}
-            </div>
-          </div>
+          <ReactQuill readOnly={true} theme={"bubble"} value={clean} />
         </div>
       </div>
     </div>

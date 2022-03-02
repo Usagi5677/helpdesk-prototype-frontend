@@ -6,6 +6,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
+  border-radius: 20px !important;
+  margin: 10px !important;
 }
 
 .knowledgebase-card-description > * {
