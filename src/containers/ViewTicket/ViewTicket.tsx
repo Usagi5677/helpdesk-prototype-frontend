@@ -309,12 +309,13 @@ const ViewTicket = () => {
   return (
     <>
       {loadingAccess && "Loading..."}
-      {access?.hasTicketAccess === false ? (
+      {access?.hasTicketAccess === false && (
         <Alert
           type="error"
           message="This ticket does not exist or you do not have access to this ticket."
         />
-      ) : (
+      )}
+      {access?.hasTicketAccess === true && (
         <div
           style={{
             display: "flex",
@@ -391,103 +392,109 @@ const ViewTicket = () => {
                 width: isSmallDevice ? undefined : 280,
               }}
             >
-              {renderInfoRow("Ticket ID", `${ticketData?.id}`)}
-              {renderInfoRow(
-                "Created on",
-                moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
+              {renderInfoRow("Ticket ID", `${id}`)}
+              {ticketData && (
+                <>
+                  {renderInfoRow(
+                    "Created on",
+                    moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
+                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {renderInfoLeftSide("Status")}
+                    {isAdminOrAssigned ? (
+                      <StatusSelector ticket={ticketData} />
+                    ) : (
+                      <>
+                        <StatusTag status={ticketData?.status} />
+                      </>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {renderInfoLeftSide("Priority")}
+                    {isAdminOrAssigned ? (
+                      <PrioritySelector ticket={ticketData} />
+                    ) : (
+                      <>
+                        <PriorityTag priority={ticketData?.priority} />
+                      </>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {renderInfoLeftSide("Categories")}
+                    {isAdminOrAssigned ? (
+                      <CategoryAdder ticket={ticketData} />
+                    ) : (
+                      <>{renderCategories()}</>
+                    )}
+                  </div>
+                  {isAdminOrAssigned && renderCategories()}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {renderInfoLeftSide("Agents")}
+                    {isAdminOrAssigned ? (
+                      <AgentAdder ticket={ticketData} />
+                    ) : (
+                      <>{renderAgents()}</>
+                    )}
+                  </div>
+                  {isAdminOrAssigned && renderAgents()}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: 5,
+                    }}
+                  >
+                    {renderInfoLeftSide("Followers")}
+                    {isAdminOrAssigned ||
+                    user?.id === ticketData?.createdBy.id ? (
+                      <FollowerAdder ticket={ticketData} />
+                    ) : (
+                      <>{renderFollowers()}</>
+                    )}
+                  </div>
+                  {(isAdminOrAssigned ||
+                    user?.id === ticketData?.createdBy.id) &&
+                    renderFollowers()}
+                  {ticketData?.rating && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: 5,
+                      }}
+                    >
+                      {renderInfoLeftSide("Rating")}
+                      <RatingStars rating={ticketData?.rating} fontSize={15} />
+                    </div>
+                  )}
+                  {ticketData?.feedback &&
+                    renderInfoRow("Feedback", ticketData?.feedback, true)}
+                </>
               )}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 5,
-                }}
-              >
-                {renderInfoLeftSide("Status")}
-                {isAdminOrAssigned ? (
-                  <StatusSelector ticket={ticketData} />
-                ) : (
-                  <>
-                    <StatusTag status={ticketData?.status} />
-                  </>
-                )}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 5,
-                }}
-              >
-                {renderInfoLeftSide("Priority")}
-                {isAdminOrAssigned ? (
-                  <PrioritySelector ticket={ticketData} />
-                ) : (
-                  <>
-                    <PriorityTag priority={ticketData?.priority} />
-                  </>
-                )}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 5,
-                }}
-              >
-                {renderInfoLeftSide("Categories")}
-                {isAdminOrAssigned ? (
-                  <CategoryAdder ticket={ticketData} />
-                ) : (
-                  <>{renderCategories()}</>
-                )}
-              </div>
-              {isAdminOrAssigned && renderCategories()}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 5,
-                }}
-              >
-                {renderInfoLeftSide("Agents")}
-                {isAdminOrAssigned ? (
-                  <AgentAdder ticket={ticketData} />
-                ) : (
-                  <>{renderAgents()}</>
-                )}
-              </div>
-              {isAdminOrAssigned && renderAgents()}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 5,
-                }}
-              >
-                {renderInfoLeftSide("Followers")}
-                {isAdminOrAssigned || user?.id === ticketData?.createdBy.id ? (
-                  <FollowerAdder ticket={ticketData} />
-                ) : (
-                  <>{renderFollowers()}</>
-                )}
-              </div>
-              {(isAdminOrAssigned || user?.id === ticketData?.createdBy.id) &&
-                renderFollowers()}
-              {ticketData?.rating && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 5,
-                  }}
-                >
-                  {renderInfoLeftSide("Rating")}
-                  <RatingStars rating={ticketData?.rating} fontSize={15} />
-                </div>
-              )}
-              {ticketData?.feedback &&
-                renderInfoRow("Feedback", ticketData?.feedback, true)}
             </div>
             {(isAdminOrAssigned || ticketData?.checklistItems.length > 0) && (
               <div
