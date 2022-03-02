@@ -2,7 +2,6 @@ import {
   FaBook,
   FaHome,
   FaListAlt,
-  FaSignOutAlt,
   FaTh,
   FaTicketAlt,
   FaUserLock,
@@ -14,14 +13,11 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Menu, Drawer } from "antd";
-import { Avatar, Tooltip } from "antd";
-import { avatarColor } from "../../helpers/avatarColor";
 
 const { SubMenu, Divider } = Menu;
 interface SidebarItem {
-  key?: string;
   name: string;
-  path?: string;
+  path: string;
   icon?: any;
   dropdowns?: SidebarItem[];
   submenuName?: string;
@@ -29,7 +25,7 @@ interface SidebarItem {
 }
 
 const Sidebar = (props: any) => {
-  const { user, logout } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { pathname } = useLocation();
 
   let SidebarData: SidebarItem[] = [
@@ -127,78 +123,18 @@ const Sidebar = (props: any) => {
           defaultOpenKeys={pathname === "my-tickets" ? ["my-tickets"] : []}
           selectedKeys={[pathname]}
         >
-          {SidebarData.map((sbData: any, index: number) => {
-            if (sbData.name === "Divider") return <Divider key={sbData.path} />;
-            return sbData.dropdowns && sbData.dropdowns.length > 0 ? (
-              <SubMenu key={sbData.path} icon={sbData.icon} title={sbData.name}>
-                {sbData.dropdowns.map((dropdown: any, index2: number) => (
-                  <Menu.Item key={dropdown.key}>
-                    <NavLink to={dropdown.path}>{dropdown.name}</NavLink>
-                  </Menu.Item>
-                ))}
-              </SubMenu>
-            ) : (
+          {SidebarData.map((item: SidebarItem) => {
+            if (item.name === "Divider") return <Divider key={item.path} />;
+            return (
               <Menu.Item
-                key={sbData.path}
-                icon={sbData.icon}
+                key={item.path}
+                icon={item.icon}
                 className={classes["newMenuItem"]}
               >
-                <NavLink to={sbData.path}>{sbData.name}</NavLink>
+                <NavLink to={item.path}>{item.name}</NavLink>
               </Menu.Item>
             );
           })}
-          <Divider
-            style={{
-              position: "absolute",
-              bottom: 5,
-              zIndex: 1,
-              padding: 10,
-              width: 290,
-              height: 60,
-            }}
-          />
-          <Menu.Item
-            key={"signout"}
-            style={{
-              position: "absolute",
-              bottom: 0,
-              zIndex: 1,
-              padding: 10,
-              width: 290,
-              height: 60,
-            }}
-            icon={
-              <Avatar
-                style={{
-                  backgroundColor: avatarColor(user?.fullName).backgroundColor,
-                  color: avatarColor(user?.fullName).color,
-                }}
-              >
-                {user?.fullName
-                  .match(/^\w|\b\w(?=\S+$)/g)
-                  ?.join()
-                  .replace(",", "")
-                  .toUpperCase()}
-              </Avatar>
-            }
-          >
-            <div className={classes["sidebar-bottom-wrapper"]}>
-              <div className={classes["profile"]}>
-                <div className={classes["profile-item"]}>{user?.fullName}</div>
-                <div className={classes["profile-item"]}>Profile</div>
-              </div>
-              <Tooltip title={"Logout"} placement="top">
-                <FaSignOutAlt
-                  onClick={logout}
-                  style={{
-                    width: 30,
-                    height: 30,
-                    lineHeight: 0,
-                  }}
-                />
-              </Tooltip>
-            </div>
-          </Menu.Item>
         </Menu>
       </Drawer>
     </>
