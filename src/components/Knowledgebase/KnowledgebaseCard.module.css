@@ -1,6 +1,5 @@
 .knowledgebase-card {
   width: 240px;
-  max-height: 300px;
   border: 1px solid #ccc !important;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   overflow: hidden;
@@ -77,12 +76,4 @@ AddKnowledgebase.tsx css
 .btn-primary:focus {
   background-color: #164c70 !important;
   color: white !important;
-}
-/*
---------------------------
-*/
-@media only screen and (min-width: 600px) {
-  .knowledgebase-card {
-    width: 300px;
-  }
 }
