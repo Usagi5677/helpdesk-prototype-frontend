@@ -96,6 +96,12 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
           disabledDate={(date) => date.isAfter(moment(), "day")}
           onChange={setDates}
           allowClear={false}
+          ranges={{
+            "Past 7 Days": [moment().subtract(1, "week"), moment()],
+            "This Week": [moment().startOf("week"), moment()],
+            "Past 30 Days": [moment().subtract(30, "day"), moment()],
+            "This Month": [moment().startOf("month"), moment()],
+          }}
         />
       </div>
       {loading ? (
