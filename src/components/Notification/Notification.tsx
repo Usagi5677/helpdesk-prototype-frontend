@@ -60,6 +60,10 @@ const Notifications = () => {
       document: NOTIFICATION_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
         const updated = [...prev.notifications, subscriptionData.data.notificationCreated];
+        if (user?.id !== subscriptionData?.data?.notificationCreated?.userId) {
+          return prev;
+        }
+
         return { notifications: updated };
       },
     });

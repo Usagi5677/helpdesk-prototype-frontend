@@ -24,6 +24,7 @@ export const NOTIFICATION_CREATED = gql`
       createdAt
       readAt
       link
+      userId
     }
   }
 `;

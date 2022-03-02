@@ -427,6 +427,7 @@ export const NOTIFICATIONS = gql`
       id
       readAt
       link
+      userId
     }
   }
 `;
