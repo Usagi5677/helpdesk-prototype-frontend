@@ -11,7 +11,7 @@ const NavUser = () => {
       placement="bottomRight"
       trigger={["click"]}
       overlay={
-        <Menu>
+        <Menu style={{ borderRadius: 20 }}>
           <Menu.Item key={1} style={{ cursor: "default" }}>
             <UserAvatar user={user} /> {user?.fullName}
           </Menu.Item>

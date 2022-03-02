@@ -1,25 +1,22 @@
-import { useState, useEffect, useContext } from "react";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { useState, useEffect } from "react";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import moment from "moment";
-import { LoadingOutlined, NotificationOutlined, DownOutlined } from "@ant-design/icons";
-
+import { LoadingOutlined } from "@ant-design/icons";
 //import { onMessageListener } from "../../firebase";
-
-import { Spin, Dropdown, Menu, Badge, Button, notification } from "antd";
-import UserContext from "../../contexts/UserContext";
-//import { useHistory } from "react-router-dom";
-//import { leaveUrls, preotUrls } from "../../constants/urls";
+import { Spin, Dropdown, Badge, Button } from "antd";
 import { errorMessage } from "../../helpers/gql";
 import { NOTIFICATIONS } from "../../api/queries";
-import { FaBars, FaBell } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import { NOTIFICATION_CREATED } from "../../api/subscriptions";
 import classes from "./Notification.module.css";
-import { READ_ALL_NOTIFICATIONS, READ_ONE_NOTIFICATION } from "../../api/mutations";
-import { v4 as uuid } from "uuid";
+import {
+  READ_ALL_NOTIFICATIONS,
+  READ_ONE_NOTIFICATION,
+} from "../../api/mutations";
 import { useNavigate } from "react-router";
+import Notification from "../../models/Notification";
 
 const Notifications = () => {
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [subscribed, setSubscribed] = useState(false);
 
@@ -37,17 +34,15 @@ const Notifications = () => {
     refetchQueries: ["notifications"],
   });
 
-  const [getAllNotificationOfUser, { data, loading, subscribeToMore }] = useLazyQuery(
-    NOTIFICATIONS,
-    {
+  const [getAllNotificationOfUser, { data, loading, subscribeToMore }] =
+    useLazyQuery(NOTIFICATIONS, {
       onCompleted: () => {
         subscribe();
       },
       onError: (err) => {
         errorMessage(err, "Error loading request.");
       },
-    }
-  );
+    });
 
   useEffect(() => {
     getAllNotificationOfUser();
@@ -59,23 +54,26 @@ const Notifications = () => {
     subscribeToMore({
       document: NOTIFICATION_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
-        const updated = [...prev.notifications, subscriptionData.data.notificationCreated];
+        const updated = [
+          ...prev.notifications,
+          subscriptionData.data.notificationCreated,
+        ];
         return { notifications: updated };
       },
     });
     setSubscribed(true);
   };
 
-  const notificationsData: any = data?.notifications;
-  console.log(data);
-  const renderLog = (log: any) => {
+  const notificationsData: Notification[] = data?.notifications;
+
+  const renderLog = (notification: Notification) => {
     return (
       <>
         <div>
           <Badge
-            status={log.read ? "default" : "processing"}
+            status={notification.readAt ? "default" : "processing"}
             style={{ whiteSpace: "normal" }}
-            text={log.body}
+            text={notification.body}
           />
         </div>
         <div
@@ -85,7 +83,7 @@ const Notifications = () => {
             opacity: 0.8,
           }}
         >
-          {moment(log.sendTime).fromNow()}
+          {moment(notification.createdAt).fromNow()}
         </div>
       </>
     );
@@ -123,7 +121,6 @@ const Notifications = () => {
                 >
                   <Button
                     onClick={() => {
-                      //setNotifications([]);
                       readAllNotification();
                     }}
                     type="link"
@@ -131,20 +128,22 @@ const Notifications = () => {
                     Clear All
                   </Button>
                 </div>
-                {notificationsData?.map((log: any) => (
+                {notificationsData?.map((notification: Notification) => (
                   <div
                     className={classes["notification-menu-item"]}
                     style={{ padding: "7px 15px" }}
-                    key={uuid()}
+                    key={notification.id}
                   >
                     <div
-                      onClick={(e) => {
-                        readNotification({ variables: { notificationId: log.id } });
+                      onClick={() => {
+                        readNotification({
+                          variables: { notificationId: notification.id },
+                        });
                         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                        log.link ? navigate(log.link) : null;
+                        notification.link ? navigate(notification.link) : null;
                       }}
                     >
-                      {renderLog(log)}
+                      {renderLog(notification)}
                     </div>
                   </div>
                 ))}
@@ -155,7 +154,11 @@ const Notifications = () => {
       }
     >
       <div style={{ position: "relative" }}>
-        <Badge size="small" count={notificationsData?.length} style={{ marginTop: 6 }}>
+        <Badge
+          size="small"
+          count={notificationsData?.length}
+          style={{ marginTop: 6 }}
+        >
           <FaBell
             style={{
               cursor: "pointer",

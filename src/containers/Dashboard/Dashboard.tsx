@@ -90,7 +90,7 @@ const Dashboard = () => {
       {(user?.isAdmin || user?.isAgent) && statusCounts && (
         <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
       )}
-      <div className={classes["ticket-dashboard-container__card-wrapper"]}>
+      {/* <div className={classes["ticket-dashboard-container__card-wrapper"]}>
         <div
           className={
             classes["ticket-dashboard-container__my-activities-wrapper"]
@@ -103,7 +103,7 @@ const Dashboard = () => {
         >
           <Pie data={pieData} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
