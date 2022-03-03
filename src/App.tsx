@@ -20,6 +20,7 @@ import ViewKnowledgebase from "./containers/Knowledgebase/ViewKnowledgebase/View
 import AllTickets from "./containers/AllTickets";
 import AssignedTickets from "./containers/AssignedTickets";
 import FollowingTickets from "./containers/FollowingTickets";
+import { message } from "antd";
 
 const ME_QUERY = gql`
   query {
@@ -34,6 +35,17 @@ const ME_QUERY = gql`
 `;
 
 const App = ({ history }: { history: any }) => {
+  {
+    const token = localStorage.getItem("helpdesk_token");
+    if (token) {
+      const prevRoute = localStorage.getItem("prevRoute");
+      if (prevRoute) {
+        localStorage.removeItem("prevRoute");
+        window.location.pathname = prevRoute;
+      }
+    }
+  }
+
   const [appLoading, setAppLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [loggedOut, setLoggedOut] = useState(false);
@@ -55,11 +67,11 @@ const App = ({ history }: { history: any }) => {
       setLoggedOut(true);
       setAppLoading(false);
 
-      // if (error.message === "Unauthorized") {
-      //   message.error("Not authorized to access this app.");
-      // } else {
-      //   message.error("An error occurred while logging in.");
-      // }
+      if (error.message === "Unauthorized") {
+        message.error("Not authorized to access this app.");
+      } else {
+        message.error("An error occurred while logging in.");
+      }
     },
   });
 
@@ -68,7 +80,21 @@ const App = ({ history }: { history: any }) => {
   };
 
   const logoutRedirect = () => {
+    setPrevRoute();
     window.location.href = `https://id.mtcc.com.mv/logout/?returnUrl=${process.env.REACT_APP_RETURN_URL}&type=employee&appId=${process.env.REACT_APP_APP_ID}`;
+  };
+
+  const setPrevRoute = () => {
+    const currentPath = window.location.pathname;
+    const token = localStorage.getItem("helpdesk_token");
+    if (currentPath !== "/" && !token)
+      localStorage.setItem("prevRoute", currentPath);
+  };
+
+  const setLogOutStates = () => {
+    setPrevRoute();
+    setLoggedOut(true);
+    setAppLoading(false);
   };
 
   interface SSOToken {
@@ -86,8 +112,7 @@ const App = ({ history }: { history: any }) => {
         if (decoded.id) {
           me();
         } else {
-          setLoggedOut(true);
-          setAppLoading(false);
+          setLogOutStates();
         }
       } else {
         if (window.location) {
@@ -100,16 +125,13 @@ const App = ({ history }: { history: any }) => {
             if (decoded.id) {
               me();
             } else {
-              setLoggedOut(true);
-              setAppLoading(false);
+              setLogOutStates();
             }
           } else {
-            setLoggedOut(true);
-            setAppLoading(false);
+            setLogOutStates();
           }
         } else {
-          setLoggedOut(true);
-          setAppLoading(false);
+          setLogOutStates();
         }
       }
     } else {
