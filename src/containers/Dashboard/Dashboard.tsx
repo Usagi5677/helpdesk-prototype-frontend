@@ -91,7 +91,7 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      {(user?.isAdmin || user?.isAgent) && (
+      {(user?.isAdmin || user?.isAgent) && statusCounts && (
         <div
           style={{
             display: "flex",
@@ -101,9 +101,7 @@ const Dashboard = () => {
             marginBottom: 40,
           }}
         >
-          {statusCounts && (
-            <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
-          )}
+          <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
           <AgentQueue />
         </div>
       )}
