@@ -126,35 +126,39 @@ const KnowledgebaseCard = ({
     knowledgebase.createdBy.fullName.match(/^\w|\b\w(?=\S+$)/g);
   let initials = initialsArray?.join().replace(",", "").toUpperCase();
 
-  return user?.isAdmin ? (
+  return (
     <Card
       className={classes["knowledgebase-card"]}
       bodyStyle={{
         padding: 0,
       }}
-      actions={[
-        <Popconfirm
-          key="delete"
-          disabled={deleting}
-          title={`Are you sure to remove this information?`}
-          onConfirm={() => remove()}
-          okText="Confirm"
-          cancelText="No"
-          placement="topRight"
-        >
-          <Tooltip title={"Delete"} placement="top">
-            <Button
-              htmlType="button"
-              size="middle"
-              icon={<FaTrash />}
-              shape="round"
-              className={classes["btn-delete"]}
-              loading={deleting}
-            />
-          </Tooltip>
-        </Popconfirm>,
-        <EditKnowledgebase knowledgebase={knowledgebase} />,
-      ]}
+      actions={
+        user?.isAdmin
+          ? [
+              <Popconfirm
+                key="delete"
+                disabled={deleting}
+                title={`Are you sure to remove this information?`}
+                onConfirm={() => remove()}
+                okText="Confirm"
+                cancelText="No"
+                placement="topRight"
+              >
+                <Tooltip title={"Delete"} placement="top">
+                  <Button
+                    htmlType="button"
+                    size="middle"
+                    icon={<FaTrash />}
+                    shape="round"
+                    className={classes["btn-delete"]}
+                    loading={deleting}
+                  />
+                </Tooltip>
+              </Popconfirm>,
+              <EditKnowledgebase knowledgebase={knowledgebase} />,
+            ]
+          : undefined
+      }
     >
       <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
         <Meta
@@ -191,58 +195,6 @@ const KnowledgebaseCard = ({
           }}
           onClick={() => false}
         >
-          <div style={{ whiteSpace: "pre-wrap" }}>{htmlTagsRemoved}</div>
-        </div>
-      </Link>
-    </Card>
-  ) : (
-    <Card
-      style={{
-        width: 300,
-        maxHeight: 300,
-        border: "1px solid #ccc",
-        boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        position: "relative",
-      }}
-      bodyStyle={{
-        padding: 10,
-      }}
-    >
-      <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
-        <Meta
-          title={
-            <div className={classes["title-wrapper"]}>
-              <Tooltip title={knowledgebase.createdBy.fullName} placement="top">
-                <Avatar
-                  style={{
-                    marginRight: 10,
-                    marginBottom: 10,
-                    marginTop: 4,
-                    backgroundColor: avatarColor(
-                      knowledgebase.createdBy.fullName
-                    ).backgroundColor,
-                    color: avatarColor(knowledgebase.createdBy.fullName).color,
-                  }}
-                >
-                  {initials}
-                </Avatar>
-              </Tooltip>
-              {knowledgebase.title}
-            </div>
-          }
-        />
-        <div
-          className={classes["knowledgebase-card-description"]}
-          style={{
-            height: 80,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            padding: 10,
-          }}
-        >
-          {/* <ReactQuill readOnly={true} theme={"bubble"} value={clean} /> */}
           <div style={{ whiteSpace: "pre-wrap" }}>{htmlTagsRemoved}</div>
         </div>
       </Link>
