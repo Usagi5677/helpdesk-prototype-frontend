@@ -431,3 +431,19 @@ export const NOTIFICATIONS = gql`
     }
   }
 `;
+
+export const AGENT_QUEUE = gql`
+  ${USER_FRAGMENT}
+  query agentQueue {
+    agentQueue {
+      agent {
+        ...UserFields
+      }
+      tickets {
+        id
+        title
+        status
+      }
+    }
+  }
+`;

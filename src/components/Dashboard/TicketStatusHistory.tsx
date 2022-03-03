@@ -7,6 +7,7 @@ import { Status } from "../../models/Enums";
 import { statusColors } from "../../helpers/style";
 import { DatePicker, Spin } from "antd";
 import { errorMessage } from "../../helpers/gql";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
 const TicketStatusHistory = ({ today }: { today: any }) => {
   const [dates, setDates] = useState<any>([
@@ -71,14 +72,17 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
     };
   };
 
+  const isSmallDevice = useIsSmallDevice();
+
   return (
     <div
       style={{
-        marginTop: 40,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 20,
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+        flex: 1,
+        width: isSmallDevice ? "100%" : undefined,
       }}
     >
       <div

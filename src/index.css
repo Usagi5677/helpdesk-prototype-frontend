@@ -252,3 +252,11 @@ em {
 .ant-dropdown {
   position: fixed !important;
 }
+
+.ant-collapse-header {
+  padding-bottom: 0px !important;
+}
+
+#agentQueueTicket:hover {
+  background-color: #f0f1f1;
+}

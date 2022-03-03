@@ -27,3 +27,12 @@ export const statusColors = (status: string) => {
   }
   return [color, bgColor];
 };
+
+export const getEqualValuesUnder140 = (colorCount: number): number[] => {
+  const step = Math.round(140 / (colorCount + 1));
+  let h = [];
+  for (let i = 0; i <= 140; i += step) {
+    h.push(i);
+  }
+  return h.reverse();
+};

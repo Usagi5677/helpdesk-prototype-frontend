@@ -11,6 +11,8 @@ import { Status } from "../../models/Enums";
 import { Spin } from "antd";
 import TicketStatusHistory from "../../components/Dashboard/TicketStatusHistory";
 import UserContext from "../../contexts/UserContext";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import AgentQueue from "./AgentQueue";
 Chart.register(...registerables);
 
 const pieData = {
@@ -62,6 +64,8 @@ const Dashboard = () => {
     };
   });
 
+  const isSmallDevice = useIsSmallDevice();
+
   return (
     <div className={classes["ticket-dashboard-container"]}>
       <div
@@ -87,8 +91,21 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      {(user?.isAdmin || user?.isAgent) && statusCounts && (
-        <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
+      {(user?.isAdmin || user?.isAgent) && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isSmallDevice ? "column" : "row",
+            marginTop: 40,
+            alignItems: "flex-start",
+            marginBottom: 40,
+          }}
+        >
+          {statusCounts && (
+            <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
+          )}
+          <AgentQueue />
+        </div>
       )}
       {/* <div className={classes["ticket-dashboard-container__card-wrapper"]}>
         <div
