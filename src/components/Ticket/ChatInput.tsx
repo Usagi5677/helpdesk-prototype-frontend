@@ -25,7 +25,6 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
     onError: (error) => {
       errorMessage(error, "Unexpected error while occured.");
     },
-    refetchQueries: ["notifications"],
   });
 
   const send = () => {
