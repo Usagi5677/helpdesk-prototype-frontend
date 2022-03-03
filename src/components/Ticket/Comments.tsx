@@ -41,9 +41,11 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
       onError: (err) => {
         errorMessage(err, "Error loading request.");
       },
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
     }
   );
+
   useEffect(() => {
     if (ticket) {
       getComments({ variables: { ticketId: ticket.id } });
