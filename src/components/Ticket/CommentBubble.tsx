@@ -130,7 +130,7 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
               style={{ fontSize: "90%", opacity: 0.5 }}
               title={moment(comment.createdAt).format("DD MMMM YYYY HH:mm:ss")}
             >
-              {moment(comment.createdAt).format("DD MMM HH:mm")}
+              {moment(comment.createdAt).format("D MMM H:mm")}
             </div>
           </div>
         ))}

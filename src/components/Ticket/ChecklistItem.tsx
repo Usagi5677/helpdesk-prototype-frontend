@@ -54,7 +54,7 @@ const ChecklistItem = ({
             style={{ fontSize: 10, opacity: 0.5, display: "inline-block" }}
             title={moment(item.completedAt).format("DD MMMM YYYY HH:mm:ss")}
           >
-            {moment(item.completedAt).format("DD MMM HH:mm")}
+            {moment(item.completedAt).format("D MMM H:mm")}
           </span>
         )}
       </Checkbox>
