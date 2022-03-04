@@ -57,8 +57,8 @@ const Notifications = () => {
       document: NOTIFICATION_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
         const updated = [
-          ...prev.notifications,
           subscriptionData.data.notificationCreated,
+          ...prev.notifications,
         ];
         if (user?.id !== subscriptionData?.data?.notificationCreated?.userId) {
           return prev;
@@ -68,8 +68,6 @@ const Notifications = () => {
     });
     setSubscribed(true);
   };
-
-  const notificationsData: Notification[] = data?.notifications;
 
   const renderLog = (notification: Notification) => {
     return (
@@ -99,14 +97,14 @@ const Notifications = () => {
       placement="bottomRight"
       trigger={["click"]}
       overlay={
-        loading && notificationsData?.length === 0 ? (
+        loading && data?.notifications.length === 0 ? (
           <Spin
             style={{ textAlign: "center", padding: "20px 100px" }}
             indicator={<LoadingOutlined style={{ fontSize: 24 }} spin={true} />}
           />
         ) : (
           <div className={classes["notification-menu"]}>
-            {notificationsData?.length === 0 ? (
+            {data?.notifications.length === 0 ? (
               <div
                 style={{
                   textAlign: "center",
@@ -133,7 +131,7 @@ const Notifications = () => {
                     Clear All
                   </Button>
                 </div>
-                {notificationsData?.map((notification: Notification) => (
+                {data?.notifications.map((notification: Notification) => (
                   <div
                     className={classes["notification-menu-item"]}
                     style={{ padding: "7px 15px" }}
@@ -161,7 +159,7 @@ const Notifications = () => {
       <div style={{ position: "relative" }}>
         <Badge
           size="small"
-          count={notificationsData?.length}
+          count={data?.notifications.length}
           style={{ marginTop: 6 }}
         >
           <FaBell
