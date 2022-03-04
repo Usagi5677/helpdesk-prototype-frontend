@@ -16,7 +16,6 @@ const StatusCardWrapper = styled.div`
   min-height: 100px;
   background-color: white;
   border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   padding: 5px 20px;
   font-size: 0.75rem;
   display: flex;
@@ -77,6 +76,7 @@ const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
         )
       }
       className="dashboardCard"
+      style={{ border: `1px solid ${color}` }}
     >
       <StatusCardIcon iconBackgroundColor={bgColor} iconColor={color}>
         {icon}

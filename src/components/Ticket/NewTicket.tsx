@@ -60,7 +60,7 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
             height: "100%",
             backgroundColor: "white",
             borderRadius: 20,
-            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+            border: "1px solid #1c6493",
             padding: "10px 40px",
             display: "flex",
             flexDirection: isSmallDevice ? "row" : "column",
@@ -81,6 +81,7 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
             style={{
               fontSize: 15,
               margin: isSmallDevice ? "0 0 0 10px" : "10px 0 0 0",
+              color: "#1c6493",
             }}
           >
             New Ticket

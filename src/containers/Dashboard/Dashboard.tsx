@@ -77,7 +77,7 @@ const Dashboard = () => {
       >
         <div
           style={{
-            width: isSmallDevice ? "100%" : 200,
+            width: isSmallDevice ? "100%" : 180,
             margin: isSmallDevice ? "20px 0 20px 0" : "0 20px 0 0",
             padding: isSmallDevice ? "0 20px" : undefined,
           }}
