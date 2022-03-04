@@ -5,8 +5,11 @@ import { useForm } from "antd/lib/form/Form";
 import { CREATE_TICKET } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import { FaPlusCircle } from "react-icons/fa";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
-const NewTicket = ({ iconButton }: { iconButton?: boolean }) => {
+const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
+  if (!type) type = "Text";
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
@@ -36,9 +39,11 @@ const NewTicket = ({ iconButton }: { iconButton?: boolean }) => {
     });
   };
 
+  const isSmallDevice = useIsSmallDevice();
+
   return (
     <>
-      {iconButton ? (
+      {type === "Icon" ? (
         <Tooltip title="New Ticket">
           <Button
             icon={<PlusCircleOutlined style={{ fontSize: 20 }} />}
@@ -48,6 +53,39 @@ const NewTicket = ({ iconButton }: { iconButton?: boolean }) => {
             onClick={() => setVisible(true)}
           />
         </Tooltip>
+      ) : type === "Card" ? (
+        <div
+          className="dashboardCard"
+          style={{
+            height: "100%",
+            backgroundColor: "white",
+            borderRadius: 20,
+            boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+            padding: "10px 40px",
+            display: "flex",
+            flexDirection: isSmallDevice ? "row" : "column",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+          }}
+          onClick={() => setVisible(true)}
+        >
+          <FaPlusCircle
+            style={{
+              height: isSmallDevice ? 30 : 50,
+              width: isSmallDevice ? 30 : 50,
+              color: "#1c6493",
+            }}
+          />
+          <div
+            style={{
+              fontSize: 15,
+              margin: isSmallDevice ? "0 0 0 10px" : "10px 0 0 0",
+            }}
+          >
+            New Ticket
+          </div>
+        </div>
       ) : (
         <Button
           htmlType="button"

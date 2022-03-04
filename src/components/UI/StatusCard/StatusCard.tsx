@@ -12,17 +12,18 @@ import { useNavigate } from "react-router";
 import { statusColors } from "../../../helpers/style";
 
 const StatusCardWrapper = styled.div`
-  width: 200px;
+  width: 180px;
   min-height: 100px;
   background-color: white;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  padding: 10px 40px;
+  padding: 5px 20px;
   font-size: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  margin: 10px 5px;
 `;
 const StatusCardIcon = styled.div<any>`
   display: flex;
@@ -75,6 +76,7 @@ const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
           }?status=${status}`
         )
       }
+      className="dashboardCard"
     >
       <StatusCardIcon iconBackgroundColor={bgColor} iconColor={color}>
         {icon}

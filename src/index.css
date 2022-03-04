@@ -260,3 +260,9 @@ em {
 #agentQueueTicket:hover {
   background-color: #f0f1f1;
 }
+
+.dashboardCard:hover {
+  transform: translateY(-5px);
+  animation: balloon 15s infinite linear;
+  transition: transform 0.3s, padding 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}

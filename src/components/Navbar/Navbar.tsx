@@ -26,7 +26,7 @@ const Navbar = (props: any) => {
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ marginRight: 20 }}>
-            <NewTicket iconButton={true} />
+            <NewTicket type="Icon" />
           </div>
           <Notification />
           <NavUser />

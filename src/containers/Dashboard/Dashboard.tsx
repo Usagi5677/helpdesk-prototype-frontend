@@ -8,11 +8,12 @@ import { STATUS_COUNT } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
 import { useContext, useEffect } from "react";
 import { Status } from "../../models/Enums";
-import { Spin } from "antd";
+import { Divider, Spin } from "antd";
 import TicketStatusHistory from "../../components/Dashboard/TicketStatusHistory";
 import UserContext from "../../contexts/UserContext";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import AgentQueue from "./AgentQueue";
+import NewTicket from "../../components/Ticket/NewTicket";
 Chart.register(...registerables);
 
 const pieData = {
@@ -69,36 +70,53 @@ const Dashboard = () => {
   return (
     <div className={classes["ticket-dashboard-container"]}>
       <div
-        className={classes["ticket-dashboard-container__status-card-wrapper"]}
+        style={{
+          display: "flex",
+          flexDirection: isSmallDevice ? "column" : "row",
+        }}
       >
-        {loadingStatusCount ? (
-          <Spin size="large" />
-        ) : (
-          <>
-            {(Object.keys(Status) as Array<keyof typeof Status>).map(
-              (status) => (
-                <StatusCard
-                  key={status}
-                  status={status}
-                  amount={
-                    statusCounts?.ticketStatusCount.find(
-                      (s: any) => s.status === status
-                    )?.count ?? 0
-                  }
-                />
-              )
-            )}
-          </>
-        )}
+        <div
+          style={{
+            width: isSmallDevice ? "100%" : 200,
+            margin: isSmallDevice ? "20px 0 20px 0" : "0 20px 0 0",
+            padding: isSmallDevice ? "0 20px" : undefined,
+          }}
+        >
+          <NewTicket type="Card" />
+        </div>
+        <Divider type="vertical" style={{ height: "100%" }} />
+        <div
+          className={classes["ticket-dashboard-container__status-card-wrapper"]}
+        >
+          {loadingStatusCount ? (
+            <Spin size="large" />
+          ) : (
+            <>
+              {(Object.keys(Status) as Array<keyof typeof Status>).map(
+                (status) => (
+                  <StatusCard
+                    key={status}
+                    status={status}
+                    amount={
+                      statusCounts?.ticketStatusCount.find(
+                        (s: any) => s.status === status
+                      )?.count ?? 0
+                    }
+                  />
+                )
+              )}
+            </>
+          )}
+        </div>
       </div>
       {(user?.isAdmin || user?.isAgent) && statusCounts && (
         <div
           style={{
             display: "flex",
             flexDirection: isSmallDevice ? "column" : "row",
-            marginTop: 40,
+            marginTop: 20,
             alignItems: "flex-start",
-            marginBottom: 40,
+            paddingBottom: 20,
           }}
         >
           <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
