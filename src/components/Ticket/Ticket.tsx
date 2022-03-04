@@ -1,6 +1,5 @@
 import { FaRegClock } from "react-icons/fa";
 import classes from "./Ticket.module.css";
-import DefaultAvatar from ".././UI/DefaultAvatar/DefaultAvatar";
 import Ticket from "../../models/Ticket";
 import moment from "moment";
 import { Avatar, Progress, Tag, Tooltip } from "antd";
@@ -21,12 +20,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
     <div className={classes["my-tickets-wrapper"]}>
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
-          <DefaultAvatar
-            fullname={ticket.createdBy.fullName}
-            userAvatarWidth={"36px"}
-            userAvatarHeight={"36px"}
-            showAgentList={false}
-          />
+          <UserAvatar user={ticket.createdBy} />
           <div
             className={
               classes["my-tickets-wrapper__user-details__user-info-wrapper"]
