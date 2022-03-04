@@ -56,10 +56,15 @@ const Notifications = () => {
     subscribeToMore({
       document: NOTIFICATION_CREATED,
       updateQuery: (prev, { subscriptionData }) => {
-        const updated = [
-          subscriptionData.data.notificationCreated,
-          ...prev.notifications,
-        ];
+        const notification = subscriptionData.data.notificationCreated;
+        // If already on the page of the notification link, mark notification
+        // as read.
+        if (notification.link === window.location.pathname) {
+          readNotification({
+            variables: { notificationId: notification.id },
+          });
+        }
+        const updated = [notification, ...prev.notifications];
         if (user?.id !== subscriptionData?.data?.notificationCreated?.userId) {
           return prev;
         }
