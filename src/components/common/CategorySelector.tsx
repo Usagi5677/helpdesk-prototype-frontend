@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Select, Tag } from "antd";
+import React from "react";
 import { CATEGORIES_QUERY } from "../../api/queries";
 import { stringToColor } from "../../helpers/style";
 import Category from "../../models/Category";
@@ -17,15 +18,26 @@ const CategorySelector = ({
     variables: { first: 500 },
   });
 
-  const tagRender = (props: any) => {
-    const { label, value, closable, onClose } = props;
+  const tagRender = ({
+    label,
+    value,
+    disabled,
+    onClose,
+    closable,
+  }: {
+    label: React.ReactNode;
+    value: any;
+    disabled: boolean;
+    onClose: (event?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    closable: boolean;
+  }) => {
     const onPreventMouseDown = (event: any) => {
       event.preventDefault();
       event.stopPropagation();
     };
     return (
       <Tag
-        color={stringToColor(label)}
+        color={stringToColor(value)}
         onMouseDown={onPreventMouseDown}
         closable={closable}
         onClose={onClose}

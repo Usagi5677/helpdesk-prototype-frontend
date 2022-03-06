@@ -43,9 +43,9 @@ const SearchAPSUser: FC<SearchEmployeeProps> = ({
     //@ts-ignore
     if (value && employees?.find((emp) => emp?.id === value?.id)) {
       //@ts-ignore
-      setEmployees([...employees, value]);
+      setEmployees((employees) => [...employees, value]);
     }
-  }, [value]);
+  }, [value, setEmployees, employees]);
 
   const handleChange = (value: any) => {
     setSelected(value);

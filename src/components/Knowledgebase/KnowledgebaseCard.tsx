@@ -155,7 +155,10 @@ const KnowledgebaseCard = ({
                   />
                 </Tooltip>
               </Popconfirm>,
-              <EditKnowledgebase knowledgebase={knowledgebase} />,
+              <EditKnowledgebase
+                key="editKnowledgebase"
+                knowledgebase={knowledgebase}
+              />,
             ]
           : undefined
       }

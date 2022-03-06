@@ -50,7 +50,7 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
     if (ticket) {
       getComments({ variables: { ticketId: ticket.id } });
     }
-  }, [ticket]);
+  }, [ticket, getComments]);
 
   const subscribe = () => {
     // Ensure subscription is done once and not every render

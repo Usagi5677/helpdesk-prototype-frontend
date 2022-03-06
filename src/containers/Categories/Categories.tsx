@@ -30,7 +30,7 @@ const Categories = () => {
   // Fetch categories when component mounts
   useEffect(() => {
     getCategories({ variables: { first: 500 } });
-  }, []);
+  }, [getCategories]);
 
   // Filter categories based on the search value. This function will run
   // whenever search and data changes

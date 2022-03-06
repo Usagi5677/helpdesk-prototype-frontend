@@ -1,8 +1,6 @@
 import StatusCard from "../../components/UI/StatusCard/StatusCard";
 import classes from "./Dashboard.module.css";
-import { Bar, Pie } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import Timeline from "../../components/Timeline/Timeline";
 import { useLazyQuery } from "@apollo/client";
 import { STATUS_COUNT } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
@@ -15,28 +13,6 @@ import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import AgentQueue from "./AgentQueue";
 import NewTicket from "../../components/Ticket/NewTicket";
 Chart.register(...registerables);
-
-const pieData = {
-  labels: ["Urgent", "High", "Medium", "Low"],
-  datasets: [
-    {
-      backgroundColor: [
-        "rgba(71, 102, 255, 0.2)",
-        "rgba(0, 255, 239, 0.2)",
-        "rgba(0, 102, 164, 0.2)",
-        "rgba(0, 183, 235, 0.2)",
-      ],
-      borderColor: [
-        "rgba(71, 102, 255, 1)",
-        "rgba(0, 255, 239, 1)",
-        "rgba(0, 102, 164, 1)",
-        "rgba(0, 183, 235, 1)",
-      ],
-      borderWidth: 1,
-      data: [1, 2, 3, 4],
-    },
-  ],
-};
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
@@ -55,7 +31,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getStatusCount();
-  }, []);
+  }, [getStatusCount]);
 
   // Refetch ticket status count every 10 seconds
   useEffect(() => {

@@ -27,7 +27,7 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
     getHistory({
       variables: { from: dates[0].toISOString(), to: dates[1].toISOString() },
     });
-  }, [dates]);
+  }, [dates, getHistory]);
 
   let data = () => {
     let labels = history?.ticketStatusCountHistory.map((rec: any) =>

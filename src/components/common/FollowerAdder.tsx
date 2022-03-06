@@ -18,14 +18,6 @@ const FollowerAdder = ({
   const [searchEmployee, { data: searchData, loading: searchLoading }] =
     useLazyQuery(SEARCH_APS_QUERY);
 
-  useEffect(() => {
-    if (selection) {
-      assignAgents({
-        variables: { newFollowerUserId: selection, ticketId: ticket.id },
-      });
-    }
-  }, [selection]);
-
   const [assignAgents, { loading: assigning }] = useMutation(ADD_FOLLOWER, {
     onCompleted: () => {
       setSelection(null);
@@ -36,6 +28,14 @@ const FollowerAdder = ({
     },
     refetchQueries: ["ticket"],
   });
+
+  useEffect(() => {
+    if (selection) {
+      assignAgents({
+        variables: { newFollowerUserId: selection, ticketId: ticket.id },
+      });
+    }
+  }, [selection, assignAgents, ticket]);
 
   const [timerId, setTimerId] = useState(null);
 

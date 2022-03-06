@@ -20,15 +20,7 @@ const CategoryAdder = ({
     if (ticket?.categories) {
       getCategories({ variables: { first: 500 } });
     }
-  }, [ticket?.categories]);
-
-  useEffect(() => {
-    if (selection) {
-      addTicketCategory({
-        variables: { categoryId: selection, ticketId: ticket.id },
-      });
-    }
-  }, [selection]);
+  }, [ticket?.categories, getCategories]);
 
   const [addTicketCategory, { loading: loadingAddTicketCategory }] =
     useMutation(ADD_TICKET_CATEGORY, {
@@ -40,6 +32,14 @@ const CategoryAdder = ({
       },
       refetchQueries: ["ticket"],
     });
+
+  useEffect(() => {
+    if (selection) {
+      addTicketCategory({
+        variables: { categoryId: selection, ticketId: ticket.id },
+      });
+    }
+  }, [selection, addTicketCategory, ticket]);
 
   return (
     <div

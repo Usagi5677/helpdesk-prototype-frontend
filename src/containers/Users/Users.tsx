@@ -30,7 +30,7 @@ const Users = () => {
   // Fetch users when component mounts
   useEffect(() => {
     getAppUsers();
-  }, []);
+  }, [getAppUsers]);
 
   // Filter users based on the search value. This function will run whenever
   // search and data changes

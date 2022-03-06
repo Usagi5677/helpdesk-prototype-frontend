@@ -25,7 +25,6 @@ const Timeline = (props: any) => {
           </div>
           <p>You replied to your ticket.</p>
         </li>
-        
       </ul>
     </div>
   );

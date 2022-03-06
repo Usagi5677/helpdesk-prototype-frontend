@@ -14,7 +14,7 @@ import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Menu, Drawer } from "antd";
 
-const { SubMenu, Divider } = Menu;
+const { Divider } = Menu;
 interface SidebarItem {
   name: string;
   path: string;

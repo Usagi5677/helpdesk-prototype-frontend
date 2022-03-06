@@ -11,7 +11,13 @@ const BackdropContainer = styled.div<any>`
 `;
 
 const Backdrop = (props: any) => {
-  return props.show ? <BackdropContainer onClick={props.clicked} invisible={props.invisible} zIndex={props.zIndex}/> : null;
+  return props.show ? (
+    <BackdropContainer
+      onClick={props.clicked}
+      invisible={props.invisible}
+      zIndex={props.zIndex}
+    />
+  ) : null;
 };
 
 export default Backdrop;

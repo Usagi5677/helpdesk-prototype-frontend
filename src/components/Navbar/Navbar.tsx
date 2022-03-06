@@ -1,4 +1,4 @@
-import { FaBars, FaBell } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import NewTicket from "../Ticket/NewTicket";
 import classes from "./Navbar.module.css";

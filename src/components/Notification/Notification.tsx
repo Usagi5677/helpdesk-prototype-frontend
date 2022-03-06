@@ -48,7 +48,7 @@ const Notifications = () => {
 
   useEffect(() => {
     getAllNotificationOfUser();
-  }, []);
+  }, [getAllNotificationOfUser]);
 
   const subscribe = () => {
     // Ensure subscription is done once and not every render

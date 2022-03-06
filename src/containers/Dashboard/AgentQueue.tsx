@@ -10,18 +10,15 @@ import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import Ticket from "../../models/Ticket";
 
 const AgentQueue = () => {
-  const [getAgentQueue, { data, loading, refetch }] = useLazyQuery(
-    AGENT_QUEUE,
-    {
-      onError: (err) => {
-        errorMessage(err, "Error loading agent queue.");
-      },
-    }
-  );
+  const [getAgentQueue, { data, refetch }] = useLazyQuery(AGENT_QUEUE, {
+    onError: (err) => {
+      errorMessage(err, "Error loading agent queue.");
+    },
+  });
 
   useEffect(() => {
     getAgentQueue();
-  }, []);
+  }, [getAgentQueue]);
 
   // Refetch ticket status count every 10 seconds
   useEffect(() => {

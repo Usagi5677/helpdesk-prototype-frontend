@@ -55,7 +55,7 @@ const ParsedAttachment = ({
     if (isVisible && !attachment) {
       getAttachment({ variables: { id: attachmentId } });
     }
-  }, [isVisible]);
+  }, [isVisible, getAttachment, attachment, attachmentId]);
 
   const getFile = () => {
     setFileLoading(true);

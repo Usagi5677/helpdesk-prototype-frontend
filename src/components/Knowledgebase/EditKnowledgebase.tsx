@@ -1,23 +1,35 @@
 import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, message, Modal, Radio, Row, Tooltip } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Row,
+  Tooltip,
+} from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { EDIT_KNOWLEDGEBASE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import UserGroup from "../../models/UserGroup";
-import { FaPen, FaTrash, FaEye } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import classes from "./KnowledgebaseCard.module.css";
 import KnowledgebaseModel from "../../models/Knowledgebase";
 import ReactQuill from "react-quill";
 
-const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseModel }) => {
+const EditKnowledgebase = ({
+  knowledgebase,
+}: {
+  knowledgebase: KnowledgebaseModel;
+}) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
   const [value, setValue] = useState("");
 
-  const [editKnowledgebase, { loading: loadingEditKnowledgebase }] = useMutation(
-    EDIT_KNOWLEDGEBASE,
-    {
+  const [editKnowledgebase, { loading: loadingEditKnowledgebase }] =
+    useMutation(EDIT_KNOWLEDGEBASE, {
       onCompleted: () => {
         message.success("Successfully updated knowledge base.");
         handleCancel();
@@ -26,8 +38,7 @@ const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseMode
         errorMessage(error, "Unexpected error while updating knowledge base.");
       },
       refetchQueries: ["getAllKnowledgebase"],
-    }
-  );
+    });
 
   const handleCancel = () => {
     setVisible(false);
@@ -70,7 +81,12 @@ const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseMode
         />
       </Tooltip>
 
-      <Modal visible={visible} onCancel={handleCancel} footer={null} width="90vw">
+      <Modal
+        visible={visible}
+        onCancel={handleCancel}
+        footer={null}
+        width="90vw"
+      >
         <Form
           form={form}
           layout="vertical"
@@ -117,7 +133,9 @@ const EditKnowledgebase = ({ knowledgebase }: { knowledgebase: KnowledgebaseMode
           </Form.Item>
           <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
             <div>Public knowledge base are visible to all users.</div>
-            <div>Private knowledge base are only visible to admins and agents.</div>
+            <div>
+              Private knowledge base are only visible to admins and agents.
+            </div>
           </div>
           <Row justify="end" gutter={16}>
             <Col>

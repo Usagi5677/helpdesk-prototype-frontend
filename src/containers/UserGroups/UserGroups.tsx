@@ -30,7 +30,7 @@ const UserGroups = () => {
   // Fetch user groups when component mounts
   useEffect(() => {
     getUserGroups({ variables: { first: 500 } });
-  }, []);
+  }, [getUserGroups]);
 
   // Filter user groups based on the search value. This function will run
   // whenever search and data changes

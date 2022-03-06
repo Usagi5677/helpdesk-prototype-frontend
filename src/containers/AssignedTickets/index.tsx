@@ -54,7 +54,7 @@ const AssignedTickets = () => {
       params.delete("status");
       setParams(params);
     }
-  }, [filter.status]);
+  }, [filter.status, setParams, params]);
 
   const [getAssignedTickets, { data, loading }] = useLazyQuery(
     ASSIGNED_TICKETS,
@@ -68,7 +68,7 @@ const AssignedTickets = () => {
   // Fetch tickets when component mounts or when the filter object changes
   useEffect(() => {
     getAssignedTickets({ variables: filter });
-  }, [filter]);
+  }, [filter, getAssignedTickets]);
 
   // Debounce the search, meaning the search will only execute 500ms after the
   // last input. This prevents unnecessary API calls. useRef is used to prevent
@@ -76,22 +76,26 @@ const AssignedTickets = () => {
   // call as well).
   const initialRender = useRef<boolean>(true);
   useEffect(() => {
+    const searchDebounced = (value: string) => {
+      if (timerId) clearTimeout(timerId);
+      setTimerId(
+        //@ts-ignore
+        setTimeout(() => {
+          setFilter((filter) => ({
+            ...filter,
+            search: value,
+            ...DefaultPaginationArgs,
+          }));
+          setPage(1);
+        }, 500)
+      );
+    };
     if (initialRender.current === true) {
       initialRender.current = false;
       return;
     }
     searchDebounced(search);
-  }, [search]);
-  const searchDebounced = (value: string) => {
-    if (timerId) clearTimeout(timerId);
-    setTimerId(
-      //@ts-ignore
-      setTimeout(() => {
-        setFilter({ ...filter, search: value, ...DefaultPaginationArgs });
-        setPage(1);
-      }, 500)
-    );
-  };
+  }, [search, setFilter, timerId]);
 
   // Pagination functions
   const next = () => {

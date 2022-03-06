@@ -28,7 +28,7 @@ const ViewKnowledgebase = () => {
   // Fetch knowledgebase when component mount
   useEffect(() => {
     getKnowledgebase({ variables: { knowledgebaseId: parseInt(id) } });
-  }, []);
+  }, [getKnowledgebase, id]);
 
   const knowledgebaseData: KnowledgebaseModel =
     knowledgebase?.singleKnowledgebase;

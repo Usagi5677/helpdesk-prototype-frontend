@@ -110,7 +110,7 @@ const ViewTicket = () => {
 
   useEffect(() => {
     hasAccess({ variables: { ticketId: parseInt(id) } });
-  }, []);
+  }, [hasAccess, id]);
 
   const ticketData: Ticket = ticket?.ticket;
   const isAssigned = ticketData?.agents

@@ -34,7 +34,7 @@ const ME_QUERY = gql`
   }
 `;
 
-const App = ({ history }: { history: any }) => {
+const App = () => {
   {
     const token = localStorage.getItem("helpdesk_token");
     if (token) {
@@ -63,7 +63,6 @@ const App = ({ history }: { history: any }) => {
     },
     onError: (error) => {
       localStorage.removeItem("helpdesk_token");
-      // history.replace("");
       setLoggedOut(true);
       setAppLoading(false);
 
@@ -91,12 +90,6 @@ const App = ({ history }: { history: any }) => {
       localStorage.setItem("prevRoute", currentPath);
   };
 
-  const setLogOutStates = () => {
-    setPrevRoute();
-    setLoggedOut(true);
-    setAppLoading(false);
-  };
-
   interface SSOToken {
     id: number;
     type: string;
@@ -105,6 +98,11 @@ const App = ({ history }: { history: any }) => {
   }
 
   useEffect(() => {
+    const setLogOutStates = () => {
+      setPrevRoute();
+      setLoggedOut(true);
+      setAppLoading(false);
+    };
     if (user === null) {
       const token = localStorage.getItem("helpdesk_token");
       if (token) {

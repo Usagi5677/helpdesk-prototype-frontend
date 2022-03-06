@@ -7,7 +7,6 @@ import { errorMessage } from "../../helpers/gql";
 import ReactQuill from "react-quill";
 import sanitizeHtml from "sanitize-html";
 import "react-quill/dist/quill.snow.css";
-import classes from "./KnowledgebaseCard.module.css";
 
 const AddKnowledgebase = () => {
   const [visible, setVisible] = useState(false);
