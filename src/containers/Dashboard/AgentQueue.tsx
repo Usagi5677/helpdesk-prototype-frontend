@@ -54,12 +54,16 @@ const AgentQueue = () => {
         padding: 20,
       }}
     >
-      <Collapse ghost>
-        {data?.agentQueue.map((rec: any) => (
+      <Collapse ghost style={{ paddingBottom: 12 }}>
+        {data?.agentQueue.map((rec: any, i: number) => (
           <Collapse.Panel
             collapsible={rec.tickets.length === 0 ? "disabled" : undefined}
             header={
-              <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
                 <Badge
                   count={rec.tickets.length}
                   showZero
