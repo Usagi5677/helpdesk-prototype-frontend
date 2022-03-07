@@ -8,6 +8,7 @@ import StatusTag from "../common/StatusTag";
 import PriorityTag from "../common/PriorityTag";
 import RatingStars from "./RatingStars";
 import UserAvatar from "../common/UserAvatar";
+import { DATETIME_FORMATS } from "../../helpers/constants";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -54,7 +55,7 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
                   ]
                 }
               >
-                {moment(ticket.createdAt).format("DD MMMM YYYY HH:mm:ss")}
+                {moment(ticket.createdAt).format(DATETIME_FORMATS.FULL)}
               </div>
             </div>
           </div>
@@ -207,6 +208,16 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
             <div style={{ paddingRight: 24 }}>
               <StatusTag status={ticket?.status} />
             </div>
+            {ticket?.statusChangedAt && ticket?.status !== "Pending" && (
+              <div
+                style={{ paddingRight: 24, opacity: 0.5 }}
+                title={moment(ticket?.statusChangedAt).format(
+                  DATETIME_FORMATS.FULL
+                )}
+              >
+                {moment(ticket?.statusChangedAt).fromNow()}
+              </div>
+            )}
             {ticket?.rating && (
               <div style={{ paddingRight: 24 }}>
                 <RatingStars rating={ticket?.rating} fontSize={15} />

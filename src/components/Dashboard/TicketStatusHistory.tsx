@@ -8,6 +8,7 @@ import { statusColors } from "../../helpers/style";
 import { DatePicker, Spin } from "antd";
 import { errorMessage } from "../../helpers/gql";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import { DATETIME_FORMATS } from "../../helpers/constants";
 
 const TicketStatusHistory = ({ today }: { today: any }) => {
   const [dates, setDates] = useState<any>([
@@ -31,7 +32,7 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
 
   let data = () => {
     let labels = history?.ticketStatusCountHistory.map((rec: any) =>
-      moment(rec.date).format("DD MMMM")
+      moment(rec.date).format(DATETIME_FORMATS.DAY_MONTH)
     );
     let datasets = (Object.keys(Status) as Array<keyof typeof Status>).map(
       (status) => {
@@ -54,7 +55,7 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
     if (history && today) {
       const todayDate = moment();
       if (dates[1].isSame(todayDate, "day")) {
-        labels.push(todayDate.format("DD MMMM"));
+        labels.push(todayDate.format(DATETIME_FORMATS.DAY_MONTH));
         (Object.keys(Status) as Array<keyof typeof Status>).forEach(
           (status: any) => {
             let dataset = datasets.find((ds) => ds.label === status);
@@ -94,7 +95,7 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
       >
         <DatePicker.RangePicker
           defaultValue={dates}
-          format={"DD MMMM YYYY"}
+          format={DATETIME_FORMATS.DAY_MONTH_YEAR}
           style={{ width: 350, borderRadius: 20 }}
           popupStyle={{ borderRadius: 20 }}
           disabledDate={(date) => date.isAfter(moment(), "day")}

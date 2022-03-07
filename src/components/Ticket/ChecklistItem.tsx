@@ -8,6 +8,7 @@ import { errorMessage } from "../../helpers/gql";
 import ChecklistItemModel from "../../models/ChecklistItem";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
+import { DATETIME_FORMATS } from "../../helpers/constants";
 
 const ChecklistItem = ({
   item,
@@ -52,9 +53,9 @@ const ChecklistItem = ({
         {item.completedAt && (
           <span
             style={{ fontSize: 10, opacity: 0.5, display: "inline-block" }}
-            title={moment(item.completedAt).format("DD MMMM YYYY HH:mm:ss")}
+            title={moment(item.completedAt).format(DATETIME_FORMATS.FULL)}
           >
-            {moment(item.completedAt).format("D MMM H:mm")}
+            {moment(item.completedAt).format(DATETIME_FORMATS.SHORT)}
           </span>
         )}
       </Checkbox>

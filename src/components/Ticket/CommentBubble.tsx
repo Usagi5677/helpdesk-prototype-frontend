@@ -7,6 +7,7 @@ import UserContext from "../../contexts/UserContext";
 import ParsedAttachment from "./ParsedAttachment";
 import ParsedRating from "./ParsedRating";
 import UserAvatar from "../common/UserAvatar";
+import { DATETIME_FORMATS } from "../../helpers/constants";
 
 const CommentBubble = ({ group }: { group: CommentGroup }) => {
   const { user } = useContext(UserContext);
@@ -128,9 +129,9 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
             {parseComment(comment.body)}
             <div
               style={{ fontSize: "90%", opacity: 0.5 }}
-              title={moment(comment.createdAt).format("DD MMMM YYYY HH:mm:ss")}
+              title={moment(comment.createdAt).format(DATETIME_FORMATS.FULL)}
             >
-              {moment(comment.createdAt).format("D MMM H:mm")}
+              {moment(comment.createdAt).format(DATETIME_FORMATS.SHORT)}
             </div>
           </div>
         ))}

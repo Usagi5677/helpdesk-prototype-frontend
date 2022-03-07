@@ -11,6 +11,7 @@ import moment from "moment";
 import ReactQuill from "react-quill";
 import { LeftOutlined } from "@ant-design/icons";
 import UserAvatar from "../../../components/common/UserAvatar";
+import { DATETIME_FORMATS } from "../../../helpers/constants";
 
 const ViewKnowledgebase = () => {
   const { id }: any = useParams();
@@ -140,10 +141,12 @@ const ViewKnowledgebase = () => {
                 <div
                   style={{ fontSize: "80%", opacity: 0.5 }}
                   title={moment(knowledgebaseData?.createdAt).format(
-                    "DD MMMM YYYY HH:mm:ss"
+                    DATETIME_FORMATS.FULL
                   )}
                 >
-                  {moment(knowledgebaseData?.createdAt).format("DD MMMM YYYY")}
+                  {moment(knowledgebaseData?.createdAt).format(
+                    DATETIME_FORMATS.SHORT
+                  )}
                 </div>
               </div>
               <UserAvatar user={knowledgebaseData?.createdBy} />
