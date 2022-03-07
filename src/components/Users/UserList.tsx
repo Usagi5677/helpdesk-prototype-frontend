@@ -49,7 +49,7 @@ const UserList = ({ user }: { user: User }) => {
           </div>
         </div>
         <div>
-          {user.roles.map((role) => (
+          {user.roles?.map((role) => (
             <Popconfirm
               disabled={
                 (removingUserRole && role === removingRole) ||

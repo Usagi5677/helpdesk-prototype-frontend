@@ -20,11 +20,13 @@ const Users = () => {
   }
 
   const [search, setSearch] = useState("");
-  const [filered, setFiltered] = useState<User[]>([]);
+  const [filtered, setFiltered] = useState<User[]>([]);
   const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {
     onError: (err) => {
       errorMessage(err, "Error loading app users.");
     },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
   });
 
   // Fetch users when component mounts
@@ -82,7 +84,7 @@ const Users = () => {
           <Spin style={{ width: "100%", margin: "0 auto" }} />
         </div>
       )}
-      {filered.map((u: User) => (
+      {filtered.map((u: User) => (
         <UserList user={u} key={u.id} />
       ))}
     </div>
