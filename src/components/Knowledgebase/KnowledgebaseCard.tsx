@@ -11,6 +11,7 @@ import { errorMessage } from "../../helpers/gql";
 import { DELETE_KNOWLEDGEBASE } from "../../api/mutations";
 import { Link } from "react-router-dom";
 import EditKnowledgebase from "./EditKnowledgebase";
+import { stringToColor } from "../../helpers/style";
 const { Meta } = Card;
 
 const KnowledgebaseCard = ({
@@ -167,19 +168,23 @@ const KnowledgebaseCard = ({
         <Meta
           title={
             <div className={classes["title-wrapper"]}>
-              <Tooltip title={knowledgebase.createdBy.fullName} placement="top">
+              <Tooltip
+                title={knowledgebase.createdBy.fullName}
+                placement="bottom"
+              >
                 <Avatar
                   style={{
-                    marginRight: 10,
-                    marginBottom: 10,
-                    marginTop: 4,
-                    backgroundColor: avatarColor(
+                    backgroundColor: stringToColor(
                       knowledgebase.createdBy.fullName
-                    ).backgroundColor,
-                    color: avatarColor(knowledgebase.createdBy.fullName).color,
+                    ),
+                    marginRight: "1rem",
                   }}
                 >
-                  {initials}
+                  {knowledgebase.createdBy.fullName
+                    .match(/^\w|\b\w(?=\S+$)/g)
+                    ?.join()
+                    .replace(",", "")
+                    .toUpperCase()}
                 </Avatar>
               </Tooltip>
               {knowledgebase.title}
