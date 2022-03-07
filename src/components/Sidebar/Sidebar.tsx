@@ -1,7 +1,9 @@
 import {
   FaBook,
+  FaBookmark,
   FaHome,
   FaListAlt,
+  FaListUl,
   FaTh,
   FaTicketAlt,
   FaUserLock,
@@ -42,7 +44,7 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
     {
       name: "Following Tickets",
       path: "/following-tickets",
-      icon: <FaTicketAlt />,
+      icon: <FaBookmark />,
     },
     {
       name: "Divider",
@@ -93,7 +95,7 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
     SidebarData.splice(4, 0, {
       name: "Assigned Tickets",
       path: "/assigned-tickets",
-      icon: <FaListAlt />,
+      icon: <FaListUl />,
     });
   }
 
