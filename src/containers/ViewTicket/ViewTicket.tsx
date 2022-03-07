@@ -20,6 +20,7 @@ import Ticket from "../../models/Ticket";
 import moment from "moment";
 import CategoryAdder from "../../components/common/CategoryAdder";
 import {
+  ASSIGN_AGENTS,
   REMOVE_FOLLOWER,
   REMOVE_TICKET_CATEGORY,
   SET_OWNER,
@@ -110,6 +111,13 @@ const ViewTicket = () => {
     }
   );
 
+  const [assignAgents, { loading: assigning }] = useMutation(ASSIGN_AGENTS, {
+    onError: (error) => {
+      errorMessage(error, "Unexpected error while assigning self to ticket.");
+    },
+    refetchQueries: ["ticket"],
+  });
+
   useEffect(() => {
     hasAccess({ variables: { ticketId: parseInt(id) } });
   }, [hasAccess, id]);
@@ -126,6 +134,18 @@ const ViewTicket = () => {
       ticketData?.checklistItems.length) *
       100
   );
+  const canAssignSelf =
+    user?.isAgent &&
+    !user?.isAdmin &&
+    !isAssigned &&
+    ["Pending", "Open"].includes(ticketData?.status);
+
+  const assignSelf = () => {
+    if (!canAssignSelf || !ticketData) return;
+    assignAgents({
+      variables: { ticketId: ticketData.id, agentIds: [user?.id] },
+    });
+  };
 
   const renderInfoLeftSide = (label: string) => (
     <div style={{ flex: "0 0 100px" }}>{label}</div>
@@ -482,6 +502,15 @@ const ViewTicket = () => {
                     }}
                   >
                     {renderInfoLeftSide("Agents")}
+                    {canAssignSelf && (
+                      <Button
+                        type="ghost"
+                        style={{ borderRadius: 20, marginRight: 10 }}
+                        onClick={() => assignSelf()}
+                      >
+                        Assign Self
+                      </Button>
+                    )}
                     {isAdminOrAssigned ? (
                       <AgentAdder ticket={ticketData} />
                     ) : (
