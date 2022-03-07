@@ -43,6 +43,8 @@ import Comments from "../../components/Ticket/Comments";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import GiveFeedback from "../../components/Ticket/GiveFeedback";
 import RatingStars from "../../components/Ticket/RatingStars";
+import { DATETIME_FORMATS } from "../../helpers/constants";
+import { statusPostPosition } from "../../helpers/grammar";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
@@ -128,20 +130,30 @@ const ViewTicket = () => {
   const renderInfoLeftSide = (label: string) => (
     <div style={{ flex: "0 0 100px" }}>{label}</div>
   );
-  const renderInfoRightSide = (label: string, noBold?: boolean) => (
+  const renderInfoRightSide = (
+    label: string,
+    noBold?: boolean,
+    title?: string
+  ) => (
     <div
       style={{
         fontWeight: noBold === true ? undefined : 700,
         wordBreak: "break-all",
       }}
+      title={title}
     >
       {label}
     </div>
   );
-  const renderInfoRow = (left: string, right: string, noBold?: boolean) => (
+  const renderInfoRow = (
+    left: string,
+    right: string,
+    noBold?: boolean,
+    title?: string
+  ) => (
     <div style={{ display: "flex", marginBottom: 5, marginTop: 5 }}>
       {renderInfoLeftSide(left)}
-      {renderInfoRightSide(right, noBold)}
+      {renderInfoRightSide(right, noBold, title)}
     </div>
   );
 
@@ -397,7 +409,11 @@ const ViewTicket = () => {
                 <>
                   {renderInfoRow(
                     "Created on",
-                    moment(ticketData?.createdAt).format("DD MMMM YYYY HH:mm")
+                    moment(ticketData?.createdAt).format(
+                      DATETIME_FORMATS.SHORT
+                    ),
+                    undefined,
+                    moment(ticketData?.createdAt).format(DATETIME_FORMATS.FULL)
                   )}
                   <div
                     style={{
@@ -415,6 +431,18 @@ const ViewTicket = () => {
                       </>
                     )}
                   </div>
+                  {ticketData?.statusChangedAt &&
+                    ticketData?.status !== "Pending" &&
+                    renderInfoRow(
+                      `${ticketData?.status} ${statusPostPosition(
+                        ticketData?.status
+                      )}`,
+                      moment(ticketData?.statusChangedAt).fromNow(),
+                      undefined,
+                      moment(ticketData?.statusChangedAt).format(
+                        DATETIME_FORMATS.FULL
+                      )
+                    )}
                   <div
                     style={{
                       display: "flex",

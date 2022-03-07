@@ -8,6 +8,7 @@ export default interface Ticket {
   createdAt: Date;
   createdBy: User;
   status: Status;
+  statusChangedAt?: Date;
   title: string;
   body?: string;
   rating?: number;

@@ -46,6 +46,7 @@ export const TICKET_FRAGMENT = gql`
       email
     }
     status
+    statusChangedAt
     title
     body
     priority
