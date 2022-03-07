@@ -60,28 +60,28 @@ const MyTickets = () => {
   // last input. This prevents unnecessary API calls. useRef is used to prevent
   // this useEffect from running on the initial render (which would waste an API
   // call as well).
+  const searchDebounced = (value: string) => {
+    if (timerId) clearTimeout(timerId);
+    setTimerId(
+      //@ts-ignore
+      setTimeout(() => {
+        setFilter((filter) => ({
+          ...filter,
+          search: value,
+          ...DefaultPaginationArgs,
+        }));
+        setPage(1);
+      }, 500)
+    );
+  };
   const initialRender = useRef<boolean>(true);
   useEffect(() => {
-    const searchDebounced = (value: string) => {
-      if (timerId) clearTimeout(timerId);
-      setTimerId(
-        //@ts-ignore
-        setTimeout(() => {
-          setFilter((filter) => ({
-            ...filter,
-            search: value,
-            ...DefaultPaginationArgs,
-          }));
-          setPage(1);
-        }, 500)
-      );
-    };
     if (initialRender.current === true) {
       initialRender.current = false;
       return;
     }
     searchDebounced(search);
-  }, [search, setFilter, timerId]);
+  }, [search]);
 
   // Pagination functions
   const next = () => {
