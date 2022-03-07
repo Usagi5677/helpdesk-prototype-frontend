@@ -81,6 +81,7 @@ const MyTickets = () => {
       return;
     }
     searchDebounced(search);
+    // eslint-disable-next-line
   }, [search]);
 
   // Pagination functions
