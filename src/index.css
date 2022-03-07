@@ -83,6 +83,13 @@ a {
   color: initial !important;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
 :root {
   --html-bg-color: #f0f1f1;
   --primary: #1c6493;
@@ -199,7 +206,6 @@ em {
 }
 
 .ant-menu-inline {
-  width: 280px !important;
   border-right: none !important;
 }
 .ant-menu-item-selected {

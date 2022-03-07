@@ -37,9 +37,6 @@
   .navbar__title {
     font-size: 1.25rem;
   }
-  .navbar__title.active {
-    margin-left: 250px;
-  }
   .navbar__icon {
     font-size: 1.25rem;
     margin: 0 20px;

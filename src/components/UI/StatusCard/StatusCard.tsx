@@ -12,12 +12,12 @@ import { useNavigate } from "react-router";
 import { statusColors } from "../../../helpers/style";
 
 const StatusCardWrapper = styled.div`
-  width: 180px;
-  min-height: 100px;
+  width: 150px;
+  min-height: 80px;
   background-color: white;
   border-radius: 20px;
-  padding: 5px 20px;
-  font-size: 0.75rem;
+  padding: 0px 15px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,17 +36,15 @@ const StatusCardIcon = styled.div<any>`
       ? props.iconBackgroundColor
       : "rgba(0, 183, 255, 0.2)"};
   color: ${(props) => (props.iconColor ? props.iconColor : "rgb(0, 183, 255)")};
-  font-size: 1.5rem;
 `;
 const StatusCardInfoWrapper = styled.div`
-  font-size: 1rem;
   text-align: right;
 `;
 const StatusCardAmount = styled.div`
+  font-size: 16px;
   font-weight: 800;
 `;
 const StatusCardStatusName = styled.div`
-  font-size: 1rem;
   text-align: right;
 `;
 const StatusCard = ({ status, amount }: { status: string; amount: number }) => {

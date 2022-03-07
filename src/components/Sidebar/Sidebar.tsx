@@ -8,23 +8,19 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import classes from "./Sidebar.module.css";
-import Backdrop from "../UI/Backdrop/Backdrop";
 import { NavLink, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Menu, Drawer } from "antd";
+import { Menu } from "antd";
 
 const { Divider } = Menu;
 interface SidebarItem {
   name: string;
   path: string;
   icon?: any;
-  dropdowns?: SidebarItem[];
-  submenuName?: string;
-  submenus?: SidebarItem[];
 }
 
-const Sidebar = (props: any) => {
+const Sidebar = ({ onClick }: { onClick: () => void }) => {
   const { user } = useContext(UserContext);
   const { pathname } = useLocation();
 
@@ -103,40 +99,26 @@ const Sidebar = (props: any) => {
 
   return (
     <>
-      <Backdrop show={props.sidebarVisible} clicked={props.closeSidebar} />
-      <Drawer
-        title={
-          <div className={classes["logo-wrapper"]}>
-            <img className={classes["logo"]} src="/logo.png" alt="MTCC logo" />
-          </div>
-        }
-        placement={"left"}
-        closable={false}
-        mask={false}
-        onClose={props.closeSidebar}
-        visible={props.sidebarVisible}
-        width={300}
-        key={"left"}
+      <Menu
+        mode="inline"
+        defaultOpenKeys={pathname === "my-tickets" ? ["my-tickets"] : []}
+        selectedKeys={[pathname]}
+        style={{ overflowX: "hidden", flex: 1 }}
       >
-        <Menu
-          mode="inline"
-          defaultOpenKeys={pathname === "my-tickets" ? ["my-tickets"] : []}
-          selectedKeys={[pathname]}
-        >
-          {SidebarData.map((item: SidebarItem) => {
-            if (item.name === "Divider") return <Divider key={item.path} />;
-            return (
-              <Menu.Item
-                key={item.path}
-                icon={item.icon}
-                className={classes["newMenuItem"]}
-              >
-                <NavLink to={item.path}>{item.name}</NavLink>
-              </Menu.Item>
-            );
-          })}
-        </Menu>
-      </Drawer>
+        {SidebarData.map((item: SidebarItem) => {
+          if (item.name === "Divider") return <Divider key={item.path} />;
+          return (
+            <Menu.Item
+              key={item.path}
+              icon={item.icon}
+              className={classes["newMenuItem"]}
+              onClick={onClick}
+            >
+              <NavLink to={item.path}>{item.name}</NavLink>
+            </Menu.Item>
+          );
+        })}
+      </Menu>
     </>
   );
 };
