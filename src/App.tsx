@@ -29,6 +29,7 @@ const ME_QUERY = gql`
       rcno
       fullName
       email
+      userId
       roles
     }
   }
