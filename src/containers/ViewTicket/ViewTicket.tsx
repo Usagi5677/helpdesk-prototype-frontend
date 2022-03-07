@@ -240,7 +240,7 @@ const ViewTicket = () => {
                             />
                           </Tooltip>
                         )}
-                      {(user?.isAdmin || user?.id === agent.id) && (
+                      {(user?.isAdmin || isOwner) && (
                         <CloseCircleOutlined
                           style={{
                             cursor: "pointer",
