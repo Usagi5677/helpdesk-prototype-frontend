@@ -45,7 +45,8 @@ const SearchAPSUser: FC<SearchEmployeeProps> = ({
       //@ts-ignore
       setEmployees((employees) => [...employees, value]);
     }
-  }, [value, setEmployees, employees]);
+    // eslint-disable-next-line
+  }, [value]);
 
   const handleChange = (value: any) => {
     setSelected(value);
