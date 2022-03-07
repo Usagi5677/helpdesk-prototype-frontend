@@ -169,7 +169,7 @@ const KnowledgebaseCard = ({
           title={
             <div className={classes["title-wrapper"]}>
               <Tooltip
-                title={knowledgebase.createdBy.fullName}
+                title={`${knowledgebase.createdBy.fullName} (${knowledgebase.createdBy.rcno})`}
                 placement="bottom"
               >
                 <Avatar
