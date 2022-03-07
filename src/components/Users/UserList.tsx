@@ -1,12 +1,15 @@
 import classes from "./UserList.module.css";
 import User from "../../models/User";
-import { message, Popconfirm, Tag } from "antd";
+import { Button, message, Popconfirm, Tag } from "antd";
 import { useMutation } from "@apollo/client";
-import { REMOVE_USER_ROLE } from "../../api/mutations";
+import { ADD_USER_ROLE, REMOVE_USER_ROLE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import UserAvatar from "../common/UserAvatar";
+import { PlusOutlined } from "@ant-design/icons";
+
+const allRoles = ["Admin", "Agent"];
 
 const UserList = ({ user }: { user: User }) => {
   const { user: self } = useContext(UserContext);
@@ -32,6 +35,19 @@ const UserList = ({ user }: { user: User }) => {
       },
     });
   };
+
+  const [addUserRole, { loading: addingRole }] = useMutation(ADD_USER_ROLE, {
+    onCompleted: () => {
+      message.success("Successfully added user role.");
+    },
+    onError: (error) => {
+      errorMessage(error, "Unexpected error while adding user role.");
+    },
+    refetchQueries: ["appUsers"],
+  });
+
+  const remainingRoles = allRoles.filter((r) => !user.roles?.includes(r));
+
   return (
     <div className={classes["user-list-wrapper"]}>
       <div
@@ -48,7 +64,31 @@ const UserList = ({ user }: { user: User }) => {
             {user.fullName} ({user.rcno})
           </div>
         </div>
-        <div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {remainingRoles.map((role) => (
+            <Button
+              key={role}
+              type="ghost"
+              size="small"
+              style={{
+                borderRadius: 20,
+                marginRight: "1rem",
+                fontSize: "80%",
+              }}
+              loading={addingRole}
+              onClick={() =>
+                addUserRole({
+                  variables: {
+                    userId: user.id,
+                    role,
+                  },
+                })
+              }
+              icon={<PlusOutlined />}
+            >
+              {role}
+            </Button>
+          ))}
           {user.roles?.map((role) => (
             <Popconfirm
               disabled={

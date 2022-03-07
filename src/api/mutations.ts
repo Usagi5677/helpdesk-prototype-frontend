@@ -6,6 +6,12 @@ export const ADD_APP_USER = gql`
   }
 `;
 
+export const ADD_USER_ROLE = gql`
+  mutation ($userId: Int!, $role: Role!) {
+    addUserRole(userId: $userId, role: $role)
+  }
+`;
+
 export const REMOVE_USER_ROLE = gql`
   mutation ($userId: Int!, $role: Role!) {
     removeUserRole(userId: $userId, role: $role)
