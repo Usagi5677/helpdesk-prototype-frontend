@@ -18,7 +18,7 @@ const FollowerAdder = ({
   const [searchEmployee, { data: searchData, loading: searchLoading }] =
     useLazyQuery(SEARCH_APS_QUERY);
 
-  const [assignAgents, { loading: assigning }] = useMutation(ADD_FOLLOWER, {
+  const [addFollower, { loading: assigning }] = useMutation(ADD_FOLLOWER, {
     onCompleted: () => {
       setSelection(null);
     },
@@ -31,11 +31,11 @@ const FollowerAdder = ({
 
   useEffect(() => {
     if (selection) {
-      assignAgents({
+      addFollower({
         variables: { newFollowerUserId: selection, ticketId: ticket.id },
       });
     }
-  }, [selection, assignAgents, ticket]);
+  }, [selection, addFollower, ticket]);
 
   const [timerId, setTimerId] = useState(null);
 
