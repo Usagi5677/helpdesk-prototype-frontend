@@ -20,6 +20,7 @@ import Ticket from "../../models/Ticket";
 import moment from "moment";
 import CategoryAdder from "../../components/common/CategoryAdder";
 import {
+  ADD_FOLLOWER,
   ASSIGN_AGENTS,
   REMOVE_FOLLOWER,
   REMOVE_TICKET_CATEGORY,
@@ -32,6 +33,8 @@ import {
   CloseCircleOutlined,
   UpCircleOutlined,
   LeftOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
 } from "@ant-design/icons";
 import FollowerAdder from "../../components/common/FollowerAdder";
 import AddChecklistItem from "../../components/Ticket/AddChecklistItem";
@@ -118,6 +121,13 @@ const ViewTicket = () => {
     refetchQueries: ["ticket"],
   });
 
+  const [addFollower, { loading: following }] = useMutation(ADD_FOLLOWER, {
+    onError: (error) => {
+      errorMessage(error, "Unexpected error occured.");
+    },
+    refetchQueries: ["ticket"],
+  });
+
   useEffect(() => {
     hasAccess({ variables: { ticketId: parseInt(id) } });
   }, [hasAccess, id]);
@@ -139,6 +149,9 @@ const ViewTicket = () => {
     !user?.isAdmin &&
     !isAssigned &&
     ["Pending", "Open"].includes(ticketData?.status);
+  const isFollower = ticketData?.followers
+    .map((f: any) => f.id)
+    .includes(user?.id);
 
   const assignSelf = () => {
     if (!canAssignSelf || !ticketData) return;
@@ -424,6 +437,41 @@ const ViewTicket = () => {
                 width: isSmallDevice ? undefined : 280,
               }}
             >
+              {isFollower && ticketData.createdBy.id !== user?.id && (
+                <Button
+                  type="ghost"
+                  style={{ borderRadius: 20 }}
+                  onClick={() =>
+                    removeFollower({
+                      variables: {
+                        ticketId: ticketData.id,
+                        deletingFollowerId: user?.id,
+                      },
+                    })
+                  }
+                  icon={<UserDeleteOutlined />}
+                >
+                  Unfollow
+                </Button>
+              )}
+              {!isFollower && (
+                <Button
+                  type="ghost"
+                  style={{ borderRadius: 20 }}
+                  onClick={() =>
+                    addFollower({
+                      variables: {
+                        newFollowerUserId: user?.userId,
+                        ticketId: ticketData.id,
+                      },
+                    })
+                  }
+                  loading={following}
+                  icon={<UserAddOutlined />}
+                >
+                  Follow
+                </Button>
+              )}
               {renderInfoRow("Ticket ID", `${id}`)}
               {ticketData && (
                 <>
@@ -507,6 +555,7 @@ const ViewTicket = () => {
                         type="ghost"
                         style={{ borderRadius: 20, marginRight: 10 }}
                         onClick={() => assignSelf()}
+                        loading={assigning}
                       >
                         Assign Self
                       </Button>
