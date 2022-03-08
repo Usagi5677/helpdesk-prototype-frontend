@@ -29,7 +29,13 @@ const groupComments = (data: any) => {
   return grouped;
 };
 
-const Comments = ({ ticket }: { ticket: Ticket }) => {
+const Comments = ({
+  ticket,
+  refetchTicket,
+}: {
+  ticket: Ticket;
+  refetchTicket: () => void;
+}) => {
   const [subscribed, setSubscribed] = useState(false);
 
   const [getComments, { data, loading, subscribeToMore }] = useLazyQuery(
@@ -59,10 +65,12 @@ const Comments = ({ ticket }: { ticket: Ticket }) => {
       document: COMMENT_CREATED,
       variables: { ticketId: ticket?.id },
       updateQuery: (prev, { subscriptionData }) => {
-        const updated = [
-          ...prev.comments,
-          subscriptionData.data.commentCreated,
-        ];
+        const newComment = subscriptionData.data.commentCreated;
+        // Refetch ticket data when an 'Action' mode comment is received
+        if (newComment.mode === "Action") {
+          refetchTicket();
+        }
+        const updated = [...prev.comments, newComment];
         return { comments: updated };
       },
     });

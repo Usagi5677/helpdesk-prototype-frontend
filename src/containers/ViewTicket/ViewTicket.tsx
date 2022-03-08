@@ -69,17 +69,17 @@ const ViewTicket = () => {
     }
   );
 
-  const [getTicket, { data: ticket, loading: loadingTicket }] = useLazyQuery(
-    TICKET,
-    {
-      onError: (err) => {
-        errorMessage(err, "Error loading request.");
-      },
-      fetchPolicy: "network-only",
-      nextFetchPolicy: "cache-first",
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+  const [
+    getTicket,
+    { data: ticket, loading: loadingTicket, refetch: refetchTicket },
+  ] = useLazyQuery(TICKET, {
+    onError: (err) => {
+      errorMessage(err, "Error loading request.");
+    },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
+    notifyOnNetworkStatusChange: true,
+  });
 
   const [removeTicketCategory, { loading: loadingRemoveTicketCategory }] =
     useMutation(REMOVE_TICKET_CATEGORY, {
@@ -420,7 +420,7 @@ const ViewTicket = () => {
                     fontSize: 12,
                   }}
                 >
-                  <Comments ticket={ticketData} />
+                  <Comments ticket={ticketData} refetchTicket={refetchTicket} />
                   <ChatInput ticket={ticketData} />
                 </div>
               </Tabs.TabPane>
