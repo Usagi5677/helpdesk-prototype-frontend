@@ -93,7 +93,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "eslint . --fix",
+      "eslint . --fix --max-warnings=0",
       "git add"
     ],
     "*.{html,css,less,ejs}": [
