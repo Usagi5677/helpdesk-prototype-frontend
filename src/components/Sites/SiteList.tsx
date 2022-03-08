@@ -3,14 +3,13 @@ import { Button, message, Popconfirm } from "antd";
 import { useMutation } from "@apollo/client";
 import { DELETE_SITE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { FaTrash } from "react-icons/fa";
+import { FaLock, FaTrash } from "react-icons/fa";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import Site from "../../models/Site";
 import EditSite from "./EditSite";
 
 const SiteList = ({ site }: { site: Site }) => {
-  const { user } = useContext(UserContext);
   const [removeSite, { loading: deleting }] = useMutation(DELETE_SITE, {
     onCompleted: () => {
       message.success("Successfully removed site.");
@@ -41,33 +40,34 @@ const SiteList = ({ site }: { site: Site }) => {
           style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}
         >
           {site.name}
+          {site.mode === "Private" && (
+            <FaLock style={{ marginLeft: ".5rem" }} />
+          )}
         </div>
-        {user?.isAdmin && (
-          <div>
-            <EditSite site={site} />
-            <Popconfirm
-              disabled={deleting}
-              title={`Are you sure to remove this site?`}
-              onConfirm={() => remove()}
-              okText="Confirm"
-              cancelText="No"
-              placement="topRight"
-            >
-              <Button
-                htmlType="button"
-                size="middle"
-                icon={<FaTrash style={{ fontSize: 20 }} />}
-                shape="round"
-                style={{
-                  color: "var(--error)",
-                  marginLeft: "1rem",
-                  border: "none",
-                }}
-                loading={deleting}
-              />
-            </Popconfirm>
-          </div>
-        )}
+        <div>
+          <EditSite site={site} />
+          <Popconfirm
+            disabled={deleting}
+            title={`Are you sure to remove this site?`}
+            onConfirm={() => remove()}
+            okText="Confirm"
+            cancelText="No"
+            placement="topRight"
+          >
+            <Button
+              htmlType="button"
+              size="middle"
+              icon={<FaTrash style={{ fontSize: 20 }} />}
+              shape="round"
+              style={{
+                color: "var(--error)",
+                marginLeft: "1rem",
+                border: "none",
+              }}
+              loading={deleting}
+            />
+          </Popconfirm>
+        </div>
       </div>
     </div>
   );
