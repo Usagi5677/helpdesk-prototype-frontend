@@ -60,6 +60,8 @@ const AllTickets = () => {
     onError: (err) => {
       errorMessage(err, "Error loading tickets.");
     },
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
   });
 
   // Fetch tickets when component mounts or when the filter object changes

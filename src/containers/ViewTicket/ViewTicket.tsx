@@ -75,6 +75,8 @@ const ViewTicket = () => {
       onError: (err) => {
         errorMessage(err, "Error loading request.");
       },
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
       notifyOnNetworkStatusChange: true,
     }
   );

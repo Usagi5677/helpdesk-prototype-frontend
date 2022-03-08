@@ -62,6 +62,8 @@ const AssignedTickets = () => {
       onError: (err) => {
         errorMessage(err, "Error loading tickets.");
       },
+      fetchPolicy: "network-only",
+      nextFetchPolicy: "cache-first",
     }
   );
 
