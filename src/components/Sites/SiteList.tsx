@@ -4,8 +4,6 @@ import { useMutation } from "@apollo/client";
 import { DELETE_SITE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { FaLock, FaTrash } from "react-icons/fa";
-import { useContext } from "react";
-import UserContext from "../../contexts/UserContext";
 import Site from "../../models/Site";
 import EditSite from "./EditSite";
 

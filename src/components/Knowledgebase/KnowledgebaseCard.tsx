@@ -3,7 +3,6 @@ import Knowledgebase from "../../models/Knowledgebase";
 import { FaTrash } from "react-icons/fa";
 import classes from "./KnowledgebaseCard.module.css";
 import sanitizeHtml from "sanitize-html";
-import { avatarColor } from "../../helpers/avatarColor";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { useMutation } from "@apollo/client";
@@ -122,11 +121,6 @@ const KnowledgebaseCard = ({
 
   const regex = /(<([^>]+)>)/gi;
   const htmlTagsRemoved = clean.replace(regex, " ");
-
-  let initialsArray =
-    knowledgebase.createdBy.fullName.match(/^\w|\b\w(?=\S+$)/g);
-  let initials = initialsArray?.join().replace(",", "").toUpperCase();
-
   return (
     <Card
       className={classes["knowledgebase-card"]}
