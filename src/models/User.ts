@@ -7,4 +7,5 @@ export default interface User {
   roles: string[];
   isAdmin?: boolean;
   isAgent?: boolean;
+  isSuperAdmin: boolean;
 }

@@ -2,6 +2,7 @@ import {
   FaBook,
   FaBookmark,
   FaHome,
+  FaLayerGroup,
   FaListAlt,
   FaListUl,
   FaTh,
@@ -97,6 +98,21 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
       path: "/assigned-tickets",
       icon: <FaListUl />,
     });
+  }
+
+  // Items only shown to super admins
+  if (user?.isSuperAdmin) {
+    SidebarData.push(
+      {
+        name: "Divider",
+        path: "divider3",
+      },
+      {
+        name: "Sites",
+        path: "/sites",
+        icon: <FaLayerGroup />,
+      }
+    );
   }
 
   return (

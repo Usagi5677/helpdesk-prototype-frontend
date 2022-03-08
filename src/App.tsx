@@ -6,7 +6,7 @@ import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import { Route, Routes } from "react-router-dom";
-import { ApolloProvider, gql, useLazyQuery } from "@apollo/client";
+import { ApolloProvider, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
@@ -21,19 +21,8 @@ import AllTickets from "./containers/AllTickets";
 import AssignedTickets from "./containers/AssignedTickets";
 import FollowingTickets from "./containers/FollowingTickets";
 import { message } from "antd";
-
-const ME_QUERY = gql`
-  query {
-    me {
-      id
-      rcno
-      fullName
-      email
-      userId
-      roles
-    }
-  }
-`;
+import { ME_QUERY } from "./api/queries";
+import Sites from "./containers/Sites";
 
 const App = () => {
   {
@@ -172,6 +161,7 @@ const App = () => {
             <Route path="/usergroups" element={<UserGroups />} />
             <Route path="/knowledgebase" element={<Knowledgebase />} />
             <Route path="/knowledgebase/:id" element={<ViewKnowledgebase />} />
+            <Route path="/sites" element={<Sites />} />
           </Routes>
         </Layout>
       </ApolloProvider>

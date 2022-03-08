@@ -6,6 +6,20 @@ import {
   USER_FRAGMENT,
 } from "./fragments";
 
+export const ME_QUERY = gql`
+  query {
+    me {
+      id
+      rcno
+      fullName
+      email
+      userId
+      roles
+      isSuperAdmin
+    }
+  }
+`;
+
 export const APP_USERS_QUERY = gql`
   ${USER_FRAGMENT}
   query appUsers {
@@ -444,6 +458,17 @@ export const AGENT_QUEUE = gql`
         title
         status
       }
+    }
+  }
+`;
+
+export const SITES = gql`
+  query sites {
+    sites {
+      id
+      name
+      mode
+      isEnabled
     }
   }
 `;

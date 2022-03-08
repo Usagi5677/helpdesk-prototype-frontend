@@ -184,3 +184,21 @@ export const READ_ALL_NOTIFICATIONS = gql`
     readAllNotifications
   }
 `;
+
+export const ADD_SITE = gql`
+  mutation ($name: String!, $mode: String!) {
+    createSite(name: $name, mode: $mode)
+  }
+`;
+
+export const EDIT_SITE = gql`
+  mutation ($id: Int!, $name: String!, $mode: String!) {
+    editSite(id: $id, name: $name, mode: $mode)
+  }
+`;
+
+export const DELETE_SITE = gql`
+  mutation ($id: Int!) {
+    deleteSite(id: $id)
+  }
+`;
