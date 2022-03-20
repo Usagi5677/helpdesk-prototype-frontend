@@ -88,9 +88,9 @@ const EditUserGroup = ({ userGroup }: { userGroup: UserGroup }) => {
             </Radio.Group>
           </Form.Item>
           <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
-            <div>Public user groups are visible to all users.</div>
+            <div>Public user groups are visible to all sites.</div>
             <div>
-              Private user groups are only visible to admins and agents.
+              Private user groups are only visible to the site it belongs to.
             </div>
           </div>
           <Row justify="end" gutter={16}>

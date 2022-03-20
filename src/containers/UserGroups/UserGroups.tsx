@@ -9,6 +9,7 @@ import UserGroupList from "../../components/UserGroups/UserGroupList";
 import AddUserGroup from "../../components/UserGroups/AddUserGroup";
 import { useNavigate } from "react-router";
 import Search from "../../components/common/Search";
+import SiteFilter from "../../components/common/SiteFilter";
 
 const UserGroups = () => {
   const { user } = useContext(UserContext);
@@ -21,6 +22,8 @@ const UserGroups = () => {
 
   const [search, setSearch] = useState("");
   const [filered, setFiltered] = useState<UserGroup[]>([]);
+  const [siteId, setSiteId] = useState(user?.siteAccess.adminOrAgent[0].id);
+
   const [getUserGroups, { data, loading }] = useLazyQuery(USER_GROUPS_QUERY, {
     onError: (err) => {
       errorMessage(err, "Error loading user groups.");
@@ -29,8 +32,8 @@ const UserGroups = () => {
 
   // Fetch user groups when component mounts
   useEffect(() => {
-    getUserGroups({ variables: { first: 500 } });
-  }, [getUserGroups]);
+    getUserGroups({ variables: { first: 500, siteId } });
+  }, [siteId, getUserGroups]);
 
   // Filter user groups based on the search value. This function will run
   // whenever search and data changes
@@ -71,14 +74,28 @@ const UserGroups = () => {
           alignItems: "center",
         }}
       >
-        <Search
-          searchValue={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClick={() => setSearch("")}
-        />
+        <div style={{ display: "flex" }}>
+          <SiteFilter
+            value={siteId}
+            onChange={(value) => {
+              setSiteId(value);
+            }}
+            allowClear={false}
+            sites={user?.siteAccess.adminOrAgent}
+          />
+          <Search
+            searchValue={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClick={() => setSearch("")}
+          />
+        </div>
         {user?.isAdmin && (
           <div>
-            <AddUserGroup />
+            <AddUserGroup
+              site={user?.siteAccess.adminOrAgent.find(
+                (site) => site.id === siteId
+              )}
+            />
           </div>
         )}
       </div>

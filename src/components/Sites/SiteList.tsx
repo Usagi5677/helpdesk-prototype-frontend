@@ -6,6 +6,7 @@ import { errorMessage } from "../../helpers/gql";
 import { FaLock, FaTrash } from "react-icons/fa";
 import Site from "../../models/Site";
 import EditSite from "./EditSite";
+import SiteWithIcon from "../common/SiteWithIcon";
 
 const SiteList = ({ site }: { site: Site }) => {
   const [removeSite, { loading: deleting }] = useMutation(DELETE_SITE, {
@@ -37,7 +38,7 @@ const SiteList = ({ site }: { site: Site }) => {
         <div
           style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}
         >
-          {site.name}
+          <SiteWithIcon site={site} />
           {site.mode === "Private" && (
             <FaLock style={{ marginLeft: ".5rem" }} />
           )}

@@ -9,6 +9,7 @@ import { errorMessage } from "../../helpers/gql";
 import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
 import Search from "../../components/common/Search";
+import SiteFilter from "../../components/common/SiteFilter";
 
 const Users = () => {
   const { user } = useContext(UserContext);
@@ -21,6 +22,8 @@ const Users = () => {
 
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState<User[]>([]);
+  const [siteId, setSiteId] = useState(user?.siteAccess.admin[0].id);
+
   const [getAppUsers, { data, loading }] = useLazyQuery(APP_USERS_QUERY, {
     onError: (err) => {
       errorMessage(err, "Error loading app users.");
@@ -31,8 +34,8 @@ const Users = () => {
 
   // Fetch users when component mounts
   useEffect(() => {
-    getAppUsers();
-  }, [getAppUsers]);
+    getAppUsers({ variables: { siteId } });
+  }, [siteId, getAppUsers]);
 
   // Filter users based on the search value. This function will run whenever
   // search and data changes
@@ -70,13 +73,25 @@ const Users = () => {
           alignItems: "center",
         }}
       >
-        <Search
-          searchValue={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClick={() => setSearch("")}
-        />
+        <div style={{ display: "flex" }}>
+          <SiteFilter
+            value={siteId}
+            onChange={(value) => {
+              setSiteId(value);
+            }}
+            allowClear={false}
+            sites={user?.siteAccess.admin}
+          />
+          <Search
+            searchValue={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClick={() => setSearch("")}
+          />
+        </div>
         <div>
-          <AddUserRoles />
+          <AddUserRoles
+            site={user?.siteAccess.admin.find((site) => site.id === siteId)}
+          />
         </div>
       </div>
       {loading && (
@@ -85,7 +100,7 @@ const Users = () => {
         </div>
       )}
       {filtered.map((u: User) => (
-        <UserList user={u} key={u.id} />
+        <UserList user={u} key={u.id} siteId={siteId} />
       ))}
     </div>
   );

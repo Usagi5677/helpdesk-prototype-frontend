@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { ADD_USER_GROUP } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
+import Site from "../../models/Site";
 
-const AddUserGroup = () => {
+const AddUserGroup = ({ site }: { site?: Site }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
@@ -38,6 +39,7 @@ const AddUserGroup = () => {
       variables: {
         name,
         mode,
+        siteId: site?.id,
       },
     });
   };
@@ -53,7 +55,12 @@ const AddUserGroup = () => {
       >
         Add User Group
       </Button>
-      <Modal visible={visible} closable={false} footer={null}>
+      <Modal
+        visible={visible}
+        closable={false}
+        footer={null}
+        title={`Add user group to ${site?.name}`}
+      >
         <Form
           form={form}
           layout="vertical"
@@ -82,9 +89,9 @@ const AddUserGroup = () => {
             </Radio.Group>
           </Form.Item>
           <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
-            <div>Public user groups are visible to all users.</div>
+            <div>Public user groups are visible to all sites.</div>
             <div>
-              Private user groups are only visible to admins and agents.
+              Private user groups are only visible to the site it belongs to.
             </div>
           </div>
           <Row justify="end" gutter={16}>

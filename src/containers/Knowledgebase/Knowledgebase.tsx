@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AddKnowledgebase from "../../components/Knowledgebase/AddKnowledgebase";
 import { useLazyQuery } from "@apollo/client";
 import { GET_ALL_KNOWLEDGEBASE } from "../../api/queries";
@@ -7,14 +7,16 @@ import KnowledgebaseModel from "../../models/Knowledgebase";
 import PaginationArgs from "../../models/PaginationArgs";
 import { KNOWLEDGEBASE_PAGE_LIMIT } from "../../helpers/constants";
 import { Spin } from "antd";
-
 import Search from "../../components/common/Search";
-
 import KnowledgebasePaginationButtons from "../../components/common/KnowledgebasePaginationButtons";
 import KnowledgebaseCard from "../../components/Knowledgebase/KnowledgebaseCard";
 import classes from "./Knowledgebase.module.css";
+import SiteFilter from "../../components/common/SiteFilter";
+import UserContext from "../../contexts/UserContext";
 
 const Knowledgebase = () => {
+  const { user } = useContext(UserContext);
+
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
@@ -23,10 +25,12 @@ const Knowledgebase = () => {
   const [filter, setFilter] = useState<
     PaginationArgs & {
       search: string;
+      siteId: number | null;
     }
   >({
     first: KNOWLEDGEBASE_PAGE_LIMIT,
     search: "",
+    siteId: null,
   });
 
   const [allKnowledgebase, { data, loading }] = useLazyQuery(
@@ -95,11 +99,10 @@ const Knowledgebase = () => {
   return (
     <div
       style={{
-        width: "100%",
         backgroundColor: "white",
-        borderRadius: "20px",
+        borderRadius: 20,
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-        padding: "20px",
+        padding: "10px 10px",
       }}
     >
       <div className={classes["knowledgebase-options-wrapper"]}>
@@ -109,6 +112,16 @@ const Knowledgebase = () => {
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
           />
+          <div style={{ marginLeft: "1rem" }}>
+            <SiteFilter
+              value={filter.siteId}
+              onChange={(value) => {
+                setFilter({ ...filter, siteId: value });
+              }}
+              allowClear={true}
+              sites={user?.sites}
+            />
+          </div>
         </div>
         <div>
           <AddKnowledgebase />

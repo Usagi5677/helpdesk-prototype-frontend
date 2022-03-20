@@ -1,14 +1,27 @@
 import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, message, Modal, Radio, Row } from "antd";
-import { useState } from "react";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Row,
+  Select,
+} from "antd";
+import { useContext, useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { CREATE_KNOWLEDGEBASE } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import ReactQuill from "react-quill";
 import sanitizeHtml from "sanitize-html";
 import "react-quill/dist/quill.snow.css";
+import UserContext from "../../contexts/UserContext";
 
 const AddKnowledgebase = () => {
+  const { user } = useContext(UserContext);
+
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
   const [value, setValue] = useState("");
@@ -33,7 +46,7 @@ const AddKnowledgebase = () => {
   };
 
   const onFinish = async (values: any) => {
-    const { title, body, mode } = values;
+    const { siteId, title, body, mode } = values;
     if (!title) {
       message.error("Please enter a title.");
       return;
@@ -128,6 +141,7 @@ const AddKnowledgebase = () => {
         title,
         body: sanitizedBody,
         mode,
+        siteId,
       },
     });
   };
@@ -148,6 +162,7 @@ const AddKnowledgebase = () => {
         onCancel={handleCancel}
         footer={null}
         width="90vw"
+        style={{ maxWidth: 700 }}
       >
         <Form
           form={form}
@@ -157,6 +172,25 @@ const AddKnowledgebase = () => {
           id="myForm"
           initialValues={{ mode: "Public" }}
         >
+          <Form.Item
+            label="Site"
+            name="siteId"
+            required={false}
+            rules={[
+              {
+                required: true,
+                message: "Please select a site.",
+              },
+            ]}
+          >
+            <Select showArrow placeholder="Select site" value={value}>
+              {user?.siteAccess.adminOrAgent.map((site) => (
+                <Select.Option key={site.id} value={site.id}>
+                  {site.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item label="Mode" name="mode">
             <Radio.Group buttonStyle="solid" optionType="button">
               <Radio.Button value="Public">Public</Radio.Button>
@@ -164,9 +198,10 @@ const AddKnowledgebase = () => {
             </Radio.Group>
           </Form.Item>
           <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
-            <div>Public knowledge base are visible to all users.</div>
+            <div>Public knowledge bases are visible to all sites.</div>
             <div>
-              Private knowledge base are only visible to admins and agents.
+              Private knowledge bases are only visible to the site it belongs
+              to.
             </div>
           </div>
           <Form.Item
@@ -189,7 +224,7 @@ const AddKnowledgebase = () => {
             rules={[
               {
                 required: true,
-                message: "Please enter a description.",
+                message: "Please enter a body.",
               },
             ]}
           >

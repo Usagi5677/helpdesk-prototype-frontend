@@ -9,6 +9,7 @@ import CategoryList from "../../components/Categories/CategoryList";
 import AddCategory from "../../components/Categories/AddCategory";
 import { useNavigate } from "react-router";
 import Search from "../../components/common/Search";
+import SiteFilter from "../../components/common/SiteFilter";
 
 const Categories = () => {
   const { user } = useContext(UserContext);
@@ -21,6 +22,8 @@ const Categories = () => {
 
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState<Category[]>([]);
+  const [siteId, setSiteId] = useState(user?.siteAccess.adminOrAgent[0].id);
+
   const [getCategories, { data, loading }] = useLazyQuery(CATEGORIES_QUERY, {
     onError: (err) => {
       errorMessage(err, "Error loading categories.");
@@ -29,8 +32,8 @@ const Categories = () => {
 
   // Fetch categories when component mounts
   useEffect(() => {
-    getCategories({ variables: { first: 500 } });
-  }, [getCategories]);
+    getCategories({ variables: { first: 500, siteId } });
+  }, [siteId, getCategories]);
 
   // Filter categories based on the search value. This function will run
   // whenever search and data changes
@@ -71,14 +74,28 @@ const Categories = () => {
           alignItems: "center",
         }}
       >
-        <Search
-          searchValue={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClick={() => setSearch("")}
-        />
+        <div style={{ display: "flex" }}>
+          <SiteFilter
+            value={siteId}
+            onChange={(value) => {
+              setSiteId(value);
+            }}
+            allowClear={false}
+            sites={user?.siteAccess.adminOrAgent}
+          />
+          <Search
+            searchValue={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClick={() => setSearch("")}
+          />
+        </div>
         {user?.isAdmin && (
           <div>
-            <AddCategory />
+            <AddCategory
+              site={user?.siteAccess.adminOrAgent.find(
+                (site) => site.id === siteId
+              )}
+            />
           </div>
         )}
       </div>
