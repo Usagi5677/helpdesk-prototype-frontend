@@ -13,6 +13,7 @@ import KnowledgebaseCard from "../../components/Knowledgebase/KnowledgebaseCard"
 import classes from "./Knowledgebase.module.css";
 import SiteFilter from "../../components/common/SiteFilter";
 import UserContext from "../../contexts/UserContext";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
 const Knowledgebase = () => {
   const { user } = useContext(UserContext);
@@ -96,6 +97,10 @@ const Knowledgebase = () => {
 
   const pageInfo = data?.getAllKnowledgebase.pageInfo ?? {};
 
+  const isSmallDevice = useIsSmallDevice();
+
+  const filterMargin = isSmallDevice ? ".5rem 0 0 0" : ".5rem 0 0 .5rem";
+
   return (
     <div
       style={{
@@ -105,23 +110,37 @@ const Knowledgebase = () => {
         padding: "10px 10px",
       }}
     >
-      <div className={classes["knowledgebase-options-wrapper"]}>
-        <div style={{ display: "flex", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: isSmallDevice ? "space-around" : undefined,
+            margin: "-.5rem 1rem 0 0",
+          }}
+        >
           <Search
             searchValue={search}
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
+            margin={filterMargin}
           />
-          <div style={{ marginLeft: "1rem" }}>
-            <SiteFilter
-              value={filter.siteId}
-              onChange={(value) => {
-                setFilter({ ...filter, siteId: value });
-              }}
-              allowClear={true}
-              sites={user?.sites}
-            />
-          </div>
+          <SiteFilter
+            value={filter.siteId}
+            onChange={(value) => {
+              setFilter({ ...filter, siteId: value });
+            }}
+            allowClear={true}
+            sites={user?.sites}
+            margin={filterMargin}
+          />
         </div>
         <div>
           <AddKnowledgebase />

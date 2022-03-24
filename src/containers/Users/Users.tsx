@@ -10,6 +10,7 @@ import UserContext from "../../contexts/UserContext";
 import { useNavigate } from "react-router";
 import Search from "../../components/common/Search";
 import SiteFilter from "../../components/common/SiteFilter";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
 const Users = () => {
   const { user } = useContext(UserContext);
@@ -57,6 +58,10 @@ const Users = () => {
     }
   }, [search, data]);
 
+  const isSmallDevice = useIsSmallDevice();
+
+  const filterMargin = isSmallDevice ? ".5rem 0 0 0" : ".5rem 0 0 .5rem";
+
   return (
     <div
       style={{
@@ -73,7 +78,15 @@ const Users = () => {
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: isSmallDevice ? "space-around" : undefined,
+            margin: "-.5rem 1rem 0 0",
+          }}
+        >
           <SiteFilter
             value={siteId}
             onChange={(value) => {
@@ -81,11 +94,13 @@ const Users = () => {
             }}
             allowClear={false}
             sites={user?.siteAccess.admin}
+            margin={filterMargin}
           />
           <Search
             searchValue={search}
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
+            margin={filterMargin}
           />
         </div>
         <div>

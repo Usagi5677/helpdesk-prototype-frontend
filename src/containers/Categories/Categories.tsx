@@ -10,6 +10,7 @@ import AddCategory from "../../components/Categories/AddCategory";
 import { useNavigate } from "react-router";
 import Search from "../../components/common/Search";
 import SiteFilter from "../../components/common/SiteFilter";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 
 const Categories = () => {
   const { user } = useContext(UserContext);
@@ -58,6 +59,10 @@ const Categories = () => {
     }
   }, [search, data]);
 
+  const isSmallDevice = useIsSmallDevice();
+
+  const filterMargin = isSmallDevice ? ".5rem 0 0 0" : ".5rem 0 0 .5rem";
+
   return (
     <div
       style={{
@@ -74,7 +79,15 @@ const Categories = () => {
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: isSmallDevice ? "space-around" : undefined,
+            margin: "-.5rem 1rem 0 0",
+          }}
+        >
           <SiteFilter
             value={siteId}
             onChange={(value) => {
@@ -82,11 +95,13 @@ const Categories = () => {
             }}
             allowClear={false}
             sites={user?.siteAccess.adminOrAgent}
+            margin={filterMargin}
           />
           <Search
             searchValue={search}
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
+            margin={filterMargin}
           />
         </div>
         {user?.isAdmin && (
