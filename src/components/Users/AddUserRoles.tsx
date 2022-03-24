@@ -31,7 +31,7 @@ const AddUserRoles = ({ site }: { site?: Site }) => {
   };
 
   const onFinish = async (values: any) => {
-    const { employee, admin, agent } = values;
+    const { employee, admin, agent, user } = values;
     let roles = [];
     if (!employee) {
       message.error("Please select an employee.");
@@ -39,6 +39,7 @@ const AddUserRoles = ({ site }: { site?: Site }) => {
     }
     if (admin === true) roles.push("Admin");
     if (agent === true) roles.push("Agent");
+    if (user === true) roles.push("User");
 
     if (roles.length === 0) {
       message.error("Please select at least one role.");
@@ -68,7 +69,7 @@ const AddUserRoles = ({ site }: { site?: Site }) => {
         visible={visible}
         closable={false}
         footer={null}
-        title={`Add user roles to ${site?.name}`}
+        title={`Add user roles to ${site?.code}`}
       >
         <Form
           form={form}
@@ -104,8 +105,25 @@ const AddUserRoles = ({ site }: { site?: Site }) => {
                 <Checkbox>Agent</Checkbox>
               </Form.Item>
             </Col>
+            {site?.mode === "Private" && (
+              <Col>
+                <Form.Item
+                  label=" "
+                  name="user"
+                  required={false}
+                  valuePropName="checked"
+                >
+                  <Checkbox>User</Checkbox>
+                </Form.Item>
+              </Col>
+            )}
           </Row>
-
+          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
+            <div>
+              As this is a private site, employees will need the User role to
+              create tickets in this site.
+            </div>
+          </div>
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>

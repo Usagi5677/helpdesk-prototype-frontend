@@ -58,7 +58,7 @@ const AddCategory = ({ site }: { site?: Site }) => {
         visible={visible}
         closable={false}
         footer={null}
-        title={`Add category to ${site?.name}`}
+        title={`Add category to ${site?.code}`}
       >
         <Form
           form={form}

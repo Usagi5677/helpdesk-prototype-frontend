@@ -59,7 +59,7 @@ const AddUserGroup = ({ site }: { site?: Site }) => {
         visible={visible}
         closable={false}
         footer={null}
-        title={`Add user group to ${site?.name}`}
+        title={`Add user group to ${site?.code}`}
       >
         <Form
           form={form}

@@ -9,11 +9,17 @@ import UserContext from "../../contexts/UserContext";
 import UserAvatar from "../common/UserAvatar";
 import { PlusOutlined } from "@ant-design/icons";
 
-const allRoles = ["Admin", "Agent"];
-
 const UserList = ({ user, siteId }: { user: User; siteId?: number }) => {
   const { user: self } = useContext(UserContext);
   const [removingRole, setRemovingRole] = useState("");
+  const [addingRole, setAddingRole] = useState("");
+
+  let allRoles = ["Admin", "Agent"];
+  const site = self?.siteAccess.admin.find((site) => site.id === siteId);
+  if (site && site.mode === "Private") {
+    allRoles.push("User");
+  }
+
   const [removeUserRole, { loading: removingUserRole }] = useMutation(
     REMOVE_USER_ROLE,
     {
@@ -37,9 +43,10 @@ const UserList = ({ user, siteId }: { user: User; siteId?: number }) => {
     });
   };
 
-  const [addUserRole, { loading: addingRole }] = useMutation(ADD_USER_ROLE, {
+  const [addUserRole, { loading: addingLoading }] = useMutation(ADD_USER_ROLE, {
     onCompleted: () => {
       message.success("Successfully added user role.");
+      setAddingRole("");
     },
     onError: (error) => {
       errorMessage(error, "Unexpected error while adding user role.");
@@ -78,16 +85,17 @@ const UserList = ({ user, siteId }: { user: User; siteId?: number }) => {
                 marginRight: "1rem",
                 fontSize: "80%",
               }}
-              loading={addingRole}
-              onClick={() =>
+              loading={addingLoading && addingRole === role}
+              onClick={() => {
+                setAddingRole(role);
                 addUserRole({
                   variables: {
                     userId: user.id,
                     role,
                     siteId,
                   },
-                })
-              }
+                });
+              }}
               icon={<PlusOutlined />}
             >
               {role}
@@ -112,6 +120,8 @@ const UserList = ({ user, siteId }: { user: User; siteId?: number }) => {
                     ? "magenta"
                     : role.role === "Agent"
                     ? "green"
+                    : role.role === "User"
+                    ? "cyan"
                     : "grey"
                 }
                 key={role.role}

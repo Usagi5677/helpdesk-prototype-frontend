@@ -24,6 +24,7 @@ export const ME_QUERY = gql`
       sites {
         id
         code
+        mode
       }
       isSuperAdmin
     }
