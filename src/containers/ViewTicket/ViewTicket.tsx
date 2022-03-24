@@ -142,10 +142,10 @@ const ViewTicket = () => {
     .includes(user?.id);
   const isSiteAdmin = user?.siteAccess.admin
     .map((s) => s.id)
-    .includes(ticketData.site.id);
+    .includes(ticketData?.site.id);
   const isSiteAgent = user?.siteAccess.admin
     .map((s) => s.id)
-    .includes(ticketData.site.id);
+    .includes(ticketData?.site.id);
   const isAdminOrAssigned = isSiteAdmin || (isSiteAgent && isAssigned);
   const isOwner = ticketData?.ownerId === user?.id;
   const progressPercentage = Math.round(
@@ -166,7 +166,7 @@ const ViewTicket = () => {
   const assignSelf = () => {
     if (!canAssignSelf || !ticketData) return;
     assignAgents({
-      variables: { ticketId: ticketData.id, agentIds: [user?.id] },
+      variables: { ticketId: ticketData?.id, agentIds: [user?.id] },
     });
   };
 
@@ -216,7 +216,7 @@ const ViewTicket = () => {
           onClose={() => {
             removeTicketCategory({
               variables: {
-                ticketId: ticketData.id,
+                ticketId: ticketData?.id,
                 categoryId: category.id,
               },
             });
@@ -329,7 +329,7 @@ const ViewTicket = () => {
                         onClick={() => {
                           removeFollower({
                             variables: {
-                              ticketId: ticketData.id,
+                              ticketId: ticketData?.id,
                               deletingFollowerId: follower.id,
                             },
                           });
@@ -455,14 +455,14 @@ const ViewTicket = () => {
                 width: isSmallDevice ? undefined : 280,
               }}
             >
-              {isFollower && ticketData.createdBy.id !== user?.id && (
+              {isFollower && ticketData?.createdBy.id !== user?.id && (
                 <Button
                   type="ghost"
                   style={{ borderRadius: 20 }}
                   onClick={() =>
                     removeFollower({
                       variables: {
-                        ticketId: ticketData.id,
+                        ticketId: ticketData?.id,
                         deletingFollowerId: user?.id,
                       },
                     })
@@ -480,7 +480,7 @@ const ViewTicket = () => {
                     addFollower({
                       variables: {
                         newFollowerUserId: user?.userId,
-                        ticketId: ticketData.id,
+                        ticketId: ticketData?.id,
                       },
                     })
                   }
