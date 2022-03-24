@@ -4,7 +4,7 @@ import { Chart, registerables } from "chart.js";
 import { useLazyQuery } from "@apollo/client";
 import { STATUS_COUNT } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Status } from "../../models/Enums";
 import { Divider, Spin } from "antd";
 import TicketStatusHistory from "../../components/Dashboard/TicketStatusHistory";
@@ -12,10 +12,14 @@ import UserContext from "../../contexts/UserContext";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import AgentQueue from "./AgentQueue";
 import NewTicket from "../../components/Ticket/NewTicket";
+import SiteFilter from "../../components/common/SiteFilter";
 Chart.register(...registerables);
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
+
+  const [siteId, setSiteId] = useState<number | null>(null);
+
   const [
     getStatusCount,
     {
@@ -30,8 +34,8 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    getStatusCount();
-  }, [getStatusCount]);
+    getStatusCount({ variables: { siteId } });
+  }, [getStatusCount, siteId]);
 
   // Refetch ticket status count every 10 seconds
   useEffect(() => {
@@ -45,6 +49,23 @@ const Dashboard = () => {
 
   return (
     <div className={classes["ticket-dashboard-container"]}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <NewTicket type="Dashboard" />
+      </div>
+      <Divider type="horizontal" />
+      {(user?.isAdmin || user?.isAgent) &&
+        user?.siteAccess.adminOrAgent.length > 1 && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <SiteFilter
+              value={siteId}
+              onChange={(value) => {
+                setSiteId(value);
+              }}
+              allowClear={true}
+              sites={user?.siteAccess.adminOrAgent}
+            />
+          </div>
+        )}
       <div
         style={{
           display: "flex",
@@ -52,26 +73,17 @@ const Dashboard = () => {
         }}
       >
         <div
-          style={{
-            width: isSmallDevice ? "100%" : 180,
-            margin: isSmallDevice ? "20px 0 20px 0" : "0 20px 0 0",
-            padding: isSmallDevice ? "0 20px" : undefined,
-          }}
-        >
-          <NewTicket type="Card" />
-        </div>
-        <Divider type="vertical" style={{ height: "100%" }} />
-        <div
           className={classes["ticket-dashboard-container__status-card-wrapper"]}
         >
           {loadingStatusCount ? (
-            <Spin size="large" />
+            <Spin style={{ marginTop: "2rem" }} size="large" />
           ) : (
             <>
               {(Object.keys(Status) as Array<keyof typeof Status>).map(
                 (status) => (
                   <StatusCard
                     key={status}
+                    siteId={siteId}
                     status={status}
                     amount={
                       statusCounts?.ticketStatusCount.find(
@@ -95,24 +107,13 @@ const Dashboard = () => {
             paddingBottom: 20,
           }}
         >
-          <TicketStatusHistory today={statusCounts?.ticketStatusCount} />
-          <AgentQueue />
+          <TicketStatusHistory
+            today={statusCounts?.ticketStatusCount}
+            siteId={siteId}
+          />
+          <AgentQueue siteId={siteId} />
         </div>
       )}
-      {/* <div className={classes["ticket-dashboard-container__card-wrapper"]}>
-        <div
-          className={
-            classes["ticket-dashboard-container__my-activities-wrapper"]
-          }
-        >
-          <Timeline />
-        </div>
-        <div
-          className={classes["ticket-dashboard-container__piechart_wrapper"]}
-        >
-          <Pie data={pieData} />
-        </div>
-      </div> */}
     </div>
   );
 };

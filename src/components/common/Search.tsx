@@ -5,10 +5,12 @@ const Search = ({
   searchValue,
   onChange,
   onClick,
+  margin,
 }: {
   searchValue: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onClick: () => void;
+  margin?: string;
 }) => {
   return (
     <div
@@ -18,9 +20,11 @@ const Search = ({
         borderRadius: 20,
         padding: 5,
         paddingLeft: 10,
+        width: 191,
+        margin,
       }}
     >
-      <FaSearch style={{ color: "#ccc", paddingRight: 10, fontSize: 25 }} />
+      <FaSearch style={{ color: "#ccc", paddingRight: 5, fontSize: 25 }} />
       <input
         type="text"
         name=""

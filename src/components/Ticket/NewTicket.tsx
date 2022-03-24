@@ -1,15 +1,28 @@
 import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, message, Modal, Row, Tooltip } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Modal,
+  Row,
+  Select,
+  Tooltip,
+} from "antd";
 import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { CREATE_TICKET } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { FaPlusCircle } from "react-icons/fa";
-import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import SiteWithIcon from "../common/SiteWithIcon";
 
-const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
+const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
   if (!type) type = "Text";
+
+  const { user } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
@@ -30,16 +43,15 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
   };
 
   const onFinish = async (values: any) => {
-    const { title, body } = values;
+    const { title, body, siteId } = values;
     createTicket({
       variables: {
         title,
         body,
+        siteId,
       },
     });
   };
-
-  const isSmallDevice = useIsSmallDevice();
 
   return (
     <>
@@ -53,40 +65,16 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
             onClick={() => setVisible(true)}
           />
         </Tooltip>
-      ) : type === "Card" ? (
-        <div
-          className="dashboardCard"
-          style={{
-            height: "100%",
-            backgroundColor: "white",
-            borderRadius: 20,
-            border: "1px solid #1c6493",
-            padding: "10px 40px",
-            display: "flex",
-            flexDirection: isSmallDevice ? "row" : "column",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
+      ) : type === "Dashboard" ? (
+        <Button
+          htmlType="button"
+          size="large"
           onClick={() => setVisible(true)}
+          style={{ color: "var(--primary)", borderRadius: 20 }}
+          loading={loading}
         >
-          <FaPlusCircle
-            style={{
-              height: isSmallDevice ? 30 : 50,
-              width: isSmallDevice ? 30 : 50,
-              color: "#1c6493",
-            }}
-          />
-          <div
-            style={{
-              fontSize: 15,
-              margin: isSmallDevice ? "0 0 0 10px" : "10px 0 0 0",
-              color: "#1c6493",
-            }}
-          >
-            New Ticket
-          </div>
-        </div>
+          Create New Ticket
+        </Button>
       ) : (
         <Button
           htmlType="button"
@@ -106,6 +94,25 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Card" }) => {
           onFinish={onFinish}
           id="myForm"
         >
+          <Form.Item
+            label="Site"
+            name="siteId"
+            required={false}
+            rules={[
+              {
+                required: true,
+                message: "Please select a site.",
+              },
+            ]}
+          >
+            <Select showArrow placeholder="Select site">
+              {user?.sites.map((site) => (
+                <Select.Option key={site.id} value={site.id}>
+                  <SiteWithIcon site={site} />
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item
             label="Title"
             name="title"

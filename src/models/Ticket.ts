@@ -1,6 +1,7 @@
 import Category from "./Category";
 import ChecklistItem from "./ChecklistItem";
 import { Priority, Status } from "./Enums";
+import Site from "./Site";
 import User from "./User";
 
 export default interface Ticket {
@@ -20,4 +21,5 @@ export default interface Ticket {
   ownerId?: number;
   followers: User[];
   checklistItems: ChecklistItem[];
+  site: Site;
 }

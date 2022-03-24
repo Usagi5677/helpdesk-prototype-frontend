@@ -1,11 +1,13 @@
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { Select } from "antd";
+import { Select, Tag } from "antd";
 import { useEffect, useState } from "react";
 import { ADD_TICKET_CATEGORY } from "../../api/mutations";
 import { CATEGORIES_QUERY } from "../../api/queries";
 import { errorMessage } from "../../helpers/gql";
+import { stringToColor } from "../../helpers/style";
 import Category from "../../models/Category";
 import Ticket from "../../models/Ticket";
+import SiteWithIcon from "./SiteWithIcon";
 
 const CategoryAdder = ({
   ticket,
@@ -18,9 +20,9 @@ const CategoryAdder = ({
 
   useEffect(() => {
     if (ticket?.categories) {
-      getCategories({ variables: { first: 500 } });
+      getCategories({ variables: { first: 500, siteId: ticket.site.id } });
     }
-  }, [ticket?.categories, getCategories]);
+  }, [ticket, getCategories]);
 
   const [addTicketCategory, { loading: loadingAddTicketCategory }] =
     useMutation(ADD_TICKET_CATEGORY, {
@@ -41,6 +43,11 @@ const CategoryAdder = ({
     }
   }, [selection, addTicketCategory, ticket]);
 
+  const onPreventMouseDown = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   return (
     <div
       style={{
@@ -57,23 +64,37 @@ const CategoryAdder = ({
         loading={loading || loadingAddTicketCategory}
         style={{ width: "100%" }}
         bordered={false}
-        options={data?.categories.edges
-          .map((c: { node: Category }) => ({
-            value: c.node.id,
-            label: c.node.name,
-          }))
-          .filter(
-            (c: any) => !ticket?.categories.map((cc) => cc.id).includes(c.value)
-          )}
         placeholder="Add category"
         value={selection}
         onChange={setSelection}
         showSearch
         optionFilterProp="label"
         filterOption={(input, option: any) => {
-          return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+          return option.id.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         }}
-      />
+      >
+        {data?.categories.edges
+          .filter(
+            (c: { node: Category }) =>
+              !ticket?.categories.map((cc) => cc.id).includes(c.node.id)
+          )
+          .map((c: { node: Category }) => (
+            <Select.Option value={c.node.id} key={c.node.id} id={c.node.name}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ marginRight: ".25rem" }}>
+                  <SiteWithIcon site={c.node.site} small />
+                </div>
+                <Tag
+                  color={stringToColor(c.node.name)}
+                  onMouseDown={onPreventMouseDown}
+                  style={{ marginRight: 3 }}
+                >
+                  {c.node.name}
+                </Tag>
+              </div>
+            </Select.Option>
+          ))}
+      </Select>
     </div>
   );
 };

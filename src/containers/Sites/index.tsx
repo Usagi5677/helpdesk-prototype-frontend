@@ -44,7 +44,7 @@ const Sites = () => {
       const lower = search.toLowerCase();
       setFiltered(
         data?.sites.filter((site: Site) =>
-          site.name.toLowerCase().includes(lower)
+          site.code.toLowerCase().includes(lower)
         )
       );
     }

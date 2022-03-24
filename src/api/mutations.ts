@@ -67,8 +67,8 @@ export const REMOVE_FROM_USER_GROUP = gql`
 `;
 
 export const CREATE_TICKET = gql`
-  mutation ($title: String!, $body: String!) {
-    createTicket(title: $title, body: $body)
+  mutation ($title: String!, $body: String!, $siteId: Int!) {
+    createTicket(title: $title, body: $body, siteId: $siteId)
   }
 `;
 
@@ -191,14 +191,14 @@ export const READ_ALL_NOTIFICATIONS = gql`
 `;
 
 export const ADD_SITE = gql`
-  mutation ($name: String!, $mode: String!) {
-    createSite(name: $name, mode: $mode)
+  mutation ($name: String!, $code: String!, $mode: String!) {
+    createSite(name: $name, code: $code, mode: $mode)
   }
 `;
 
 export const EDIT_SITE = gql`
-  mutation ($id: Int!, $name: String!, $mode: String!) {
-    editSite(id: $id, name: $name, mode: $mode)
+  mutation ($id: Int!, $name: String!, $code: String!, $mode: String!) {
+    editSite(id: $id, name: $name, code: $code, mode: $mode)
   }
 `;
 

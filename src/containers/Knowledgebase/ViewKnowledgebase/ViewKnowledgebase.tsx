@@ -12,6 +12,7 @@ import ReactQuill from "react-quill";
 import { LeftOutlined } from "@ant-design/icons";
 import UserAvatar from "../../../components/common/UserAvatar";
 import { DATETIME_FORMATS } from "../../../helpers/constants";
+import SiteWithIcon from "../../../components/common/SiteWithIcon";
 
 const ViewKnowledgebase = () => {
   const { id }: any = useParams();
@@ -126,7 +127,18 @@ const ViewKnowledgebase = () => {
           >
             Back
           </Button>
-          <div className={classes["title"]}>{knowledgebaseData?.title}</div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <SiteWithIcon site={knowledgebaseData?.site} />
+            <div className={classes["title"]} style={{ marginLeft: ".5rem" }}>
+              {knowledgebaseData?.title}
+            </div>
+          </div>
           <div style={{ display: "flex" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div

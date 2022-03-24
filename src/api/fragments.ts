@@ -63,5 +63,9 @@ export const TICKET_FRAGMENT = gql`
     }
     rating
     feedback
+    site {
+      id
+      code
+    }
   }
 `;

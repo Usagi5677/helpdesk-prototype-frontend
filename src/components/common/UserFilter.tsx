@@ -4,7 +4,15 @@ import { useState } from "react";
 import { SEARCH_APS_QUERY } from "../../api/queries";
 import User from "../../models/User";
 
-const UserFilter = ({ onChange }: { onChange: (val: User) => void }) => {
+const UserFilter = ({
+  onChange,
+  minWidth,
+  margin,
+}: {
+  onChange: (val: User) => void;
+  minWidth?: number;
+  margin: string;
+}) => {
   const [selection, setSelection] = useState<string | null>(null);
 
   const [searchEmployee, { data: searchData, loading: searchLoading }] =
@@ -43,13 +51,12 @@ const UserFilter = ({ onChange }: { onChange: (val: User) => void }) => {
         borderRadius: 20,
         padding: "1px 5px 1px 5px",
         alignItems: "center",
-        width: 179,
-        marginLeft: "1rem",
+        margin,
       }}
     >
       <Select
         loading={searchLoading}
-        style={{ width: "100%" }}
+        style={{ minWidth: minWidth ?? "100%" }}
         bordered={false}
         onSearch={(value) => fetchDebounced(value)}
         placeholder="Filter user"

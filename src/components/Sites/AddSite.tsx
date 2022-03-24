@@ -26,7 +26,7 @@ const AddSite = () => {
   };
 
   const onFinish = async (values: any) => {
-    const { name, mode } = values;
+    const { name, code, mode } = values;
     if (!name) {
       message.error("Please enter a name.");
       return;
@@ -34,6 +34,7 @@ const AddSite = () => {
     addSite({
       variables: {
         name,
+        code,
         mode,
       },
     });
@@ -67,6 +68,19 @@ const AddSite = () => {
               {
                 required: true,
                 message: "Please enter a site name.",
+              },
+            ]}
+          >
+            <Input placeholder="Site name" />
+          </Form.Item>
+          <Form.Item
+            label="Code"
+            name="code"
+            required={false}
+            rules={[
+              {
+                required: true,
+                message: "Please enter a site code.",
               },
             ]}
           >

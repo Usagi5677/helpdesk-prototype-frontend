@@ -19,8 +19,10 @@ const AgentAdder = ({
     useLazyQuery(SEARCH_USERS_AND_USERGROUPS);
 
   useEffect(() => {
-    searchEmployees({ variables: { query: "", onlyAgents: true } });
-  }, [searchEmployees]);
+    searchEmployees({
+      variables: { query: "", siteId: ticket.site.id, onlyAgents: true },
+    });
+  }, [searchEmployees, ticket]);
 
   const [assignAgents, { loading: assigning }] = useMutation(ASSIGN_AGENTS, {
     onCompleted: () => {

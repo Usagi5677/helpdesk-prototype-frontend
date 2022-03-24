@@ -17,13 +17,13 @@ export const ME_QUERY = gql`
       roles {
         site {
           id
-          name
+          code
         }
         role
       }
       sites {
         id
-        name
+        code
       }
       isSuperAdmin
     }
@@ -85,6 +85,19 @@ export const CATEGORIES_QUERY = gql`
   }
 `;
 
+export const CATEGORIES_WITH_ACCESS = gql`
+  ${CATEGORIES_FRAGMENT}
+  query categoriesWithAccess {
+    categoriesWithAccess {
+      ...CategoryFields
+      site {
+        id
+        code
+      }
+    }
+  }
+`;
+
 export const USER_GROUPS_QUERY = gql`
   query userGroups(
     $after: String
@@ -139,6 +152,7 @@ export const MY_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     myTickets(
       after: $after
@@ -151,6 +165,7 @@ export const MY_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -182,6 +197,7 @@ export const ALL_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     tickets(
       after: $after
@@ -195,6 +211,7 @@ export const ALL_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -226,6 +243,7 @@ export const ASSIGNED_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     assignedTickets(
       after: $after
@@ -239,6 +257,7 @@ export const ASSIGNED_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -270,6 +289,7 @@ export const FOLLOWING_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     followingTickets(
       after: $after
@@ -283,6 +303,7 @@ export const FOLLOWING_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -322,8 +343,16 @@ export const TICKET = gql`
 
 export const SEARCH_USERS_AND_USERGROUPS = gql`
   ${USER_FRAGMENT}
-  query searchUsersAndGroups($query: String!, $onlyAgents: Boolean!) {
-    searchUsersAndGroups(query: $query, onlyAgents: $onlyAgents) {
+  query searchUsersAndGroups(
+    $query: String!
+    $siteId: Int!
+    $onlyAgents: Boolean!
+  ) {
+    searchUsersAndGroups(
+      query: $query
+      siteId: $siteId
+      onlyAgents: $onlyAgents
+    ) {
       type
       name
       user {
@@ -393,7 +422,7 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
           mode
           site {
             id
-            name
+            code
           }
         }
       }
@@ -414,6 +443,10 @@ export const SINGLEKNOWLEDGEBASE = gql`
         fullName
         email
       }
+      site {
+        id
+        code
+      }
     }
   }
 `;
@@ -432,8 +465,8 @@ export const ATTACHMENT = gql`
 `;
 
 export const STATUS_COUNT = gql`
-  query ticketStatusCount {
-    ticketStatusCount {
+  query ticketStatusCount($siteId: Int) {
+    ticketStatusCount(siteId: $siteId) {
       status
       count
     }
@@ -445,8 +478,14 @@ export const STATUS_COUNT_HISTORY = gql`
     $statuses: [Status!]
     $from: Date!
     $to: Date!
+    $siteId: Int
   ) {
-    ticketStatusCountHistory(statuses: $statuses, from: $from, to: $to) {
+    ticketStatusCountHistory(
+      statuses: $statuses
+      from: $from
+      to: $to
+      siteId: $siteId
+    ) {
       date
       statusCounts {
         status
@@ -471,8 +510,8 @@ export const NOTIFICATIONS = gql`
 
 export const AGENT_QUEUE = gql`
   ${USER_FRAGMENT}
-  query agentQueue {
-    agentQueue {
+  query agentQueue($siteId: Int) {
+    agentQueue(siteId: $siteId) {
       agent {
         ...UserFields
       }
@@ -480,6 +519,10 @@ export const AGENT_QUEUE = gql`
         id
         title
         status
+        site {
+          id
+          code
+        }
       }
     }
   }
@@ -490,6 +533,7 @@ export const SITES = gql`
     sites {
       id
       name
+      code
       mode
       isEnabled
     }

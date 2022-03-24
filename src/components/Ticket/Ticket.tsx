@@ -9,6 +9,7 @@ import PriorityTag from "../common/PriorityTag";
 import RatingStars from "./RatingStars";
 import UserAvatar from "../common/UserAvatar";
 import { DATETIME_FORMATS } from "../../helpers/constants";
+import SiteWithIcon from "../common/SiteWithIcon";
 
 const Tickets = ({ ticket }: { ticket: Ticket }) => {
   const progressPercentage = Math.round(
@@ -18,7 +19,10 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
   );
 
   return (
-    <div className={classes["my-tickets-wrapper"]}>
+    <div
+      className={classes["my-tickets-wrapper"]}
+      style={{ paddingLeft: "1rem", paddingRight: "1rem" }}
+    >
       <div className={classes["my-tickets-wrapper__user-details-container"]}>
         <div className={classes["my-tickets-wrapper__user-details-wrapper"]}>
           <UserAvatar user={ticket.createdBy} />
@@ -27,6 +31,9 @@ const Tickets = ({ ticket }: { ticket: Ticket }) => {
               classes["my-tickets-wrapper__user-details__user-info-wrapper"]
             }
           >
+            <div style={{ marginLeft: "1rem" }}>
+              <SiteWithIcon site={ticket.site} />
+            </div>
             <div
               className={classes["my-tickets-wrapper__user-details__fullname"]}
             >

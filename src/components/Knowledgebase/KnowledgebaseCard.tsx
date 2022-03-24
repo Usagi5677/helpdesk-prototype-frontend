@@ -190,6 +190,7 @@ const KnowledgebaseCard = ({
                   display: "flex",
                   justifyContent: "space-between",
                   flex: 1,
+                  paddingRight: ".5rem",
                 }}
               >
                 <div>{knowledgebase.title}</div>

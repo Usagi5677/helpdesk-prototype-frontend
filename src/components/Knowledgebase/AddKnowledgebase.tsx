@@ -18,6 +18,7 @@ import ReactQuill from "react-quill";
 import sanitizeHtml from "sanitize-html";
 import "react-quill/dist/quill.snow.css";
 import UserContext from "../../contexts/UserContext";
+import SiteWithIcon from "../common/SiteWithIcon";
 
 const AddKnowledgebase = () => {
   const { user } = useContext(UserContext);
@@ -183,10 +184,10 @@ const AddKnowledgebase = () => {
               },
             ]}
           >
-            <Select showArrow placeholder="Select site" value={value}>
+            <Select showArrow placeholder="Select site">
               {user?.siteAccess.adminOrAgent.map((site) => (
                 <Select.Option key={site.id} value={site.id}>
-                  {site.name}
+                  <SiteWithIcon site={site} />
                 </Select.Option>
               ))}
             </Select>

@@ -49,11 +49,13 @@ import GiveFeedback from "../../components/Ticket/GiveFeedback";
 import RatingStars from "../../components/Ticket/RatingStars";
 import { DATETIME_FORMATS } from "../../helpers/constants";
 import { statusPostPosition } from "../../helpers/grammar";
+import SiteWithIcon from "../../components/common/SiteWithIcon";
 
 const ViewTicket = () => {
   const { id }: any = useParams();
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const isSmallDevice = useIsSmallDevice();
 
   const [hasAccess, { data: access, loading: loadingAccess }] = useLazyQuery(
     HAS_TICKET_ACCESS,
@@ -138,7 +140,13 @@ const ViewTicket = () => {
   const isAssigned = ticketData?.agents
     .map((a: any) => a.id)
     .includes(user?.id);
-  const isAdminOrAssigned = user?.isAdmin || (user?.isAgent && isAssigned);
+  const isSiteAdmin = user?.siteAccess.admin
+    .map((s) => s.id)
+    .includes(ticketData.site.id);
+  const isSiteAgent = user?.siteAccess.admin
+    .map((s) => s.id)
+    .includes(ticketData.site.id);
+  const isAdminOrAssigned = isSiteAdmin || (isSiteAgent && isAssigned);
   const isOwner = ticketData?.ownerId === user?.id;
   const progressPercentage = Math.round(
     (ticketData?.checklistItems.filter((item) => item.completedAt !== null)
@@ -147,8 +155,8 @@ const ViewTicket = () => {
       100
   );
   const canAssignSelf =
-    user?.isAgent &&
-    !user?.isAdmin &&
+    isSiteAgent &&
+    !isSiteAdmin &&
     !isAssigned &&
     ["Pending", "Open"].includes(ticketData?.status);
   const isFollower = ticketData?.followers
@@ -180,6 +188,7 @@ const ViewTicket = () => {
       {label}
     </div>
   );
+
   const renderInfoRow = (
     left: string,
     right: string,
@@ -239,7 +248,7 @@ const ViewTicket = () => {
                     )}
                     <div style={{ display: "flex", alignItems: "center" }}>
                       {agent.fullName} ({agent.rcno})
-                      {(user?.isAdmin || isOwner) &&
+                      {(isSiteAdmin || isOwner) &&
                         ticketData?.ownerId !== agent.id && (
                           <Tooltip title="Set as owner">
                             <UpCircleOutlined
@@ -255,7 +264,7 @@ const ViewTicket = () => {
                             />
                           </Tooltip>
                         )}
-                      {(user?.isAdmin || isOwner) && (
+                      {(isSiteAdmin || isOwner) && (
                         <CloseCircleOutlined
                           style={{
                             cursor: "pointer",
@@ -351,8 +360,6 @@ const ViewTicket = () => {
     );
   };
 
-  const isSmallDevice = useIsSmallDevice();
-
   return (
     <>
       {loadingAccess && "Loading..."}
@@ -394,8 +401,17 @@ const ViewTicket = () => {
               >
                 Back
               </Button>
-              <div className={classes["view-ticket-wrapper__title"]}>
-                {ticketData?.title}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <SiteWithIcon site={ticketData?.site} />
+                <div className={classes["view-ticket-wrapper__title"]}>
+                  {ticketData?.title}
+                </div>
               </div>
               <div style={{ width: 28 }}>
                 {(loadingTicket ||
