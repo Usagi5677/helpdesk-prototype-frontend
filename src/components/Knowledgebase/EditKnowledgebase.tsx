@@ -86,6 +86,7 @@ const EditKnowledgebase = ({
         onCancel={handleCancel}
         footer={null}
         width="90vw"
+        style={{ maxWidth: 700 }}
       >
         <Form
           form={form}

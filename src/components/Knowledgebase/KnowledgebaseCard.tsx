@@ -11,6 +11,7 @@ import { DELETE_KNOWLEDGEBASE } from "../../api/mutations";
 import { Link } from "react-router-dom";
 import EditKnowledgebase from "./EditKnowledgebase";
 import { stringToColor } from "../../helpers/style";
+import SiteWithIcon from "../common/SiteWithIcon";
 const { Meta } = Card;
 
 const KnowledgebaseCard = ({
@@ -161,7 +162,10 @@ const KnowledgebaseCard = ({
       <Link to={"/knowledgebase/" + knowledgebase.id} key={knowledgebase.id}>
         <Meta
           title={
-            <div className={classes["title-wrapper"]}>
+            <div
+              className={classes["title-wrapper"]}
+              style={{ display: "flex", alignItems: "center" }}
+            >
               <Tooltip
                 title={`${knowledgebase.createdBy.fullName} (${knowledgebase.createdBy.rcno})`}
                 placement="bottom"
@@ -181,7 +185,17 @@ const KnowledgebaseCard = ({
                     .toUpperCase()}
                 </Avatar>
               </Tooltip>
-              {knowledgebase.title}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flex: 1,
+                  paddingRight: ".5rem",
+                }}
+              >
+                <div>{knowledgebase.title}</div>
+                <SiteWithIcon site={knowledgebase.site} small />
+              </div>
             </div>
           }
         />

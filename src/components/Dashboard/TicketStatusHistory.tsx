@@ -10,7 +10,13 @@ import { errorMessage } from "../../helpers/gql";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import { DATETIME_FORMATS } from "../../helpers/constants";
 
-const TicketStatusHistory = ({ today }: { today: any }) => {
+const TicketStatusHistory = ({
+  today,
+  siteId,
+}: {
+  today: any;
+  siteId: number | null;
+}) => {
   const [dates, setDates] = useState<any>([
     moment().subtract(1, "week"),
     moment(),
@@ -26,9 +32,13 @@ const TicketStatusHistory = ({ today }: { today: any }) => {
 
   useEffect(() => {
     getHistory({
-      variables: { from: dates[0].toISOString(), to: dates[1].toISOString() },
+      variables: {
+        from: dates[0].toISOString(),
+        to: dates[1].toISOString(),
+        siteId,
+      },
     });
-  }, [dates, getHistory]);
+  }, [dates, getHistory, siteId]);
 
   let data = () => {
     let labels = history?.ticketStatusCountHistory.map((rec: any) =>

@@ -49,7 +49,6 @@ p {
   padding: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: blue;
 }
 .title {
   color: blue !important;

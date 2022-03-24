@@ -5,9 +5,11 @@ import StatusTag from "./StatusTag";
 const StatusFilter = ({
   onChange,
   value,
+  margin,
 }: {
   onChange?: (val: Status) => void;
   value: Status | null;
+  margin?: string;
 }) => {
   return (
     <div
@@ -16,7 +18,7 @@ const StatusFilter = ({
         border: "1px solid #ccc",
         borderRadius: 20,
         padding: "1px 5px 1px 5px",
-        marginLeft: "1rem",
+        margin,
         alignItems: "center",
       }}
     >

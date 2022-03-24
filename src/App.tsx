@@ -23,6 +23,8 @@ import FollowingTickets from "./containers/FollowingTickets";
 import { message } from "antd";
 import { ME_QUERY } from "./api/queries";
 import Sites from "./containers/Sites";
+import UserRole from "./models/UserRole";
+import Site from "./models/Site";
 
 const App = () => {
   {
@@ -43,10 +45,37 @@ const App = () => {
   const [me] = useLazyQuery(ME_QUERY, {
     client: apolloClient,
     onCompleted: (data) => {
+      const sites: Site[] = data.me.sites;
+      const adminAccess: Site[] = data.me.isSuperAdmin
+        ? sites
+        : data.me.roles
+            .filter((role: UserRole) => role.role === "Admin")
+            .map((role: UserRole) =>
+              sites.find((site: Site) => site.id === role.site.id)
+            );
+      const agentAccess: Site[] = data.me.roles
+        .filter((role: UserRole) => role.role === "Agent")
+        .map((role: UserRole) =>
+          sites.find((site: Site) => site.id === role.site.id)
+        );
+      const adminOrAgentIds: number[] = [
+        ...adminAccess.map((s) => s.id),
+        ...agentAccess.map((s) => s.id),
+      ];
+      const unique = [...new Set(adminOrAgentIds)];
+      const adminOrAgentAccess = sites.filter((site) =>
+        unique.includes(site.id)
+      );
+      const siteAccess = {
+        admin: adminAccess,
+        agent: agentAccess,
+        adminOrAgent: adminOrAgentAccess,
+      };
       setUser({
         ...data.me,
-        isAdmin: data.me.roles.includes("Admin"),
-        isAgent: data.me.roles.includes("Agent"),
+        siteAccess,
+        isAdmin: siteAccess.admin.length > 0,
+        isAgent: siteAccess.agent.length > 0,
       });
       setAppLoading(false);
       setLoggedOut(false);

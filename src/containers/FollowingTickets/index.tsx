@@ -15,12 +15,22 @@ import StatusFilter from "../../components/common/StatusFilter";
 import PaginationButtons from "../../components/common/PaginationButtons";
 import DefaultPaginationArgs from "../../models/DefaultPaginationArgs";
 import UserFilter from "../../components/common/UserFilter";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import SiteFilter from "../../components/common/SiteFilter";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const FollowingTickets = () => {
+  const { user } = useContext(UserContext);
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
   const [params, setParams] = useSearchParams();
+
+  const siteParamQuery = params.get("site");
+  const siteParam = user?.siteAccess.adminOrAgent.find(
+    (site) => site.code === siteParamQuery
+  );
 
   // Filter has an intersection type as it has PaginationArgs + other args
   const [filter, setFilter] = useState<
@@ -29,6 +39,7 @@ const FollowingTickets = () => {
       categoryIds: number[];
       status: any;
       createdByUserId: string | null;
+      siteId: number | null;
     }
   >({
     ...DefaultPaginationArgs,
@@ -36,16 +47,19 @@ const FollowingTickets = () => {
     categoryIds: [],
     status: params.get("status"),
     createdByUserId: null,
+    siteId: siteParam ? siteParam.id : null,
   });
 
   // Update url search param on filter change
   useEffect(() => {
-    if (filter.status) setParams({ status: filter.status });
-    else {
-      params.delete("status");
-      setParams(params);
-    }
-  }, [filter.status, setParams, params]);
+    let newParams: any = {};
+    const site = user?.siteAccess.adminOrAgent.find(
+      (site) => site.id === filter.siteId
+    );
+    if (site) newParams.site = site.code;
+    if (filter.status) newParams.status = filter.status;
+    setParams(newParams);
+  }, [filter, setParams, params, user]);
 
   const [getFollowingTickets, { data, loading }] = useLazyQuery(
     FOLLOWING_TICKETS,
@@ -116,20 +130,43 @@ const FollowingTickets = () => {
 
   const pageInfo = data?.followingTickets.pageInfo ?? {};
 
+  const isSmallDevice = useIsSmallDevice();
+
+  const filterMargin = isSmallDevice ? ".5rem 0 0 0" : ".5rem 0 0 .5rem";
+
   return (
     <div className={classes["my-tickets-container"]}>
       <div
         style={{
           display: "flex",
+          flexDirection: isSmallDevice ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: isSmallDevice ? "space-around" : undefined,
+            margin: "-.5rem 1rem 0 0",
+          }}
+        >
           <Search
             searchValue={search}
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
+            margin={filterMargin}
+          />
+          <SiteFilter
+            value={filter.siteId}
+            onChange={(siteId) => {
+              setFilter({ ...filter, siteId, ...DefaultPaginationArgs });
+            }}
+            allowClear={true}
+            sites={user?.sites}
+            margin={filterMargin}
           />
           <UserFilter
             onChange={(val) => {
@@ -140,14 +177,8 @@ const FollowingTickets = () => {
               });
               setPage(1);
             }}
-          />
-          <CategorySelector
-            onChange={(categoryIds) => {
-              setFilter({ ...filter, categoryIds, ...DefaultPaginationArgs });
-              setPage(1);
-            }}
             minWidth={179}
-            marginLeft="1rem"
+            margin={filterMargin}
           />
           <StatusFilter
             onChange={(status) => {
@@ -155,6 +186,15 @@ const FollowingTickets = () => {
               setPage(1);
             }}
             value={filter.status}
+            margin={filterMargin}
+          />
+          <CategorySelector
+            onChange={(categoryIds) => {
+              setFilter({ ...filter, categoryIds, ...DefaultPaginationArgs });
+              setPage(1);
+            }}
+            minWidth={179}
+            margin={filterMargin}
           />
         </div>
       </div>

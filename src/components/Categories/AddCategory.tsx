@@ -4,8 +4,9 @@ import { useState } from "react";
 import { useForm } from "antd/lib/form/Form";
 import { ADD_CATEGORY } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
+import Site from "../../models/Site";
 
-const AddCategory = () => {
+const AddCategory = ({ site }: { site?: Site }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
@@ -37,6 +38,7 @@ const AddCategory = () => {
     addCategory({
       variables: {
         name: category,
+        siteId: site?.id,
       },
     });
   };
@@ -52,7 +54,12 @@ const AddCategory = () => {
       >
         Add Category
       </Button>
-      <Modal visible={visible} closable={false} footer={null}>
+      <Modal
+        visible={visible}
+        closable={false}
+        footer={null}
+        title={`Add category to ${site?.name}`}
+      >
         <Form
           form={form}
           layout="vertical"

@@ -15,12 +15,22 @@ import Search from "../../components/common/Search";
 import StatusFilter from "../../components/common/StatusFilter";
 import PaginationButtons from "../../components/common/PaginationButtons";
 import DefaultPaginationArgs from "../../models/DefaultPaginationArgs";
+import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
+import SiteFilter from "../../components/common/SiteFilter";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 const MyTickets = () => {
+  const { user } = useContext(UserContext);
   const [page, setPage] = useState(1);
   const [timerId, setTimerId] = useState(null);
   const [search, setSearch] = useState("");
   const [params, setParams] = useSearchParams();
+
+  const siteParamQuery = params.get("site");
+  const siteParam = user?.siteAccess.adminOrAgent.find(
+    (site) => site.code === siteParamQuery
+  );
 
   // Filter has an intersection type as it has PaginationArgs + other args
   const [filter, setFilter] = useState<
@@ -28,22 +38,26 @@ const MyTickets = () => {
       search: string;
       categoryIds: number[];
       status: any;
+      siteId: number | null;
     }
   >({
     ...DefaultPaginationArgs,
     search: "",
     categoryIds: [],
     status: params.get("status"),
+    siteId: siteParam ? siteParam.id : null,
   });
 
   // Update url search param on filter change
   useEffect(() => {
-    if (filter.status) setParams({ status: filter.status });
-    else {
-      params.delete("status");
-      setParams(params);
-    }
-  }, [filter.status, params, setParams]);
+    let newParams: any = {};
+    const site = user?.siteAccess.adminOrAgent.find(
+      (site) => site.id === filter.siteId
+    );
+    if (site) newParams.site = site.code;
+    if (filter.status) newParams.status = filter.status;
+    setParams(newParams);
+  }, [filter, setParams, params, user]);
 
   const [getMyTickets, { data, loading }] = useLazyQuery(MY_TICKETS, {
     onError: (err) => {
@@ -111,28 +125,43 @@ const MyTickets = () => {
 
   const pageInfo = data?.myTickets.pageInfo ?? {};
 
+  const isSmallDevice = useIsSmallDevice();
+
+  const filterMargin = isSmallDevice ? ".5rem 0 0 0" : ".5rem 0 0 .5rem";
+
   return (
     <div className={classes["my-tickets-container"]}>
       <div
         style={{
           display: "flex",
+          flexDirection: isSmallDevice ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: isSmallDevice ? "space-around" : undefined,
+            margin: "-.5rem 1rem 0 0",
+          }}
+        >
           <Search
             searchValue={search}
             onChange={(e) => setSearch(e.target.value)}
             onClick={() => setSearch("")}
+            margin={filterMargin}
           />
-          <CategorySelector
-            onChange={(categoryIds) => {
-              setFilter({ ...filter, categoryIds, ...DefaultPaginationArgs });
-              setPage(1);
+          <SiteFilter
+            value={filter.siteId}
+            onChange={(siteId) => {
+              setFilter({ ...filter, siteId, ...DefaultPaginationArgs });
             }}
-            minWidth={179}
-            marginLeft="1rem"
+            allowClear={true}
+            sites={user?.sites}
+            margin={filterMargin}
           />
           <StatusFilter
             onChange={(status) => {
@@ -140,6 +169,15 @@ const MyTickets = () => {
               setPage(1);
             }}
             value={filter.status}
+            margin={filterMargin}
+          />
+          <CategorySelector
+            onChange={(categoryIds) => {
+              setFilter({ ...filter, categoryIds, ...DefaultPaginationArgs });
+              setPage(1);
+            }}
+            minWidth={179}
+            margin={filterMargin}
           />
         </div>
         <div>

@@ -1,26 +1,26 @@
 import { gql } from "@apollo/client";
 
 export const ADD_APP_USER = gql`
-  mutation addAppUser($userId: String!, $roles: [Role!]!) {
-    addAppUser(userId: $userId, roles: $roles)
+  mutation addAppUser($userId: String!, $roles: [Role!]!, $siteId: Int!) {
+    addAppUser(userId: $userId, roles: $roles, siteId: $siteId)
   }
 `;
 
 export const ADD_USER_ROLE = gql`
-  mutation ($userId: Int!, $role: Role!) {
-    addUserRole(userId: $userId, role: $role)
+  mutation ($userId: Int!, $role: Role!, $siteId: Int!) {
+    addUserRole(userId: $userId, role: $role, siteId: $siteId)
   }
 `;
 
 export const REMOVE_USER_ROLE = gql`
-  mutation ($userId: Int!, $role: Role!) {
-    removeUserRole(userId: $userId, role: $role)
+  mutation ($userId: Int!, $role: Role!, $siteId: Int!) {
+    removeUserRole(userId: $userId, role: $role, siteId: $siteId)
   }
 `;
 
 export const ADD_CATEGORY = gql`
-  mutation ($name: String!) {
-    createCategory(name: $name)
+  mutation ($name: String!, $siteId: Int!) {
+    createCategory(name: $name, siteId: $siteId)
   }
 `;
 
@@ -37,8 +37,8 @@ export const DELETE_CATEGORY = gql`
 `;
 
 export const ADD_USER_GROUP = gql`
-  mutation ($name: String!, $mode: String!) {
-    createUserGroup(name: $name, mode: $mode)
+  mutation ($name: String!, $mode: String!, $siteId: Int!) {
+    createUserGroup(name: $name, mode: $mode, siteId: $siteId)
   }
 `;
 
@@ -67,8 +67,8 @@ export const REMOVE_FROM_USER_GROUP = gql`
 `;
 
 export const CREATE_TICKET = gql`
-  mutation ($title: String!, $body: String!) {
-    createTicket(title: $title, body: $body)
+  mutation ($title: String!, $body: String!, $siteId: Int!) {
+    createTicket(title: $title, body: $body, siteId: $siteId)
   }
 `;
 
@@ -150,8 +150,13 @@ export const ADD_COMMENT = gql`
   }
 `;
 export const CREATE_KNOWLEDGEBASE = gql`
-  mutation ($title: String!, $body: String!, $mode: String!) {
-    createKnowledgebase(title: $title, body: $body, mode: $mode)
+  mutation ($title: String!, $body: String!, $mode: String!, $siteId: Int!) {
+    createKnowledgebase(
+      title: $title
+      body: $body
+      mode: $mode
+      siteId: $siteId
+    )
   }
 `;
 
@@ -186,14 +191,14 @@ export const READ_ALL_NOTIFICATIONS = gql`
 `;
 
 export const ADD_SITE = gql`
-  mutation ($name: String!, $mode: String!) {
-    createSite(name: $name, mode: $mode)
+  mutation ($name: String!, $code: String!, $mode: String!) {
+    createSite(name: $name, code: $code, mode: $mode)
   }
 `;
 
 export const EDIT_SITE = gql`
-  mutation ($id: Int!, $name: String!, $mode: String!) {
-    editSite(id: $id, name: $name, mode: $mode)
+  mutation ($id: Int!, $name: String!, $code: String!, $mode: String!) {
+    editSite(id: $id, name: $name, code: $code, mode: $mode)
   }
 `;
 

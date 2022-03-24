@@ -3,13 +3,15 @@ import { Badge, Collapse, Divider } from "antd";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AGENT_QUEUE } from "../../api/queries";
+import SiteWithIcon from "../../components/common/SiteWithIcon";
 import StatusTag from "../../components/common/StatusTag";
 import { errorMessage } from "../../helpers/gql";
 import { getEqualValuesUnder140 } from "../../helpers/style";
 import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import Ticket from "../../models/Ticket";
+import User from "../../models/User";
 
-const AgentQueue = () => {
+const AgentQueue = ({ siteId }: { siteId: number | null }) => {
   const [getAgentQueue, { data, refetch }] = useLazyQuery(AGENT_QUEUE, {
     onError: (err) => {
       errorMessage(err, "Error loading agent queue.");
@@ -17,8 +19,8 @@ const AgentQueue = () => {
   });
 
   useEffect(() => {
-    getAgentQueue();
-  }, [getAgentQueue]);
+    getAgentQueue({ variables: { siteId } });
+  }, [getAgentQueue, siteId]);
 
   // Refetch ticket status count every 10 seconds
   useEffect(() => {
@@ -51,59 +53,70 @@ const AgentQueue = () => {
         padding: 20,
       }}
     >
-      <Collapse ghost style={{ paddingBottom: 12 }}>
-        {data?.agentQueue.map((rec: any, i: number) => (
-          <Collapse.Panel
-            collapsible={rec.tickets.length === 0 ? "disabled" : undefined}
-            header={
-              <div
-                style={{
-                  display: "flex",
-                }}
-              >
-                <Badge
-                  count={rec.tickets.length}
-                  showZero
-                  style={{
-                    backgroundColor: `hsla(${
-                      colors[rec.tickets.length]
-                    },100%, 85%, 1)`,
-                    color: "black",
-                    marginRight: ".5rem",
-                  }}
-                />
-                {rec.agent.fullName} ({rec.agent.rcno})
-              </div>
-            }
-            key={rec.agent.id}
-          >
-            {rec.tickets.map((ticket: Ticket, i: number) => (
-              <div key={ticket.id}>
-                {i !== 0 && <Divider style={{ margin: 5 }} />}
-                <Link to={`/ticket/${ticket.id}`}>
+      {data?.agentQueue.length > 0 ? (
+        <Collapse ghost style={{ paddingBottom: 12 }}>
+          {data?.agentQueue.map(
+            (rec: { tickets: Ticket[]; agent: User }, i: number) => (
+              <Collapse.Panel
+                collapsible={rec.tickets.length === 0 ? "disabled" : undefined}
+                header={
                   <div
-                    id="agentQueueTicket"
                     style={{
                       display: "flex",
-                      justifyContent: "space-between",
-                      padding: "4px 0 4px 10px",
-                      borderRadius: 20,
                     }}
                   >
-                    <div>
-                      <strong>{ticket.id}: </strong>
-                      {ticket.title}
-                    </div>
-                    <div>
-                      <StatusTag status={ticket.status} />
-                    </div>
+                    <Badge
+                      count={rec.tickets.length}
+                      showZero
+                      style={{
+                        backgroundColor: `hsla(${
+                          colors[rec.tickets.length]
+                        },100%, 85%, 1)`,
+                        color: "black",
+                        marginRight: ".5rem",
+                      }}
+                    />
+                    {rec.agent.fullName} ({rec.agent.rcno})
                   </div>
-                </Link>
-              </div>
-            ))}
-          </Collapse.Panel>
-        ))}
-      </Collapse>
+                }
+                key={rec.agent.id}
+              >
+                {rec.tickets.map((ticket: Ticket, i: number) => (
+                  <div key={ticket.id}>
+                    {i !== 0 && <Divider style={{ margin: 5 }} />}
+                    <Link to={`/ticket/${ticket.id}`}>
+                      <div
+                        id="agentQueueTicket"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          padding: "4px 0 4px 10px",
+                          borderRadius: 20,
+                        }}
+                      >
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <div style={{ marginRight: ".25rem" }}>
+                            <SiteWithIcon site={ticket.site} small />
+                          </div>
+                          <strong style={{ marginRight: ".25rem" }}>
+                            {ticket.id}:
+                          </strong>
+                          {ticket.title}
+                        </div>
+                        <div>
+                          <StatusTag status={ticket.status} />
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </Collapse.Panel>
+            )
+          )}
+        </Collapse>
+      ) : (
+        "No agents assigned to site."
+      )}
     </div>
   );
 };

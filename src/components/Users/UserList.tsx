@@ -11,7 +11,7 @@ import { PlusOutlined } from "@ant-design/icons";
 
 const allRoles = ["Admin", "Agent"];
 
-const UserList = ({ user }: { user: User }) => {
+const UserList = ({ user, siteId }: { user: User; siteId?: number }) => {
   const { user: self } = useContext(UserContext);
   const [removingRole, setRemovingRole] = useState("");
   const [removeUserRole, { loading: removingUserRole }] = useMutation(
@@ -32,6 +32,7 @@ const UserList = ({ user }: { user: User }) => {
       variables: {
         userId: user.id,
         role,
+        siteId,
       },
     });
   };
@@ -46,7 +47,9 @@ const UserList = ({ user }: { user: User }) => {
     refetchQueries: ["appUsers"],
   });
 
-  const remainingRoles = allRoles.filter((r) => !user.roles?.includes(r));
+  const remainingRoles = allRoles.filter(
+    (r) => !user.roles?.map((r) => r.role).includes(r)
+  );
 
   return (
     <div className={classes["user-list-wrapper"]}>
@@ -65,7 +68,7 @@ const UserList = ({ user }: { user: User }) => {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          {remainingRoles.map((role) => (
+          {remainingRoles?.map((role) => (
             <Button
               key={role}
               type="ghost"
@@ -81,6 +84,7 @@ const UserList = ({ user }: { user: User }) => {
                   variables: {
                     userId: user.id,
                     role,
+                    siteId,
                   },
                 })
               }
@@ -92,33 +96,33 @@ const UserList = ({ user }: { user: User }) => {
           {user.roles?.map((role) => (
             <Popconfirm
               disabled={
-                (removingUserRole && role === removingRole) ||
-                (self?.id === user.id && role === "Admin")
+                (removingUserRole && role.role === removingRole) ||
+                (self?.id === user.id && role.role === "Admin")
               }
-              key={role}
-              title={`Do you want to remove ${role} role from ${user.fullName}?`}
-              onConfirm={() => remove(role)}
+              key={role.role}
+              title={`Do you want to remove ${role.role} role from ${user.fullName}?`}
+              onConfirm={() => remove(role.role)}
               okText="Confirm"
               cancelText="No"
               placement="topRight"
             >
               <Tag
                 color={
-                  role === "Admin"
+                  role.role === "Admin"
                     ? "magenta"
-                    : role === "Agent"
+                    : role.role === "Agent"
                     ? "green"
                     : "grey"
                 }
-                key={role}
+                key={role.role}
                 style={{
                   cursor:
-                    self?.id === user.id && role === "Admin"
+                    self?.id === user.id && role.role === "Admin"
                       ? "auto"
                       : "pointer",
                 }}
               >
-                {role}
+                {role.role}
               </Tag>
             </Popconfirm>
           ))}

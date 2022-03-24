@@ -28,15 +28,12 @@ const EditSite = ({ site }: { site: Site }) => {
   };
 
   const onFinish = async (values: any) => {
-    const { name, mode } = values;
-    if (!name) {
-      message.error("Please enter a site name.");
-      return;
-    }
+    const { name, code, mode } = values;
     editSite({
       variables: {
         id: site.id,
         name,
+        code,
         mode,
       },
     });
@@ -60,7 +57,7 @@ const EditSite = ({ site }: { site: Site }) => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
-          initialValues={{ name: site.name, mode: site.mode }}
+          initialValues={{ name: site.name, code: site.code, mode: site.mode }}
         >
           <Form.Item
             label="Site"
@@ -70,6 +67,19 @@ const EditSite = ({ site }: { site: Site }) => {
               {
                 required: true,
                 message: "Please enter a site name.",
+              },
+            ]}
+          >
+            <Input placeholder="Site name" />
+          </Form.Item>
+          <Form.Item
+            label="Code"
+            name="code"
+            required={false}
+            rules={[
+              {
+                required: true,
+                message: "Please enter a site code.",
               },
             ]}
           >

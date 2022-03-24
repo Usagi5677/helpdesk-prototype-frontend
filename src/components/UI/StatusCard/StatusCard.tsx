@@ -10,6 +10,7 @@ import { useContext } from "react";
 import UserContext from "../../../contexts/UserContext";
 import { useNavigate } from "react-router";
 import { statusColors } from "../../../helpers/style";
+import Site from "../../../models/Site";
 
 const StatusCardWrapper = styled.div`
   width: 150px;
@@ -47,9 +48,22 @@ const StatusCardAmount = styled.div`
 const StatusCardStatusName = styled.div`
   text-align: right;
 `;
-const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
+const StatusCard = ({
+  status,
+  amount,
+  siteId,
+}: {
+  status: string;
+  amount: number;
+  siteId: number | null;
+}) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  let site: Site | null | undefined = null;
+  if (siteId) {
+    site = user?.siteAccess.adminOrAgent.find((site) => site.id === siteId);
+  }
 
   let icon = null;
   const [color, bgColor] = statusColors(status);
@@ -68,9 +82,9 @@ const StatusCard = ({ status, amount }: { status: string; amount: number }) => {
     <StatusCardWrapper
       onClick={() =>
         navigate(
-          `/${
-            user?.isAdmin || user?.isAgent ? "all-tickets" : "my-tickets"
-          }?status=${status}`
+          `/${user?.isAdmin || user?.isAgent ? "all-tickets" : "my-tickets"}?${
+            site ? `site=${site.code}&` : ""
+          }status=${status}`
         )
       }
       className="dashboardCard"

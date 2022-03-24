@@ -14,7 +14,17 @@ export const ME_QUERY = gql`
       fullName
       email
       userId
-      roles
+      roles {
+        site {
+          id
+          code
+        }
+        role
+      }
+      sites {
+        id
+        code
+      }
       isSuperAdmin
     }
   }
@@ -22,9 +32,12 @@ export const ME_QUERY = gql`
 
 export const APP_USERS_QUERY = gql`
   ${USER_FRAGMENT}
-  query appUsers {
-    appUsers {
+  query appUsers($siteId: Int!) {
+    appUsers(siteId: $siteId) {
       ...UserFields
+      roles {
+        role
+      }
     }
   }
 `;
@@ -46,6 +59,7 @@ export const CATEGORIES_QUERY = gql`
     $first: Int
     $last: Int
     $name: String
+    $siteId: Int!
   ) {
     categories(
       after: $after
@@ -53,6 +67,7 @@ export const CATEGORIES_QUERY = gql`
       first: $first
       last: $last
       name: $name
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -70,6 +85,19 @@ export const CATEGORIES_QUERY = gql`
   }
 `;
 
+export const CATEGORIES_WITH_ACCESS = gql`
+  ${CATEGORIES_FRAGMENT}
+  query categoriesWithAccess {
+    categoriesWithAccess {
+      ...CategoryFields
+      site {
+        id
+        code
+      }
+    }
+  }
+`;
+
 export const USER_GROUPS_QUERY = gql`
   query userGroups(
     $after: String
@@ -77,6 +105,7 @@ export const USER_GROUPS_QUERY = gql`
     $first: Int
     $last: Int
     $name: String
+    $siteId: Int!
   ) {
     userGroups(
       after: $after
@@ -84,6 +113,7 @@ export const USER_GROUPS_QUERY = gql`
       first: $first
       last: $last
       name: $name
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -122,6 +152,7 @@ export const MY_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     myTickets(
       after: $after
@@ -134,6 +165,7 @@ export const MY_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -165,6 +197,7 @@ export const ALL_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     tickets(
       after: $after
@@ -178,6 +211,7 @@ export const ALL_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -209,6 +243,7 @@ export const ASSIGNED_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     assignedTickets(
       after: $after
@@ -222,6 +257,7 @@ export const ASSIGNED_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -253,6 +289,7 @@ export const FOLLOWING_TICKETS = gql`
     $priority: Priority
     $from: Date
     $to: Date
+    $siteId: Int
   ) {
     followingTickets(
       after: $after
@@ -266,6 +303,7 @@ export const FOLLOWING_TICKETS = gql`
       status: $status
       from: $from
       to: $to
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -305,8 +343,16 @@ export const TICKET = gql`
 
 export const SEARCH_USERS_AND_USERGROUPS = gql`
   ${USER_FRAGMENT}
-  query searchUsersAndGroups($query: String!, $onlyAgents: Boolean!) {
-    searchUsersAndGroups(query: $query, onlyAgents: $onlyAgents) {
+  query searchUsersAndGroups(
+    $query: String!
+    $siteId: Int!
+    $onlyAgents: Boolean!
+  ) {
+    searchUsersAndGroups(
+      query: $query
+      siteId: $siteId
+      onlyAgents: $onlyAgents
+    ) {
       type
       name
       user {
@@ -345,6 +391,7 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
     $first: Int
     $last: Int
     $search: String
+    $siteId: Int
   ) {
     getAllKnowledgebase(
       after: $after
@@ -352,6 +399,7 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
       first: $first
       last: $last
       search: $search
+      siteId: $siteId
     ) {
       pageInfo {
         endCursor
@@ -372,6 +420,10 @@ export const GET_ALL_KNOWLEDGEBASE = gql`
           title
           body
           mode
+          site {
+            id
+            code
+          }
         }
       }
     }
@@ -391,6 +443,10 @@ export const SINGLEKNOWLEDGEBASE = gql`
         fullName
         email
       }
+      site {
+        id
+        code
+      }
     }
   }
 `;
@@ -409,8 +465,8 @@ export const ATTACHMENT = gql`
 `;
 
 export const STATUS_COUNT = gql`
-  query ticketStatusCount {
-    ticketStatusCount {
+  query ticketStatusCount($siteId: Int) {
+    ticketStatusCount(siteId: $siteId) {
       status
       count
     }
@@ -422,8 +478,14 @@ export const STATUS_COUNT_HISTORY = gql`
     $statuses: [Status!]
     $from: Date!
     $to: Date!
+    $siteId: Int
   ) {
-    ticketStatusCountHistory(statuses: $statuses, from: $from, to: $to) {
+    ticketStatusCountHistory(
+      statuses: $statuses
+      from: $from
+      to: $to
+      siteId: $siteId
+    ) {
       date
       statusCounts {
         status
@@ -448,8 +510,8 @@ export const NOTIFICATIONS = gql`
 
 export const AGENT_QUEUE = gql`
   ${USER_FRAGMENT}
-  query agentQueue {
-    agentQueue {
+  query agentQueue($siteId: Int) {
+    agentQueue(siteId: $siteId) {
       agent {
         ...UserFields
       }
@@ -457,6 +519,10 @@ export const AGENT_QUEUE = gql`
         id
         title
         status
+        site {
+          id
+          code
+        }
       }
     }
   }
@@ -467,6 +533,7 @@ export const SITES = gql`
     sites {
       id
       name
+      code
       mode
       isEnabled
     }

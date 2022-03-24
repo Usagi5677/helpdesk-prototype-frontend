@@ -5,8 +5,9 @@ import { useForm } from "antd/lib/form/Form";
 import SearchAPSUser from "../common/SearchAPS";
 import { ADD_APP_USER } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
+import Site from "../../models/Site";
 
-const AddUserRoles = () => {
+const AddUserRoles = ({ site }: { site?: Site }) => {
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
 
@@ -48,6 +49,7 @@ const AddUserRoles = () => {
       variables: {
         userId: employee.userId,
         roles,
+        siteId: site?.id,
       },
     });
   };
@@ -62,7 +64,12 @@ const AddUserRoles = () => {
       >
         Add User Roles
       </Button>
-      <Modal visible={visible} closable={false} footer={null}>
+      <Modal
+        visible={visible}
+        closable={false}
+        footer={null}
+        title={`Add user roles to ${site?.name}`}
+      >
         <Form
           form={form}
           layout="vertical"

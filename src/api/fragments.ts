@@ -15,7 +15,6 @@ export const USER_FRAGMENT = gql`
     id
     rcno
     fullName
-    roles
   }
 `;
 
@@ -64,5 +63,9 @@ export const TICKET_FRAGMENT = gql`
     }
     rating
     feedback
+    site {
+      id
+      code
+    }
   }
 `;
