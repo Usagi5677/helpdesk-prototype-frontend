@@ -118,12 +118,14 @@ const AddUserRoles = ({ site }: { site?: Site }) => {
               </Col>
             )}
           </Row>
-          <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
-            <div>
-              As this is a private site, employees will need the User role to
-              create tickets in this site.
+          {site?.mode === "Private" && (
+            <div style={{ opacity: 0.5, marginBottom: "1rem", marginTop: -5 }}>
+              <div>
+                As this is a private site, employees will need the User role to
+                create tickets in this site.
+              </div>
             </div>
-          </div>
+          )}
           <Row justify="end" gutter={16}>
             <Col>
               <Form.Item style={{ marginBottom: 0 }}>
