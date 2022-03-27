@@ -166,37 +166,38 @@ const KnowledgebaseCard = ({
               className={classes["title-wrapper"]}
               style={{ display: "flex", alignItems: "center" }}
             >
-              <Tooltip
-                title={`${knowledgebase.createdBy.fullName} (${knowledgebase.createdBy.rcno})`}
-                placement="bottom"
-              >
-                <Avatar
-                  style={{
-                    backgroundColor: stringToColor(
-                      knowledgebase.createdBy.fullName
-                    ),
-                    marginRight: "1rem",
-                  }}
+              <div style={{ marginRight: ".5rem" }}>
+                <Tooltip
+                  title={`${knowledgebase.createdBy.fullName} (${knowledgebase.createdBy.rcno})`}
+                  placement="bottom"
                 >
-                  {knowledgebase.createdBy.fullName
-                    .match(/^\w|\b\w(?=\S+$)/g)
-                    ?.join()
-                    .replace(",", "")
-                    .toUpperCase()}
-                </Avatar>
-              </Tooltip>
+                  <Avatar
+                    style={{
+                      backgroundColor: stringToColor(
+                        knowledgebase.createdBy.fullName
+                      ),
+                    }}
+                  >
+                    {knowledgebase.createdBy.fullName
+                      .match(/^\w|\b\w(?=\S+$)/g)
+                      ?.join()
+                      .replace(",", "")
+                      .toUpperCase()}
+                  </Avatar>
+                </Tooltip>
+              </div>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flex: 1,
-                  paddingRight: ".5rem",
+                  width: "100%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
-                <div>{knowledgebase.title}</div>
-                <SiteWithIcon site={knowledgebase.site} small />
+                {knowledgebase.title}
               </div>
+              <SiteWithIcon site={knowledgebase.site} small />
             </div>
+            // </div>
           }
         />
         <div className={classes["divider"]}></div>

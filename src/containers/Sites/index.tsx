@@ -77,7 +77,7 @@ const Sites = () => {
       </div>
       {loading && (
         <div>
-          <Spin style={{ width: "100%", margin: "0 auto" }} />
+          <Spin style={{ width: "100%", margin: "2rem auto" }} />
         </div>
       )}
       {filtered.map((site: Site) => (
