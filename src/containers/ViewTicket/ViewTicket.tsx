@@ -440,7 +440,10 @@ const ViewTicket = () => {
                   }}
                 >
                   <Comments ticket={ticketData} refetchTicket={refetchTicket} />
-                  <ChatInput ticket={ticketData} />
+                  <ChatInput
+                    ticket={ticketData}
+                    isAssignedOrSiteAdmin={isAssigned || Boolean(isSiteAdmin)}
+                  />
                 </div>
               </Tabs.TabPane>
               {/* <Tabs.TabPane tab="Attachments" key="Attachments"></Tabs.TabPane> */}

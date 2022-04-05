@@ -1,36 +1,48 @@
-import { Button, Input, message, Switch, Tooltip, Upload } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Radio,
+  Space,
+  Switch,
+  Tooltip,
+  Upload,
+} from "antd";
 import { SendOutlined, UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../../api/mutations";
 import { errorMessage } from "../../helpers/gql";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Ticket from "../../models/Ticket";
-import UserContext from "../../contexts/UserContext";
 import { RcFile, UploadChangeParam } from "antd/lib/upload";
 import axios from "axios";
 
-const ChatInput = ({ ticket }: { ticket: Ticket }) => {
-  const { user } = useContext(UserContext);
+const ChatInput = ({
+  ticket,
+  isAssignedOrSiteAdmin,
+}: {
+  ticket: Ticket;
+  isAssignedOrSiteAdmin: boolean;
+}) => {
   const [fileList, setFileList] = useState<RcFile[]>([]);
   const [uploading, setUploading] = useState(false);
   const [value, setValue] = useState("");
-  const [isPublic, setIsPublic] = useState(true);
+  const [mode, setMode] = useState("Public");
   const inputRef = useRef<any>(null);
   const [addComment, { loading }] = useMutation(ADD_COMMENT, {
     onCompleted: () => {
       setValue("");
-      setIsPublic(true);
       inputRef.current.focus();
     },
     onError: (error) => {
-      errorMessage(error, "Unexpected error while occured.");
+      errorMessage(error, "Unexpected error occured.");
     },
   });
 
   const send = () => {
     if (value.trim() === "") return;
     addComment({
-      variables: { body: value, ticketId: ticket.id, isPublic },
+      variables: { body: value, ticketId: ticket.id, mode },
     });
   };
 
@@ -103,6 +115,44 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
           }}
         />
       </div>
+      {isAssignedOrSiteAdmin && (
+        <div
+          style={{
+            marginLeft: "10px",
+            width: 90,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Radio.Group defaultValue={mode} buttonStyle="solid" size="small">
+            <Space direction="vertical">
+              <Radio.Button
+                style={{ width: "100%", borderRadius: 20 }}
+                value="Public"
+                onClick={() => setMode("Public")}
+              >
+                Comment
+              </Radio.Button>
+              <Radio.Button
+                style={{ width: "100%", borderRadius: 20 }}
+                value="Suggestion"
+                onClick={() => setMode("Suggestion")}
+              >
+                Suggestion
+              </Radio.Button>
+              <Radio.Button
+                style={{ width: "100%", borderRadius: 20 }}
+                value="Resolution"
+                onClick={() => setMode("Resolution")}
+              >
+                Resolution
+              </Radio.Button>
+            </Space>
+          </Radio.Group>
+        </div>
+      )}
       <div
         style={{
           marginLeft: "10px",
@@ -113,13 +163,13 @@ const ChatInput = ({ ticket }: { ticket: Ticket }) => {
           alignItems: "center",
         }}
       >
-        {(user?.isAdmin || user?.isAgent) && (
+        {isAssignedOrSiteAdmin && ["Public", "Private"].includes(mode) && (
           <div style={{ marginBottom: 5 }}>
             <Switch
               checkedChildren="Public"
               unCheckedChildren="Private"
-              checked={isPublic}
-              onChange={setIsPublic}
+              checked={mode === "Public"}
+              onChange={() => setMode(mode === "Public" ? "Private" : "Public")}
             />
           </div>
         )}

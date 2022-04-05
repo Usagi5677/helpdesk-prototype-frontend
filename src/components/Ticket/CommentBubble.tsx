@@ -45,7 +45,8 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
     else if (mode === "Public") {
       if (isSelf) color = "#e6fef5";
       else color = "#e6f9ff";
-    }
+    } else if (mode === "Suggestion") color = "#eafee6";
+    else if (mode === "Resolution") color = "#fee6fb";
     return color;
   };
 
@@ -124,6 +125,15 @@ const CommentBubble = ({ group }: { group: CommentGroup }) => {
                 }}
               >
                 {group.user.fullName}
+              </div>
+            )}
+            {["Suggestion", "Resolution"].includes(comment.mode) && (
+              <div
+                style={{
+                  fontWeight: 700,
+                }}
+              >
+                {comment.mode}
               </div>
             )}
             {parseComment(comment.body)}

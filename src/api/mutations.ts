@@ -145,8 +145,8 @@ export const SET_TICKET_STATUS = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation ($ticketId: Int!, $body: String!, $isPublic: Boolean) {
-    addComment(ticketId: $ticketId, body: $body, isPublic: $isPublic)
+  mutation ($ticketId: Int!, $body: String!, $mode: String) {
+    addComment(ticketId: $ticketId, body: $body, mode: $mode)
   }
 `;
 export const CREATE_KNOWLEDGEBASE = gql`

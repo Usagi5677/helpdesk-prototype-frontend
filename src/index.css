@@ -272,3 +272,7 @@ em {
   animation: balloon 15s infinite linear;
   transition: transform 0.3s, padding 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
+
+.ant-radio-button-wrapper:not(:first-child)::before {
+  content: none !important;
+}
