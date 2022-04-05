@@ -154,11 +154,14 @@ const ViewTicket = () => {
       ticketData?.checklistItems.length) *
       100
   );
-  const canAssignSelf =
-    isSiteAgent &&
-    !isSiteAdmin &&
-    !isAssigned &&
-    ["Pending", "Open"].includes(ticketData?.status);
+
+  const canAssignSelf = false;
+  //   Self assign disabled
+  //   isSiteAgent &&
+  //   !isSiteAdmin &&
+  //   !isAssigned &&
+  //   ["Pending", "Open"].includes(ticketData?.status);
+
   const isFollower = ticketData?.followers
     .map((f: any) => f.id)
     .includes(user?.id);
