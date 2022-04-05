@@ -17,8 +17,8 @@ export const COMMENT_CREATED = gql`
 `;
 
 export const NOTIFICATION_CREATED = gql`
-  subscription notificationCreated {
-    notificationCreated {
+  subscription notificationCreated($userId: Int!) {
+    notificationCreated(userId: $userId) {
       id
       body
       createdAt
