@@ -143,7 +143,7 @@ const ViewTicket = () => {
   const isSiteAdmin = user?.siteAccess.admin
     .map((s) => s.id)
     .includes(ticketData?.site.id);
-  const isSiteAgent = user?.siteAccess.admin
+  const isSiteAgent = user?.siteAccess.agent
     .map((s) => s.id)
     .includes(ticketData?.site.id);
   const isAdminOrAssigned = isSiteAdmin || (isSiteAgent && isAssigned);
