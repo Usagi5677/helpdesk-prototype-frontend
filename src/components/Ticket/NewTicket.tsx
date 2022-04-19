@@ -95,6 +95,9 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
+          initialValues={{
+            siteId: user?.sites.length === 1 ? user?.sites[0].id : null,
+          }}
         >
           <Form.Item
             label="Site"
