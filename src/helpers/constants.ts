@@ -1,4 +1,4 @@
-export const PAGE_LIMIT = 5;
+export const PAGE_LIMIT = 10;
 
 export const KNOWLEDGEBASE_PAGE_LIMIT = 12;
 
