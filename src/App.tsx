@@ -1,7 +1,6 @@
 import Layout from "./hoc/Layout/Layout";
 import "./index.css";
 import MyTickets from "./containers/MyTickets/MyTickets";
-import CreateTicket from "./containers/CreateTicket/CreateTicket";
 import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
@@ -183,7 +182,6 @@ const App = () => {
             <Route path="/all-tickets" element={<AllTickets />} />
             <Route path="/assigned-tickets" element={<AssignedTickets />} />
             <Route path="/following-tickets" element={<FollowingTickets />} />
-            <Route path="/create-ticket" element={<CreateTicket />} />
             <Route path="/ticket/:id" element={<ViewTicket />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/users" element={<Users />} />

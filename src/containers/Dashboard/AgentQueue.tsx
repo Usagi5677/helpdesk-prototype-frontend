@@ -11,6 +11,11 @@ import { useIsSmallDevice } from "../../helpers/useIsSmallDevice";
 import Ticket from "../../models/Ticket";
 import User from "../../models/User";
 
+interface AgentQueueModel {
+  tickets: Ticket[];
+  agent: User;
+}
+
 const AgentQueue = ({ siteId }: { siteId: number | null }) => {
   const [getAgentQueue, { data, refetch }] = useLazyQuery(AGENT_QUEUE, {
     onError: (err) => {
@@ -41,6 +46,13 @@ const AgentQueue = ({ siteId }: { siteId: number | null }) => {
 
   const colors = getEqualValuesUnder140(highestCount());
 
+  const sortedQueue = data?.agentQueue
+    .slice()
+    .sort(
+      (a: AgentQueueModel, b: AgentQueueModel) =>
+        b.tickets.length - a.tickets.length
+    );
+
   const isSmallDevice = useIsSmallDevice();
   return (
     <div
@@ -53,66 +65,64 @@ const AgentQueue = ({ siteId }: { siteId: number | null }) => {
         padding: 20,
       }}
     >
-      {data?.agentQueue.length > 0 ? (
+      {sortedQueue?.length > 0 ? (
         <Collapse ghost style={{ paddingBottom: 12 }}>
-          {data?.agentQueue.map(
-            (rec: { tickets: Ticket[]; agent: User }, i: number) => (
-              <Collapse.Panel
-                collapsible={rec.tickets.length === 0 ? "disabled" : undefined}
-                header={
-                  <div
+          {sortedQueue.map((rec: AgentQueueModel) => (
+            <Collapse.Panel
+              collapsible={rec.tickets.length === 0 ? "disabled" : undefined}
+              header={
+                <div
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                  <Badge
+                    count={rec.tickets.length}
+                    showZero
                     style={{
-                      display: "flex",
+                      backgroundColor: `hsla(${
+                        colors[rec.tickets.length]
+                      },100%, 85%, 1)`,
+                      color: "black",
+                      marginRight: ".5rem",
                     }}
-                  >
-                    <Badge
-                      count={rec.tickets.length}
-                      showZero
+                  />
+                  {rec.agent.fullName} ({rec.agent.rcno})
+                </div>
+              }
+              key={rec.agent.id}
+            >
+              {rec.tickets.map((ticket: Ticket, i: number) => (
+                <div key={ticket.id}>
+                  {i !== 0 && <Divider style={{ margin: 5 }} />}
+                  <Link to={`/ticket/${ticket.id}`}>
+                    <div
+                      id="agentQueueTicket"
                       style={{
-                        backgroundColor: `hsla(${
-                          colors[rec.tickets.length]
-                        },100%, 85%, 1)`,
-                        color: "black",
-                        marginRight: ".5rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "4px 0 4px 10px",
+                        borderRadius: 20,
                       }}
-                    />
-                    {rec.agent.fullName} ({rec.agent.rcno})
-                  </div>
-                }
-                key={rec.agent.id}
-              >
-                {rec.tickets.map((ticket: Ticket, i: number) => (
-                  <div key={ticket.id}>
-                    {i !== 0 && <Divider style={{ margin: 5 }} />}
-                    <Link to={`/ticket/${ticket.id}`}>
-                      <div
-                        id="agentQueueTicket"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          padding: "4px 0 4px 10px",
-                          borderRadius: 20,
-                        }}
-                      >
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <div style={{ marginRight: ".25rem" }}>
-                            <SiteWithIcon site={ticket.site} small />
-                          </div>
-                          <strong style={{ marginRight: ".25rem" }}>
-                            {ticket.id}:
-                          </strong>
-                          {ticket.title}
+                    >
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ marginRight: ".25rem" }}>
+                          <SiteWithIcon site={ticket.site} small />
                         </div>
-                        <div>
-                          <StatusTag status={ticket.status} />
-                        </div>
+                        <strong style={{ marginRight: ".25rem" }}>
+                          {ticket.id}:
+                        </strong>
+                        {ticket.title}
                       </div>
-                    </Link>
-                  </div>
-                ))}
-              </Collapse.Panel>
-            )
-          )}
+                      <div>
+                        <StatusTag status={ticket.status} />
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </Collapse.Panel>
+          ))}
         </Collapse>
       ) : (
         "No agents assigned to site."

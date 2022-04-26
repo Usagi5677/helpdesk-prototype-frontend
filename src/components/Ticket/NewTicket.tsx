@@ -25,10 +25,12 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
   const { user } = useContext(UserContext);
   const [visible, setVisible] = useState(false);
   const [form] = useForm();
+  const [done, setDone] = useState(false);
 
   const [createTicket, { loading }] = useMutation(CREATE_TICKET, {
     onCompleted: (data) => {
       message.success("Successfully created ticket.");
+      setDone(true);
       window.location.href = `/ticket/${data.createTicket}`;
     },
     onError: (error) => {
@@ -93,6 +95,9 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
           name="basic"
           onFinish={onFinish}
           id="myForm"
+          initialValues={{
+            siteId: user?.sites.length === 1 ? user?.sites[0].id : null,
+          }}
         >
           <Form.Item
             label="Site"
@@ -158,6 +163,7 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
                   htmlType="submit"
                   loading={loading}
                   style={{ borderRadius: 20 }}
+                  disabled={done}
                 >
                   Create
                 </Button>
