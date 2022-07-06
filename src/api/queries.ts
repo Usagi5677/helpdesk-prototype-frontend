@@ -18,12 +18,14 @@ export const ME_QUERY = gql`
         site {
           id
           code
+          name
         }
         role
       }
       sites {
         id
         code
+        name
         mode
       }
       isSuperAdmin

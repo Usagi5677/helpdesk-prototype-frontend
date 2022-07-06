@@ -38,10 +38,7 @@ const SiteList = ({ site }: { site: Site }) => {
         <div
           style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}
         >
-          <SiteWithIcon site={site} />
-          <span style={{ marginLeft: ".5rem", opacity: "0.5" }}>
-            {site.name}
-          </span>
+          <SiteWithIcon site={site} showName={true} />
           {site.mode === "Private" && (
             <FaLock style={{ marginLeft: ".5rem" }} />
           )}

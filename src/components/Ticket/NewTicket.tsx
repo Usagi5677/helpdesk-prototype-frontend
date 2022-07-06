@@ -113,7 +113,7 @@ const NewTicket = ({ type }: { type?: "Text" | "Icon" | "Dashboard" }) => {
             <Select showArrow placeholder="Select site">
               {user?.sites.map((site) => (
                 <Select.Option key={site.id} value={site.id}>
-                  <SiteWithIcon site={site} />
+                  <SiteWithIcon site={site} showName={true} />
                 </Select.Option>
               ))}
             </Select>
