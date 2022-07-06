@@ -79,20 +79,17 @@ const App = () => {
       setAppLoading(false);
       setLoggedOut(false);
     },
-    onError: (error) => {
+    onError: () => {
+      localStorage.setItem("logOutClicked", "true");
       localStorage.removeItem("helpdesk_token");
       setLoggedOut(true);
       setAppLoading(false);
-
-      if (error.message === "Unauthorized") {
-        message.error("Not authorized to access this app.");
-      } else {
-        message.error("An error occurred while logging in.");
-      }
+      message.error("An error occurred while logging in.");
     },
   });
 
   const redirect = () => {
+    localStorage.setItem("logOutClicked", "false");
     window.location.href = `https://id.mtcc.com.mv/?returnUrl=${process.env.REACT_APP_RETURN_URL}&type=employee&appId=${process.env.REACT_APP_APP_ID}`;
   };
 
@@ -156,6 +153,7 @@ const App = () => {
   }, [user, me]);
 
   const logout = () => {
+    localStorage.setItem("logOutClicked", "true");
     localStorage.removeItem("helpdesk_token");
     logoutRedirect();
   };
@@ -169,7 +167,10 @@ const App = () => {
   }
 
   if (!appLoading && loggedOut) {
-    return <Login login={redirect} />;
+    if (localStorage.getItem("logOutClicked") === "true") {
+      return <Login login={redirect} />;
+    }
+    redirect();
   }
 
   return (
