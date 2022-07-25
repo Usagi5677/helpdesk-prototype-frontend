@@ -11,7 +11,7 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import classes from "./Sidebar.module.css";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 import { Menu } from "antd";
@@ -26,6 +26,7 @@ interface SidebarItem {
 const Sidebar = ({ onClick }: { onClick: () => void }) => {
   const { user } = useContext(UserContext);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   let SidebarData: SidebarItem[] = [
     {
@@ -119,7 +120,6 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
     <>
       <Menu
         mode="inline"
-        defaultOpenKeys={pathname === "my-tickets" ? ["my-tickets"] : []}
         selectedKeys={[pathname]}
         style={{ overflowX: "hidden", flex: 1 }}
       >
@@ -130,9 +130,12 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
               key={item.path}
               icon={item.icon}
               className={classes["newMenuItem"]}
-              onClick={onClick}
+              onClick={() => {
+                navigate(item.path);
+                onClick();
+              }}
             >
-              <NavLink to={item.path}>{item.name}</NavLink>
+              {item.name}
             </Menu.Item>
           );
         })}
