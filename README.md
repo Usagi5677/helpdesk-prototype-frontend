@@ -4,6 +4,7 @@ This is the **frontend** of a Helpdesk system designed to assist company departm
 
 ## 🚀 Features
 
+- **Stack:** Full-Stack TypeScript with GraphQL
 - **Built with:** React + TypeScript
 - **API Calls:** Apollo GraphQL
 - **Real-time Notifications:** Uses GraphQL subscriptions & Redis
