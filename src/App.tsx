@@ -26,20 +26,6 @@ import Sites from "./containers/Sites";
 import UserRole from "./models/UserRole";
 import Site from "./models/Site";
 
-// New Auth Mutation for local login
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user {
-        id
-        name
-        email
-      }
-    }
-  }
-`;
-
 const App = () => {
   // Remove the third-party redirect logic
   const [appLoading, setAppLoading] = useState(true);
@@ -93,7 +79,7 @@ const App = () => {
   });
 
   // New login function for local auth
-  const handleLogin = (token:any) => {
+  const handleLogin = (token: any) => {
     localStorage.setItem("helpdesk_token", token);
     me();
   };

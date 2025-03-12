@@ -52,7 +52,11 @@ const Layout = ({ children }: any) => {
                 height: 50,
               }}
             >
-              <img style={{ width: "2.5rem" }} src="/avatar.jpg" />
+              <img
+                style={{ width: "2.5rem" }}
+                src="/avatar.jpg"
+                alt="usagi5677"
+              />
             </div>
             <Sidebar onClick={() => setCollapsed(isSmallDevice && true)} />
           </div>
