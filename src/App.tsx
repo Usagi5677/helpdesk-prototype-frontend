@@ -1,3 +1,5 @@
+// Updated App.tsx - Frontend Changes
+
 import Layout from "./hoc/Layout/Layout";
 import "./index.css";
 import MyTickets from "./containers/MyTickets/MyTickets";
@@ -5,11 +7,10 @@ import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import { Route, Routes } from "react-router-dom";
-import { ApolloProvider, useLazyQuery } from "@apollo/client";
+import { ApolloProvider, useLazyQuery, gql } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
-import qs from "qs";
 import UserContext from "./contexts/UserContext";
 import Users from "./containers/Users/Users";
 import Categories from "./containers/Categories/Categories";
@@ -25,18 +26,22 @@ import Sites from "./containers/Sites";
 import UserRole from "./models/UserRole";
 import Site from "./models/Site";
 
-const App = () => {
-  {
-    const token = localStorage.getItem("helpdesk_token");
-    if (token) {
-      const prevRoute = localStorage.getItem("prevRoute");
-      if (prevRoute) {
-        localStorage.removeItem("prevRoute");
-        window.location.pathname = prevRoute;
+// New Auth Mutation for local login
+const LOGIN_MUTATION = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        id
+        name
+        email
       }
     }
   }
+`;
 
+const App = () => {
+  // Remove the third-party redirect logic
   const [appLoading, setAppLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [loggedOut, setLoggedOut] = useState(false);
@@ -80,7 +85,6 @@ const App = () => {
       setLoggedOut(false);
     },
     onError: () => {
-      localStorage.setItem("logOutClicked", "true");
       localStorage.removeItem("helpdesk_token");
       setLoggedOut(true);
       setAppLoading(false);
@@ -88,75 +92,41 @@ const App = () => {
     },
   });
 
-  const redirect = () => {
-    localStorage.setItem("logOutClicked", "false");
-    window.location.href = `https://id.mtcc.com.mv/?returnUrl=${process.env.REACT_APP_RETURN_URL}&type=employee&appId=${process.env.REACT_APP_APP_ID}`;
+  // New login function for local auth
+  const handleLogin = (token:any) => {
+    localStorage.setItem("helpdesk_token", token);
+    me();
   };
 
-  const logoutRedirect = () => {
-    setPrevRoute();
-    window.location.href = `https://id.mtcc.com.mv/logout/?returnUrl=${process.env.REACT_APP_RETURN_URL}&type=employee&appId=${process.env.REACT_APP_APP_ID}`;
+  // Simplified logout
+  const logout = () => {
+    localStorage.removeItem("helpdesk_token");
+    setUser(null);
+    setLoggedOut(true);
   };
-
-  const setPrevRoute = () => {
-    const currentPath = window.location.pathname;
-    const token = localStorage.getItem("helpdesk_token");
-    if (currentPath !== "/" && !token)
-      localStorage.setItem("prevRoute", currentPath);
-  };
-
-  interface SSOToken {
-    id: number;
-    type: string;
-    iat: number;
-    exp: number;
-  }
 
   useEffect(() => {
-    const setLogOutStates = () => {
-      setPrevRoute();
-      setLoggedOut(true);
-      setAppLoading(false);
-    };
-    if (user === null) {
-      const token = localStorage.getItem("helpdesk_token");
-      if (token) {
-        const decoded = jwtDecode<SSOToken>(token);
-        if (decoded.id) {
+    const token = localStorage.getItem("helpdesk_token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded) {
           me();
         } else {
-          setLogOutStates();
+          setLoggedOut(true);
+          setAppLoading(false);
         }
-      } else {
-        if (window.location) {
-          const tkn = qs.parse(window.location.search, {
-            ignoreQueryPrefix: true,
-          }).token as string;
-          if (tkn) {
-            localStorage.setItem("helpdesk_token", `${tkn}`);
-            const decoded = jwtDecode<SSOToken>(tkn);
-            if (decoded.id) {
-              me();
-            } else {
-              setLogOutStates();
-            }
-          } else {
-            setLogOutStates();
-          }
-        } else {
-          setLogOutStates();
-        }
+      } catch (error) {
+        console.error("Invalid token:", error);
+        localStorage.removeItem("helpdesk_token");
+        setLoggedOut(true);
+        setAppLoading(false);
       }
     } else {
+      setLoggedOut(true);
       setAppLoading(false);
     }
-  }, [user, me]);
-
-  const logout = () => {
-    localStorage.setItem("logOutClicked", "true");
-    localStorage.removeItem("helpdesk_token");
-    logoutRedirect();
-  };
+  }, [me]);
 
   if (appLoading) {
     return (
@@ -167,10 +137,7 @@ const App = () => {
   }
 
   if (!appLoading && loggedOut) {
-    if (localStorage.getItem("logOutClicked") === "true") {
-      return <Login login={redirect} />;
-    }
-    redirect();
+    return <Login login={handleLogin} />;
   }
 
   return (

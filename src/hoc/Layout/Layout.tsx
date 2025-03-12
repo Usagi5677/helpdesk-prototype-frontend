@@ -52,11 +52,7 @@ const Layout = ({ children }: any) => {
                 height: 50,
               }}
             >
-              <img
-                style={{ width: "8.5rem" }}
-                src="/logo.png"
-                alt="MTCC Logo"
-              />
+              <img style={{ width: "2.5rem" }} src="/avatar.jpg" />
             </div>
             <Sidebar onClick={() => setCollapsed(isSmallDevice && true)} />
           </div>

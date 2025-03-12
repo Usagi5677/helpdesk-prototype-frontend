@@ -13,7 +13,7 @@ const Navbar = ({ openSidebar }: { openSidebar: () => void }) => {
           <FaBars onClick={openSidebar} className={classes["navbar__icon"]} />
           <NavLink to={"/"}>
             <div className={classes["navbar__title"]}>
-              Helpdesk Ticketing System
+              サポート チケッティング システム
             </div>
           </NavLink>
         </div>
