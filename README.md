@@ -57,6 +57,12 @@ If you are using a different API URL, update the .env file accordingly.
 
 ---
 
+## 📄 License
+
+This project is for portfolio purposes. Do not use it for commercial projects without permission.
+
+---
+
 ## 🛠 Setup & Installation
 
 ```sh
