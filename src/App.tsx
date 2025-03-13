@@ -1,5 +1,3 @@
-// Updated App.tsx - Frontend Changes
-
 import Layout from "./hoc/Layout/Layout";
 import "./index.css";
 import MyTickets from "./containers/MyTickets/MyTickets";
@@ -7,7 +5,7 @@ import ViewTicket from "./containers/ViewTicket/ViewTicket";
 import Login from "./containers/Login/Login";
 import Dashboard from "./containers/Dashboard/Dashboard";
 import { Route, Routes } from "react-router-dom";
-import { ApolloProvider, useLazyQuery, gql } from "@apollo/client";
+import { ApolloProvider, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { apolloClient } from "./api/client";
 import jwtDecode from "jwt-decode";
@@ -142,7 +140,7 @@ const App = () => {
             <Route path="/usergroups" element={<UserGroups />} />
             <Route path="/knowledgebase" element={<Knowledgebase />} />
             <Route path="/knowledgebase/:id" element={<ViewKnowledgebase />} />
-            <Route path="/sites" element={<Sites />} />
+            <Route path="/divisions" element={<Sites />} />
           </Routes>
         </Layout>
       </ApolloProvider>

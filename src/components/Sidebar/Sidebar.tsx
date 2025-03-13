@@ -109,8 +109,8 @@ const Sidebar = ({ onClick }: { onClick: () => void }) => {
         path: "divider3",
       },
       {
-        name: "Sites",
-        path: "/sites",
+        name: "Divisions",
+        path: "/divisions",
         icon: <FaLayerGroup />,
       }
     );
