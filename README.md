@@ -23,7 +23,14 @@ This is the **frontend** of a Helpdesk system designed to assist company departm
 
 ## 📸 Screenshots
 
-_Add screenshots here to showcase the UI._
+![Screenshot 2025-03-13 at 18-01-14 Helpdesk Ticketing System](https://github.com/user-attachments/assets/f4914676-1004-418c-8163-3ef6ad084ad9)
+![zlUbss4Pxl](https://github.com/user-attachments/assets/17991456-45a1-44a9-a89f-4a17b52213ad)
+![hJuOMG0KrH](https://github.com/user-attachments/assets/a01a29ec-59a9-42eb-9800-dc27a4bbcbdd)
+![Cd0UCL3qP9](https://github.com/user-attachments/assets/21691968-79f2-4945-be3c-4a62aa076134)
+![ZqZPzSrNSh](https://github.com/user-attachments/assets/80e3be0c-b4ec-4330-ab2b-476269368d28)
+![G42epMJBxl](https://github.com/user-attachments/assets/5a24d575-43d5-4236-a262-4443afd5bcea)
+![E2jiZQNpUK](https://github.com/user-attachments/assets/5efb771b-e08c-4b03-88d3-0d0e630f864f)
+
 
 ---
 
