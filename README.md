@@ -39,7 +39,7 @@ This is the **frontend** of a Helpdesk system designed to assist company departm
 
 ## 🏆 My Role  
 
-I was responsible for both **frontend and backend development**. This repository contains the **frontend** part of the project, built with **React + TypeScript**.  
+I was responsible for both **frontend and backend development**. This repository contains the **frontend** part of the project, built with **React + TypeScript**. Backend part (available [here](https://github.com/Usagi5677/helpdesk-prototype-backend)).
 Key contributions:
 - Implemented UI components and state management
 - Integrated **Apollo GraphQL** for API calls
