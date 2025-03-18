@@ -7,6 +7,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { getMainDefinition } from "@apollo/client/utilities";
+import { onError } from "@apollo/client/link/error";
 
 function createApolloClient(uri: string | undefined) {
   const httpLink = createHttpLink({
@@ -35,6 +36,15 @@ function createApolloClient(uri: string | undefined) {
     };
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
   const splitLink = split(
     ({ query }) => {
       const definition = getMainDefinition(query);
@@ -44,7 +54,7 @@ function createApolloClient(uri: string | undefined) {
       );
     },
     wsLink,
-    authLink.concat(httpLink)
+    errorLink.concat(authLink.concat(httpLink)) // Add the error link here
   );
 
   return new ApolloClient({
