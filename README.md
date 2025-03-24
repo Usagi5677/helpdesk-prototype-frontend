@@ -41,12 +41,15 @@ This is the **frontend** of a Helpdesk system designed to assist company departm
 
 I was responsible for both **frontend and backend development**. This repository contains the **frontend** part of the project, built with **React + TypeScript**. Backend part (available [here](https://github.com/Usagi5677/helpdesk-prototype-backend)).
 
-Key contributions:
-- Implemented UI components and state management
-- Integrated **Apollo GraphQL** for API calls
-- Developed **real-time notifications** using **GraphQL subscriptions & Redis**
-- Designed and implemented **role-based access control**
-- Built dashboard features and filtering functionality
+Key Contributions:
+
+- Developed full-stack features using React, NestJS, and TypeScript
+- Implemented UI components and state management in React
+- Integrated Apollo GraphQL for efficient API communication
+- Designed and implemented role-based access control (RBAC)
+- Developed real-time notifications using GraphQL subscriptions & Redis
+- Built dashboard features and advanced filtering functionality
+- Created cron jobs for scheduled checklist generation
 
 ---
 
@@ -68,7 +71,7 @@ This project is for portfolio purposes. Do not use it for commercial projects wi
 
 ```sh
 # Clone the repository
-git clone https://github.com/Usagi5677/helpdesk-prototype.git
+git clone https://github.com/Usagi5677/helpdesk-prototype-frontend.git
 cd helpdesk-prototype
 
 # Install dependencies
