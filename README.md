@@ -72,7 +72,7 @@ This project is for portfolio purposes. Do not use it for commercial projects wi
 ```sh
 # Clone the repository
 git clone https://github.com/Usagi5677/helpdesk-prototype-frontend.git
-cd helpdesk-prototype
+cd helpdesk-prototype-frontend
 
 # Install dependencies
 npm install
