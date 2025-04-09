@@ -117,6 +117,7 @@ const Login = ({ login }: any) => {
               Log in
             </Button>
           </Form.Item>
+          <div>username: test@gmail.com pass: test</div>
         </Form>
       </Card>
     </div>
