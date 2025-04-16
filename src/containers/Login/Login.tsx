@@ -1,4 +1,3 @@
-// Updated Login Container Component
 import React, { useState, useEffect } from "react";
 import { Button, Form, Input, Card, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
@@ -35,18 +34,21 @@ const Login = ({ login }: any) => {
       setLoading(false);
       message.success("Login successful!");
       login(data.login.token);
+
+      // Add page refresh after successful login
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Short delay to ensure token is stored properly
     },
     onError: (error) => {
       setLoading(false);
       message.error("Invalid credentials. Please try again.");
       console.error("Login error:", error);
-
       // Detailed error logging
       console.log("Error name:", error.name);
       console.log("Error message:", error.message);
       console.log("Network error:", error.networkError);
       console.log("GraphQL errors:", error.graphQLErrors);
-
       // Check response structure if available
       if (error.networkError && "response" in error.networkError) {
         console.log("Response:", error.networkError.response);
@@ -60,7 +62,6 @@ const Login = ({ login }: any) => {
       password: "********",
     });
     console.log("Using API URL:", process.env.REACT_APP_API_URL);
-
     setLoading(true);
     loginMutation({
       variables: {
@@ -117,7 +118,7 @@ const Login = ({ login }: any) => {
               Log in
             </Button>
           </Form.Item>
-          <div>username: test@gmail.com </div>
+          <div>username: test@gmail.com</div>
           <div>pass: test</div>
         </Form>
       </Card>
